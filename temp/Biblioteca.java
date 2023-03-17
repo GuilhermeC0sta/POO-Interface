@@ -44,7 +44,7 @@ public class Biblioteca { // ADICIONAR ou REMOVER livros do acervo;
         nome_b = "biblioteca";
         email_b = "biblioteca123@gmail.com";
         senha_b = "admin";
-        contas.add(new conta(email_b, senha_b, nome_b, 0));
+        contas.add(new admin(email_b, senha_b, nome_b, 0));
         livros.add(new Livro("Harry Potter", "JK", 7, 55, "Fantasia"));
         contas.get(0).defPlano("Administrador");
     }
@@ -80,12 +80,14 @@ public class Biblioteca { // ADICIONAR ou REMOVER livros do acervo;
             System.out.println("Digite a senha:");
             senha = sc.nextLine();
 
-            contas.get(index_user).defPlano(plan);
-
             System.out.println("Usuário " + nome + " cadastrado!");
 
             contas.add(new comum(email, senha, nome, id));
+            contas.get(id).defPlano(plan);
+            String teste = contas.get(id).getPlano();
+            System.out.println(teste);
             id += 1;
+
         } else if (plan.equalsIgnoreCase("premium")) {
             System.out.println("Digite seu nome:");
             nome = sc.nextLine();
@@ -96,11 +98,10 @@ public class Biblioteca { // ADICIONAR ou REMOVER livros do acervo;
             System.out.println("Digite a senha:");
             senha = sc.nextLine();
 
-            contas.get(index_user).defPlano(plan);
-
             System.out.println("Usuário " + nome + " cadastrado!");
 
             contas.add(new premium(email, senha, nome, id));
+            contas.get(id).defPlano(plan);
             id += 1;
         } else {
             System.out.println("Plano inválido! Digite novamente.");
@@ -184,8 +185,9 @@ public class Biblioteca { // ADICIONAR ou REMOVER livros do acervo;
     }
 
     public void add_livro() {
-        if (index_user == 0) {
+        if (contas.get(index_user).getPlano().equalsIgnoreCase("administrador")) {
             System.out.println("Digite o titulo:");
+            sc.nextLine();
             titulo = sc.nextLine();
 
             System.out.println("Digite o autor:");
@@ -571,5 +573,4 @@ public class Biblioteca { // ADICIONAR ou REMOVER livros do acervo;
                     + "\nQuantidade: " + apoio_livros.get(i).getQuantidade());
         }
     }
-
 }
