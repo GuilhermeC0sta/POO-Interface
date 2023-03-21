@@ -1,4 +1,4 @@
-public class utensilios {
+public abstract class utensilios {
 
     private String marca;
     private int quantidade;
