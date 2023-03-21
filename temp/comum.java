@@ -33,13 +33,4 @@ public class comum extends conta {
         return this.limitelivro;
     }
 
-    @Override
-    public String getValormulta() {
-        return this.valormulta;
-    }
-
-    @Override
-    public String getTempomulta() {
-        return this.valormulta;
-    }
 }
