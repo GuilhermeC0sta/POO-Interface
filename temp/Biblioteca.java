@@ -123,7 +123,7 @@ public class Biblioteca { // ADICIONAR ou REMOVER livros do acervo;
             } else {
                 contas.get(index_user).defBios(BIO);
             }
-            contas.set(index_user, new conta(email, contas.get(index_user).getSenha(), nome, id));
+            contas.set(index_user, new comum(email, contas.get(index_user).getSenha(), nome, id));
             System.out.println("Nome e email alterados com sucesso!");
         } else if (contas.get(index_user).getPlano().equalsIgnoreCase("premium")) {
             System.out.println("Digite o novo nome:");
@@ -139,7 +139,7 @@ public class Biblioteca { // ADICIONAR ou REMOVER livros do acervo;
             } else {
                 contas.get(index_user).defBios(BIO);
             }
-            contas.set(index_user, new conta(email, contas.get(index_user).getSenha(), nome, id));
+            contas.set(index_user, new premium(email, contas.get(index_user).getSenha(), nome, id));
             System.out.println("Nome e email alterados com sucesso!");
         } else if (contas.get(index_user).getPlano().equalsIgnoreCase("administrador")) {
             System.out.println("Digite o novo nome:");
@@ -147,7 +147,7 @@ public class Biblioteca { // ADICIONAR ou REMOVER livros do acervo;
             nome = sc.nextLine();
             System.out.println("Digite o novo email:");
             email = sc.nextLine();
-            contas.set(index_user, new conta(email, contas.get(index_user).getSenha(), nome, id));
+            contas.set(index_user, new admin(email, contas.get(index_user).getSenha(), nome, id));
             System.out.println("Nome e email alterados com sucesso!");
         } else {
             System.out.println("Plano Inválido, digite novamente!");
@@ -520,7 +520,6 @@ public class Biblioteca { // ADICIONAR ou REMOVER livros do acervo;
                 cor = sc.next();
                 System.out.println("Informe a quantidade");
                 qnt_disp = sc.nextInt();
-
                 postit.add(new postit(marca, cor, qnt_disp));
             } else if (escolha == 2) {
 
