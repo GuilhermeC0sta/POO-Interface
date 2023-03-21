@@ -25,16 +25,6 @@ public class premium extends conta {
     }
 
     @Override
-    public String getValormulta() {
-        return this.valormulta;
-    }
-
-    @Override
-    public String getTempomulta() {
-        return this.valormulta;
-    }
-
-    @Override
     public void defBios(String bio) {
         this.bios = bio;
     }
