@@ -1,4 +1,4 @@
-public class conta {
+public abstract class conta {
 
     private String email, senha, nome, planoesc; // tinha um index user, mas foi removido
     private int id, biostam = 0;
@@ -36,14 +36,6 @@ public class conta {
 
     public int getLimlivro() {
         return 1000;
-    }
-
-    public String getValormulta() {
-        return "*DESCARTE*";
-    }
-
-    public String getTempomulta() {
-        return "*DESCARTE*";
     }
 
     public void defBios(String bio) {
