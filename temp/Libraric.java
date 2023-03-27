@@ -36,8 +36,8 @@ public class Libraric {
                 System.out.println("[9] verificar se você possui multas pendentes");
                 System.out.println("[10] (ADMIN) confirmar pagamento de multas pelos usuários");
                 System.out.println("[11] (ADMIN) para verificar todas as contas cadastradas no Libraric");
-                System.out.println("[12] para deslogar do Libraric");
-                System.out.println("[13] para encerrar o programa");
+                System.out.println("[16] para deslogar do Libraric");
+                System.out.println("[17] para encerrar o programa");
                 op = sc.nextInt();
                 switch (op) {
 
@@ -46,15 +46,18 @@ public class Libraric {
                         break;
 
                     case 2:
-                        System.out.println("Para adicionar um livro digite 1, para adicionar um audiobook digite 2");
+                        System.out.println("Para adicionar um livro digite 1; audiobook digite 2; utensilio digite 3");
                         bookoption = sc.nextInt();
                         if (bookoption == 1) {
                             biblioteca.add_livro();
                         } else if (bookoption == 2) {
                             biblioteca.add_audiobook();
+                        } else if (bookoption == 3) {
+                            biblioteca.add_utensilios();
                         } else {
                             System.out.println("Opção inválida!");
                         }
+                        biblioteca.add_livro();
                         break;
 
                     case 3:
@@ -71,12 +74,14 @@ public class Libraric {
 
                     case 4:
                         System.out.println(
-                            "Para mostrar os livros disponíveis digite 1, para mostrar os audiobooks disponíveis digite 2");
+                                "Para mostrar os livros disponíveis digite 1; audiobooks digite 2; utensilios digite 3");
                         bookoption = sc.nextInt();
                         if (bookoption == 1) {
                             biblioteca.mostrar_livros();
                         } else if (bookoption == 2) {
                             biblioteca.mostrar_audios();
+                        } else if (bookoption == 3) {
+                            biblioteca.ver_utensilios();
                         } else {
                             System.out.println("Opção inválida!");
                         }
@@ -84,7 +89,7 @@ public class Libraric {
 
                     case 5:
                         System.out.println(
-                            "Para remover um livro digite 1, para remover um audiobook digite 2");
+                                "Para remover um livro digite 1; para remover um audiobook digite 2");
                         bookoption = sc.nextInt();
                         if (bookoption == 1) {
                             biblioteca.remover_livro();
@@ -128,14 +133,6 @@ public class Libraric {
                     case 13:
                         op = -1;
                         menu = "n";
-                        break;
-
-                    case 14: // ADMIN - adicionar utensílios
-                        biblioteca.add_utensilios();
-                        break;
-
-                    case 15: // ver utensílios disponíveis
-                        biblioteca.ver_utensilios();
                         break;
                 }
             }
