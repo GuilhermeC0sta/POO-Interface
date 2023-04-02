@@ -177,8 +177,7 @@ public class LoginRegister extends JFrame implements ActionListener {
             books.setMinimumSize(botaoDimensao);
             books.addActionListener(this);
             books.setAlignmentX(Component.CENTER_ALIGNMENT);
-            // panel.add(books);
-            // panel.add(Box.createRigidArea(new Dimension(0, 10)));
+            books.setAlignmentY(Component.TOP_ALIGNMENT);
 
             locar = new JButton("Locar livro/audiobook");
             locar.setPreferredSize(botaoDimensao);
@@ -276,6 +275,11 @@ public class LoginRegister extends JFrame implements ActionListener {
 
                 books.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
+                        JPanel panel4 = new JPanel();
+                        JFrame frameLocar2 = new JFrame();
+                        frameLocar2.setSize(400, 400);
+                        frameLocar2.add(panel4);
+                        frameLocar2.setVisible(true);
                         // aqui eu tenho que mostrar todos os livros
                         for (Livro livro : livros) {
                             if (livro instanceof Livro) {
@@ -283,11 +287,11 @@ public class LoginRegister extends JFrame implements ActionListener {
                                 JLabel isbnLabel = new JLabel("ISBN: " + livro.getIsbn());
                                 JLabel qntdLabel = new JLabel("Quantidade: " + livro.getQnt_disp());
                                 // adicionar componentes ao painel central
-                                panel3.add(tituloLabel);
-                                panel3.add(isbnLabel);
-                                panel3.add(qntdLabel);
+                                panel4.add(tituloLabel);
+                                panel4.add(isbnLabel);
+                                panel4.add(qntdLabel);
 
-                                getContentPane().add(books, BorderLayout.CENTER);
+                                //getContentPane().add(books, BorderLayout.CENTER);
                                 revalidate(); // atualizar layout do JFrame
                             }
                         }
