@@ -383,6 +383,7 @@ public class LoginRegister extends JFrame implements ActionListener {
 
             else if(e.getSource() == locar) {
                 JPanel panel2 = new JPanel(new GridLayout(3, 2));
+                panel2 panel2 = new panel2();
                 panel2.add(new JLabel("Digite se quer um livro/audiobook"));
                 item = new JTextField();
                 item.setPreferredSize(new Dimension(150, 30));
@@ -395,7 +396,6 @@ public class LoginRegister extends JFrame implements ActionListener {
                 frameLocar.add(panel2);
                 frameLocar.setSize(500, 300);
                 frameLocar.setVisible(true);
-
                 panel2.add(Box.createRigidArea(new Dimension(0, 10)));
 
                 locarL = new JButton("Locar livro/audiobook");
@@ -412,34 +412,27 @@ public class LoginRegister extends JFrame implements ActionListener {
                         }
 
                         if(contas.get(index_user).getPlano().equalsIgnoreCase("a")){
-                            if(contalocados == 1){
-
-                            }
-                            else{
+                            if(contalocados < 1){
                                 if(item.getText().equalsIgnoreCase("livro")){
                                     isbn = Integer.parseInt(codigo.getText());
-        
-        
                                     for (int k = 0; k < livros.size(); k++) {
                                         if (isbn == livros.get(k).getIsbn()) {
-                                            
                                             if (livros.get(k).getQnt_disp() == 0) {
                                                 JOptionPane.showMessageDialog(null, "Livro indisponível, tente novamente em outro momento.");
                                                 break;
                                             } else {
                                                 int quantidadeL = livros.get(k).getQnt_disp() - 1;
-        
                                                 livros.set(k, new Livro(livros.get(k).getTitulo(), livros.get(k).getAutor(), isbn,
                                                         quantidadeL, livros.get(k).getGenero()));
                                                 JOptionPane.showMessageDialog(null, "Parabéns, você conseguiu locar um livro!");
-                                                id_user.add(contas.get(index_user).getId()); //esse id antes era id
+                                                id_user.add(index_user); //esse id antes era id
                                                 isbn_locado.add(isbn);
+                                                frameLocar.dispose();
                                                 break;
                                             }
                                         }
                                     }
                                 }
-        
                                 else if(item.getText().equalsIgnoreCase("audiobook")){
         
                                     codigoAudio = Integer.parseInt(codigo.getText());
@@ -455,19 +448,20 @@ public class LoginRegister extends JFrame implements ActionListener {
                                                 JOptionPane.showMessageDialog(null, "Parabéns, você conseguiu locar um audiobook!");
                                                 id_userAudio.add(k);
                                                 audio_locado.add(codigoAudio);
+                                                frameLocar.dispose();
                                                 break;
                                             }
                                         }
                                     }
                                 }
+                                contalocados+=1;
+                            }
+                            else{
                             }
                         }
 
                         if(contas.get(index_user).getPlano().equalsIgnoreCase("premium")){
-                            if(contalocados == 15){
-
-                            }
-                            else{
+                            if(contalocados < 15){
                                 if(item.getText().equalsIgnoreCase("livro")){
                                     isbn = Integer.parseInt(codigo.getText());
         
@@ -486,6 +480,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                                                 JOptionPane.showMessageDialog(null, "Parabéns, você conseguiu locar um livro!");
                                                 id_user.add(contas.get(index_user).getId()); //esse id antes era id
                                                 isbn_locado.add(isbn);
+                                                frameLocar.dispose();
                                                 break;
                                             }
                                         }
@@ -507,20 +502,20 @@ public class LoginRegister extends JFrame implements ActionListener {
                                                 JOptionPane.showMessageDialog(null, "Parabéns, você conseguiu locar um audiobook!");
                                                 id_userAudio.add(k);
                                                 audio_locado.add(codigoAudio);
+                                                frameLocar.dispose();
                                                 break;
                                             }
                                         }
                                     }
                                 }
+                                contalocados+=1;
+                            }
+                            else{
                             }
                         }
-                        
-    
                     }
-                });
-
-
-
+                }
+                );
             }
         }
         // aq
