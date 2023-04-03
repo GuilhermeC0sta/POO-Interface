@@ -178,8 +178,7 @@ public class LoginRegister extends JFrame implements ActionListener {
 
     class TelaInicial extends JFrame implements ActionListener {
 
-        private JButton audios, books, locar, locarL, editar, mostrar, devolver, verificar, pagarmultas, vermultas,
-                verutensilios;
+        private JButton audios, books, locar, locarL, editar, mostrar, devolver, verificar, pagarmultas, vermultas, verutensilios, mostrarL, mostrarTudo;
         private JLabel titleLabel;
         private JTextField codigo, item;
         public int isbn;
@@ -190,7 +189,11 @@ public class LoginRegister extends JFrame implements ActionListener {
         JFrame frameLocar3 = new JFrame();
 
         JPanel panel3 = new JPanel();
+        JPanel panel5 = new JPanel();
+        JPanel panelLocadosA = new JPanel();
+        //JPanel panelLocadosL = new JPanel();
         JFrame frameMostrar = new JFrame();
+        JFrame frameVerificar = new JFrame();
         JFrame frameLocar = new JFrame();
         //JPanel panel4 = new JPanel();
         //JFrame frameLocar2 = new JFrame();
@@ -218,6 +221,14 @@ public class LoginRegister extends JFrame implements ActionListener {
                 audios.setMinimumSize(botaoDimensao);
                 audios.addActionListener(this);
                 audios.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+                mostrarTudo = new JButton("Mostrar todos os itens locados");
+                mostrarTudo.setPreferredSize(botaoDimensao);
+                mostrarTudo.setMaximumSize(botaoDimensao);
+                mostrarTudo.setMinimumSize(botaoDimensao);
+                mostrarTudo.addActionListener(this);
+                mostrarTudo.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 
                 books = new JButton("Mostrar livros");
                 books.setPreferredSize(botaoDimensao);
@@ -383,7 +394,6 @@ public class LoginRegister extends JFrame implements ActionListener {
 
             else if(e.getSource() == locar) {
                 JPanel panel2 = new JPanel(new GridLayout(3, 2));
-                panel2 panel2 = new panel2();
                 panel2.add(new JLabel("Digite se quer um livro/audiobook"));
                 item = new JTextField();
                 item.setPreferredSize(new Dimension(150, 30));
@@ -427,7 +437,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                                                 JOptionPane.showMessageDialog(null, "Parabéns, você conseguiu locar um livro!");
                                                 id_user.add(index_user); //esse id antes era id
                                                 isbn_locado.add(isbn);
-                                                frameLocar.dispose();
+                                                //frameLocar.dispose();
                                                 break;
                                             }
                                         }
@@ -448,7 +458,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                                                 JOptionPane.showMessageDialog(null, "Parabéns, você conseguiu locar um audiobook!");
                                                 id_userAudio.add(k);
                                                 audio_locado.add(codigoAudio);
-                                                frameLocar.dispose();
+                                                //frameLocar.dispose();
                                                 break;
                                             }
                                         }
@@ -480,7 +490,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                                                 JOptionPane.showMessageDialog(null, "Parabéns, você conseguiu locar um livro!");
                                                 id_user.add(contas.get(index_user).getId()); //esse id antes era id
                                                 isbn_locado.add(isbn);
-                                                frameLocar.dispose();
+                                                //frameLocar.dispose();
                                                 break;
                                             }
                                         }
@@ -502,7 +512,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                                                 JOptionPane.showMessageDialog(null, "Parabéns, você conseguiu locar um audiobook!");
                                                 id_userAudio.add(k);
                                                 audio_locado.add(codigoAudio);
-                                                frameLocar.dispose();
+                                                //frameLocar.dispose();
                                                 break;
                                             }
                                         }
@@ -517,8 +527,56 @@ public class LoginRegister extends JFrame implements ActionListener {
                 }
                 );
             }
+
+            else if (e.getSource() == verificar) {
+                frameVerificar.setSize(400, 400);
+                frameVerificar.add(panel5);
+
+                panel5.add(mostrarTudo);
+                panel5.add(Box.createRigidArea(new Dimension(0, 50)));
+
+                mostrarTudo.setAlignmentX(Component.CENTER_ALIGNMENT);
+                frameVerificar.setVisible(true);
+
+                mostrarTudo.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        JPanel panelLocadosL = new JPanel();
+                        //JFrame frameLocar2 = new JFrame();
+                        frameLocar2.setSize(400, 400);
+                        frameLocar2.add(panelLocadosL);
+                        frameLocar2.setVisible(true);
+
+                        if (id_user.size() == 0) {
+                            JOptionPane.showMessageDialog(null, "NAO HÁ LIVROS LOCADOS");
+                        } else {  
+                            for (int k = 0; k < id_user.size(); k++) {
+                                if (id_user.get(k) == index_user) {
+                                    JLabel tituloLabel2 = new JLabel("Livros: " + isbn_locado.get(k));
+                                    panelLocadosL.add(tituloLabel2);
+                                    revalidate();
+                                }
+                            }
+                        }
+                
+                        if (id_user.size() == 0) {
+                            JOptionPane.showMessageDialog(null, "NAO HÁ AUDIOS LOCADOS");
+                        } else {
+                            for (int k = 0; k < id_userAudio.size(); k++) {
+                                if (id_userAudio.get(k) == index_user) {
+                                    JLabel tituloLabel3 = new JLabel("Audios: " + audio_locado.get(k));
+                                    panelLocadosA.add(tituloLabel3);
+                                    revalidate();
+                                }
+                            }
+                        }
+                    }
+                });
+
+
+            }
+
+
         }
-        // aq
 
     }
 }
