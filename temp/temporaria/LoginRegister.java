@@ -186,6 +186,7 @@ public class LoginRegister extends JFrame implements ActionListener {
 
 
         JFrame frameLocar2 = new JFrame();
+        JFrame frameLocarA = new JFrame();
         JFrame frameLocar3 = new JFrame();
 
         JPanel panel3 = new JPanel();
@@ -543,9 +544,9 @@ public class LoginRegister extends JFrame implements ActionListener {
                     public void actionPerformed(ActionEvent e) {
                         JPanel panelLocados = new JPanel();
                         //JFrame frameLocar2 = new JFrame();
-                        frameLocar2.setSize(400, 400);
-                        frameLocar2.add(panelLocados);
-                        frameLocar2.setVisible(true);
+                        frameLocarA.setSize(400, 400);
+                        frameLocarA.add(panelLocados);
+                        frameLocarA.setVisible(true);
 
                         if (id_user.size() == 0) {
                             JOptionPane.showMessageDialog(null, "NAO HÁ LIVROS LOCADOS");
@@ -562,9 +563,8 @@ public class LoginRegister extends JFrame implements ActionListener {
                         if (id_user.size() == 0) {
                             JOptionPane.showMessageDialog(null, "NAO HÁ AUDIOS LOCADOS");
                         } else {
-                            System.out.println("TESTEAUDIO");
                             for (int k = 0; k < id_userAudio.size(); k++) {
-                                if (id_userAudio.get(k).equals(index_user)) {
+                                if (id_user.get(k) == index_user) {
                                     JLabel tituloLabel6 = new JLabel("Audios: " + audio_locado.get(k));
                                     panelLocados.add(tituloLabel6);
                                     revalidate();
