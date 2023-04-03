@@ -633,49 +633,7 @@ public class LoginRegister extends JFrame implements ActionListener {
 
             else if(e.getSource() == editar){
 
-                frameEditar.setSize(400, 400);
-                frameEditar.add(panelEditar);
-
-                panelEditar.add(mostrarTudo);
-                panelEditar.add(Box.createRigidArea(new Dimension(0, 50)));
-
-                mostrarTudo.setAlignmentX(Component.CENTER_ALIGNMENT);
-                frameVerificar.setVisible(true);
-
-                mostrarTudo.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        JPanel panelLocados = new JPanel();
-                        //JFrame frameLocar2 = new JFrame();
-                        frameLocarA.setSize(400, 400);
-                        frameLocarA.add(panelLocados);
-                        frameLocarA.setVisible(true);
-
-                        if (id_userAudio.size() == 0) {
-                            JOptionPane.showMessageDialog(null, "NAO HÁ AUDIOS LOCADOS");
-                        } else {
-                            for (int k = 0; k < id_userAudio.size(); k++) {
-                                if (id_userAudio.get(k) == index_user) {
-                                    JLabel tituloLabel6 = new JLabel("Audios: " + audio_locado.get(k));
-                                    panelLocados.add(tituloLabel6);
-                                    revalidate();
-                                }
-                            }
-                        }
-                        if (id_user.size() == 0) {
-                            JOptionPane.showMessageDialog(null, "NAO HÁ LIVROS LOCADOS");
-                        } else {  
-                            for (int k = 0; k < id_user.size(); k++) {
-                                if (id_user.get(k) == index_user) {
-                                    JLabel tituloLabel2 = new JLabel("Livros: " + isbn_locado.get(k));
-                                    panelLocados.add(tituloLabel2);
-                                    revalidate();
-                                }
-                            }
-                        }
-                    }
-                }
-                );
-
+                
             }
 
 
