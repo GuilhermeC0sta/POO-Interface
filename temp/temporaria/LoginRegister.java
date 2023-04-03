@@ -435,7 +435,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                                                 livros.set(k, new Livro(livros.get(k).getTitulo(), livros.get(k).getAutor(), isbn,
                                                         quantidadeL, livros.get(k).getGenero()));
                                                 JOptionPane.showMessageDialog(null, "Parabéns, você conseguiu locar um livro!");
-                                                id_user.add(index_user); //esse id antes era id
+                                                id_user.add(contas.get(index_user).getId()); //esse id antes era id
                                                 isbn_locado.add(isbn);
                                                 //frameLocar.dispose();
                                                 break;
@@ -453,10 +453,11 @@ public class LoginRegister extends JFrame implements ActionListener {
                                                 JOptionPane.showMessageDialog(null, "Audiobook indisponível, tente novamente em outro momento.");
                                                 break;
                                             } else {
+                                                int quantidadeA = audiobook2.get(k).getQnt_disp() - 1;
                                                 audiobook2.set(k,
-                                                new audiobook(audiobook2.get(k).getTitulo(), audiobook2.get(k).getAutor(), audiobook2.get(k).getDuracao(), audiobook2.get(k).getQnt_disp() - 1, audiobook2.get(k).getGenero(), codigoAudio));
+                                                new audiobook(audiobook2.get(k).getTitulo(), audiobook2.get(k).getAutor(), audiobook2.get(k).getDuracao(), quantidadeA, audiobook2.get(k).getGenero(), codigoAudio));
                                                 JOptionPane.showMessageDialog(null, "Parabéns, você conseguiu locar um audiobook!");
-                                                id_userAudio.add(k);
+                                                id_userAudio.add(contas.get(index_user).getId()); //antes tava k, index_user
                                                 audio_locado.add(codigoAudio);
                                                 //frameLocar.dispose();
                                                 break;
@@ -510,7 +511,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                                                 audiobook2.set(k,
                                                 new audiobook(audiobook2.get(k).getTitulo(), audiobook2.get(k).getAutor(), audiobook2.get(k).getDuracao(), audiobook2.get(k).getQnt_disp() - 1, audiobook2.get(k).getGenero(), codigoAudio));
                                                 JOptionPane.showMessageDialog(null, "Parabéns, você conseguiu locar um audiobook!");
-                                                id_userAudio.add(k);
+                                                id_userAudio.add(contas.get(index_user).getId());
                                                 audio_locado.add(codigoAudio);
                                                 //frameLocar.dispose();
                                                 break;
@@ -540,10 +541,10 @@ public class LoginRegister extends JFrame implements ActionListener {
 
                 mostrarTudo.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        JPanel panelLocadosL = new JPanel();
+                        JPanel panelLocados = new JPanel();
                         //JFrame frameLocar2 = new JFrame();
                         frameLocar2.setSize(400, 400);
-                        frameLocar2.add(panelLocadosL);
+                        frameLocar2.add(panelLocados);
                         frameLocar2.setVisible(true);
 
                         if (id_user.size() == 0) {
@@ -552,7 +553,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                             for (int k = 0; k < id_user.size(); k++) {
                                 if (id_user.get(k) == index_user) {
                                     JLabel tituloLabel2 = new JLabel("Livros: " + isbn_locado.get(k));
-                                    panelLocadosL.add(tituloLabel2);
+                                    panelLocados.add(tituloLabel2);
                                     revalidate();
                                 }
                             }
@@ -561,10 +562,11 @@ public class LoginRegister extends JFrame implements ActionListener {
                         if (id_user.size() == 0) {
                             JOptionPane.showMessageDialog(null, "NAO HÁ AUDIOS LOCADOS");
                         } else {
+                            System.out.println("TESTEAUDIO");
                             for (int k = 0; k < id_userAudio.size(); k++) {
-                                if (id_userAudio.get(k) == index_user) {
-                                    JLabel tituloLabel3 = new JLabel("Audios: " + audio_locado.get(k));
-                                    panelLocadosA.add(tituloLabel3);
+                                if (id_userAudio.get(k).equals(index_user)) {
+                                    JLabel tituloLabel6 = new JLabel("Audios: " + audio_locado.get(k));
+                                    panelLocados.add(tituloLabel6);
                                     revalidate();
                                 }
                             }
