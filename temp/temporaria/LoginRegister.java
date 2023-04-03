@@ -332,6 +332,7 @@ public class LoginRegister extends JFrame implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
             
+
             if (e.getSource() == mostrar) {
                 //JPanel panel3 = new JPanel();
                 //JFrame frameMostrar = new JFrame();
@@ -352,10 +353,11 @@ public class LoginRegister extends JFrame implements ActionListener {
                 books.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         JPanel panel4 = new JPanel();
-                        //JFrame frameLocar2 = new JFrame();
-                        frameLocar2.setSize(400, 400);
+                        frameLocar2.setSize(400, 400); // move to outside of the ActionListener
                         frameLocar2.add(panel4);
                         frameLocar2.setVisible(true);
+                        // clear previous components from panel4
+                        panel4.removeAll();
                         for (Livro livro : livros) {
                             if (livro instanceof Livro) {
                                 JLabel tituloLabel2 = new JLabel("Título: " + livro.getTitulo());
@@ -376,9 +378,11 @@ public class LoginRegister extends JFrame implements ActionListener {
                 audios.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         JPanel panel4 = new JPanel();
-                        frameLocar3.setSize(400, 400);
+                        frameLocar3.setSize(400, 400); // move to outside of the ActionListener
                         frameLocar3.add(panel4);
                         frameLocar3.setVisible(true);
+                        // clear previous components from panel4
+                        panel4.removeAll();
                         for (audiobook audio : audiobook2) {
                             if (audio instanceof audiobook) {
                                 JLabel tituloLabel3 = new JLabel("Título: " + audio.getTitulo());
@@ -396,6 +400,8 @@ public class LoginRegister extends JFrame implements ActionListener {
                     }
                 });
             }
+
+                
 
             else if(e.getSource() == locar) {
                 JPanel panel2 = new JPanel(new GridLayout(3, 2));
@@ -531,13 +537,21 @@ public class LoginRegister extends JFrame implements ActionListener {
             else if (e.getSource() == verificar) {
                 frameVerificar.setSize(400, 400);
                 frameVerificar.add(panel5);
-
+            
                 panel5.add(mostrarTudo);
                 panel5.add(Box.createRigidArea(new Dimension(0, 50)));
-
+            
                 mostrarTudo.setAlignmentX(Component.CENTER_ALIGNMENT);
                 frameVerificar.setVisible(true);
-
+            
+                // Adicione o WindowAdapter a frameVerificar
+                frameVerificar.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosing(WindowEvent e) {
+                        frameVerificar.dispose();
+                    }
+                });
+            
                 mostrarTudo.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         JPanel panelLocados = new JPanel();
@@ -545,7 +559,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                         frameLocarA.setSize(400, 400);
                         frameLocarA.add(panelLocados);
                         frameLocarA.setVisible(true);
-
+            
                         if (id_userAudio.size() == 0) {
                             JOptionPane.showMessageDialog(null, "NAO HÁ AUDIOS LOCADOS");
                         } else {
@@ -568,12 +582,18 @@ public class LoginRegister extends JFrame implements ActionListener {
                                 }
                             }
                         }
+            
+                        // Adicione o WindowAdapter a frameLocarA
+                        frameLocarA.addWindowListener(new WindowAdapter() {
+                            @Override
+                            public void windowClosing(WindowEvent e) {
+                                frameLocarA.dispose();
+                            }
+                        });
                     }
-                }
-                );
-
-
+                });
             }
+            
 
             else if(e.getSource() == devolver){
                 JPanel panelDevolver = new JPanel(new GridLayout(3, 2));
@@ -617,6 +637,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                                                 break;
                                             }
                                         }
+                                        frameDevolver.dispose();
                                         break;
                                     }
                                 }
