@@ -13,6 +13,7 @@ public class LoginRegister extends JFrame implements ActionListener {
     private ArrayList<Integer> isbn_locado = new ArrayList<>();
     private ArrayList<Integer> isbn_devolvido = new ArrayList<>();
     private ArrayList<Integer> audio_locado = new ArrayList<>();
+    private ArrayList<Integer> id_devolvido = new ArrayList<>();
 
     public int sinal = 0;
     public int id = 0;
@@ -178,9 +179,9 @@ public class LoginRegister extends JFrame implements ActionListener {
 
     class TelaInicial extends JFrame implements ActionListener {
 
-        private JButton audios, books, locar, locarL, editar, mostrar, devolver, verificar, pagarmultas, vermultas, verutensilios, mostrarL, mostrarTudo;
+        private JButton audios, books, locar, devolucao ,locarL, editar, mostrar, devolver, verificar, pagarmultas, vermultas, verutensilios, mostrarL, mostrarTudo;
         private JLabel titleLabel;
-        private JTextField codigo, item;
+        private JTextField codigo, item, itemD, codigoD;
         public int isbn;
         public int codigoAudio;
 
@@ -192,10 +193,13 @@ public class LoginRegister extends JFrame implements ActionListener {
         JPanel panel3 = new JPanel();
         JPanel panel5 = new JPanel();
         JPanel panelLocadosA = new JPanel();
+        //JPanel panelLocados = new JPanel();
+
         //JPanel panelLocadosL = new JPanel();
         JFrame frameMostrar = new JFrame();
         JFrame frameVerificar = new JFrame();
         JFrame frameLocar = new JFrame();
+        JFrame frameDevolver = new JFrame();
         //JPanel panel4 = new JPanel();
         //JFrame frameLocar2 = new JFrame();
 
@@ -571,8 +575,59 @@ public class LoginRegister extends JFrame implements ActionListener {
 
             }
 
+            else if(e.getSource() == devolver){
+                JPanel panelDevolver = new JPanel(new GridLayout(3, 2));
+                panelDevolver.add(new JLabel("Digite se quer devolver um livro"));
+                itemD = new JTextField();
+                itemD.setPreferredSize(new Dimension(150, 30));
+                panelDevolver.add(itemD);
+                panelDevolver.add(new JLabel("Digite o codigo do livro"));
+                codigoD = new JTextField();
+                codigoD.setPreferredSize(new Dimension(150, 30));
+                panelDevolver.add(codigoD);  
 
+                frameDevolver.add(panelDevolver);
+                frameDevolver.setSize(500, 300);
+                frameDevolver.setVisible(true);
+                panelDevolver.add(Box.createRigidArea(new Dimension(0, 10)));
+
+                devolucao = new JButton("Devolver livro");
+                devolucao.addActionListener(this);
+                panelDevolver.add(devolucao);
+
+                devolucao.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        if(itemD.getText().equalsIgnoreCase("livro")){
+                            isbn = Integer.parseInt(codigoD.getText());
+                            for (int j = 0; j < id_user.size(); j++) {
+                                if (id_user.get(j) == index_user) {
+                                    if (isbn_locado.get(j) == isbn) {
+                                        id_devolvido.add(j, index_user);
+                                        isbn_devolvido.add(j, isbn);
+                                        id_user.remove(j);
+                                        isbn_locado.remove(j);
+                                        JOptionPane.showMessageDialog(null, "Livro " + isbn + " devolvido!");
+                                        for (int k = 0; k < livros.size(); k++) {
+                                            if (isbn == livros.get(k).getIsbn()) {
+                                                //System.out.println(livros.get(k).getIsbn());
+                                                int devolu = livros.get(k).getQnt_disp() + 1;
+                                                //System.out.println("DPS DE ADICIONAR " + devolu);
+                                                livros.set(k,
+                                                        new Livro(livros.get(k).getTitulo(), livros.get(k).getAutor(), isbn, devolu, livros.get(k).getGenero()));
+                                                break;
+                                            }
+                                        }
+                                        break;
+                                    }
+                                }
+                                if (j == id_user.size() - 1) {
+                                    JOptionPane.showMessageDialog(null, "Este livro não foi locado por você");
+                                }
+                            }
+                        }
+                    }
+                });
+            }
         }
-
     }
 }
