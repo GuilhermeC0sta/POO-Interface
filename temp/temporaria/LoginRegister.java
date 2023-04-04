@@ -504,7 +504,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                             if (audio instanceof audiobook) {
                                 JLabel tituloLabel3 = new JLabel("Título: " + audio.getTitulo());
                                 JLabel codigoLabel = new JLabel("Codigo do áudio: " + audio.getAudio());
-                                JLabel qntdLabel3 = new JLabel("Quantidade: \n" + audio.getQnt_disp());
+                                JLabel qntdLabel3 = new JLabel("Duracao em min: \n" + audio.getDuracao());
                                 // adicionar componentes ao painel central
                                 panel4.add(tituloLabel3);
                                 panel4.add(codigoLabel);
@@ -586,7 +586,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                                             JOptionPane.showMessageDialog(null, "Audiobook indisponível, tente novamente em outro momento.");
                                             break;
                                         } else {
-                                            int quantidadeA = audiobook2.get(k).getQnt_disp() - 1;
+                                            int quantidadeA = audiobook2.get(k).getQnt_disp();
                                             audiobook2.set(k,
                                             new audiobook(audiobook2.get(k).getTitulo(), audiobook2.get(k).getAutor(), audiobook2.get(k).getDuracao(), quantidadeA, audiobook2.get(k).getGenero(), codigoAudio));
                                             JOptionPane.showMessageDialog(null, "Parabéns, você conseguiu locar um audiobook!");
@@ -637,7 +637,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                                             break;
                                         } else {
                                             audiobook2.set(k,
-                                            new audiobook(audiobook2.get(k).getTitulo(), audiobook2.get(k).getAutor(), audiobook2.get(k).getDuracao(), audiobook2.get(k).getQnt_disp() - 1, audiobook2.get(k).getGenero(), codigoAudio));
+                                            new audiobook(audiobook2.get(k).getTitulo(), audiobook2.get(k).getAutor(), audiobook2.get(k).getDuracao(), audiobook2.get(k).getQnt_disp(), audiobook2.get(k).getGenero(), codigoAudio));
                                             JOptionPane.showMessageDialog(null, "Parabéns, você conseguiu locar um audiobook!");
                                             id_userAudio.add(index_user);
                                             audio_locado.add(codigoAudio);
