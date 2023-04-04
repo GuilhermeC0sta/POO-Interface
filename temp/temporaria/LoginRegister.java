@@ -97,8 +97,6 @@ public class LoginRegister extends JFrame implements ActionListener {
         private JButton register;
         private JLabel titleLabel;
 
-        
-
         public Reg() {
             super("Registrar Conta");
             setLayout(new BorderLayout());
@@ -157,9 +155,9 @@ public class LoginRegister extends JFrame implements ActionListener {
                         id += 1;
                         JOptionPane.showMessageDialog(null, "Conta premium registrada com sucesso!");
                     }
-                    if (plano2.equals("a")) {
+                    if (plano2.equals("comum")) {
                         contas.add(new comum(email2, senha2, usuario, id));
-                        contas.get(id).defPlano("a");
+                        contas.get(id).defPlano("comum");
                         id += 1;
                         JOptionPane.showMessageDialog(null, "Conta comum registrada com sucesso!");
                     }
@@ -189,10 +187,9 @@ public class LoginRegister extends JFrame implements ActionListener {
 
     class TelaInicial extends JFrame implements ActionListener {
 
-        private JButton audios, books, locar, devolucao ,locarL, editar, mostrar, devolver, verificar, pagarmultas, vermultas, verutensilios, mostrarL, mostrarTudo, postitbutton, marca_textobutton, apoio_livrosbutton;
-        private JButton add_itens, remover_itens, livros_devolvidos, multas, cadastros, buttonPGM, buttonconfirmar, buttonCP; 
+        private JButton audios, books, locar,  editar, mostrar, devolver, verificar, pagarmultas, vermultas, verutensilios, mostrarTudo, postitbutton, marca_textobutton, apoio_livrosbutton;
+        private JButton add_itens, remover_itens, livros_devolvidos, cadastros, buttonPGM, buttonconfirmar, buttonCP; 
         private JLabel titleLabel;
-        private JTextField codigo, item, itemD, codigoD;
         public int isbn;
         public int codigoAudio;
         public int codigoR;
@@ -208,19 +205,13 @@ public class LoginRegister extends JFrame implements ActionListener {
         JPanel panelUtensilios = new JPanel();
         JPanel panel5 = new JPanel();
         JPanel panelLocadosA = new JPanel();
-        //JPanel panelLocados = new JPanel();
 
-        //JPanel panelLocadosL = new JPanel();
         JFrame frameMostrar = new JFrame();
         JFrame frameVerificar = new JFrame();
         JFrame frameLocar = new JFrame();
         JFrame frameDevolver = new JFrame();
         JFrame frameUtensilio = new JFrame();
         JFrame frameMultaPendente = new JFrame();
-        //JPanel panel4 = new JPanel();
-        //JFrame frameLocar2 = new JFrame();
-
-
 
         public TelaInicial() {
             super("Tela inicial");
@@ -234,7 +225,7 @@ public class LoginRegister extends JFrame implements ActionListener {
 
             Dimension botaoDimensao = new Dimension(250, 30);
 
-            if (contas.get(index_user).getPlano().equalsIgnoreCase("a") || contas.get(index_user).getPlano().equalsIgnoreCase("premium")) { // ta vindo como nulo
+            if (contas.get(index_user).getPlano().equalsIgnoreCase("comum") || contas.get(index_user).getPlano().equalsIgnoreCase("premium")){
                 JPanel panel = new JPanel();
                 panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
                 audios = new JButton("Mostrar audiobooks");
@@ -285,8 +276,6 @@ public class LoginRegister extends JFrame implements ActionListener {
                 books.setMinimumSize(botaoDimensao);
                 books.addActionListener(this);
                 books.setAlignmentX(Component.CENTER_ALIGNMENT);
-                // panel.add(books);
-                // panel.add(Box.createRigidArea(new Dimension(0, 10)));
 
                 locar = new JButton("Locar livro/audiobook");
                 locar.setPreferredSize(botaoDimensao);
@@ -556,7 +545,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                         }
                     }
             
-                    if(contas.get(index_user).getPlano().equalsIgnoreCase("a")){
+                    if(contas.get(index_user).getPlano().equalsIgnoreCase("comum")){
                         if(contalocados < 1){
                             if(itemField.getText().equalsIgnoreCase("livro")){
                                 isbn = Integer.parseInt(codigoField.getText());
@@ -791,7 +780,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                     String email = emailField.getText();
                     String bio = bioField.getText();
                     
-                    if (contas.get(index_user).getPlano().equalsIgnoreCase("a")) {
+                    if (contas.get(index_user).getPlano().equalsIgnoreCase("comum")) {
 
                         if (bio.length() > 50) {
                             JOptionPane.showMessageDialog(null, "Você excedeu o número de caracteres");
@@ -892,7 +881,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                                         JLabel corlabel = new JLabel("Cor: " + utensi.getCor());
                                         JLabel marcalabel = new JLabel("ISBN: " + utensi.getMarca());
                                         JLabel qntdLabel = new JLabel("Quantidade: \n" + utensi.getQuantidade());
-                                        JLabel combrilhoLabel = new JLabel("Quantidade: \n" + utensi.getBrilho());
+                                        JLabel combrilhoLabel = new JLabel("Brilho: \n" + utensi.getBrilho());
                                         // adicionar componentes ao painel central
                                         panelUten.add(corlabel);
                                         panelUten.add(marcalabel);
@@ -932,7 +921,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                             for (utensilios utensi : utensilios) {
                                 if (utensi instanceof apoio_livros) {
                                     JLabel slotslabel = new JLabel("Cor: " + utensi.getSlots());
-                                    JLabel marcalabel = new JLabel("ISBN: " + utensi.getMarca());
+                                    JLabel marcalabel = new JLabel("Marca: " + utensi.getMarca());
                                     JLabel qntdLabel = new JLabel("Quantidade: \n" + utensi.getQuantidade());
                                     // adicionar componentes ao painel central
                                     panelUten.add(slotslabel);
@@ -1133,7 +1122,6 @@ public class LoginRegister extends JFrame implements ActionListener {
                     
                 }
             }
-
 
             else if(e.getSource() == cadastros){
                 auxteste2 = 0;
