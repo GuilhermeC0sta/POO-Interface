@@ -15,6 +15,7 @@ public class LoginRegister extends JFrame implements ActionListener {
     private ArrayList<Integer> isbn_devolvido = new ArrayList<>();
     private ArrayList<Integer> audio_locado = new ArrayList<>();
     private ArrayList<Integer> id_devolvido = new ArrayList<>();
+    private ArrayList<Integer> id_multapendente = new ArrayList<>();
 
     public int sinal = 0;
     public int id = 0;
@@ -23,6 +24,7 @@ public class LoginRegister extends JFrame implements ActionListener {
     public int auxteste = 0;
     public int auxteste3 = 0;
     public int auxteste2 = 0;
+    public int multaalarme = 0;
     
     private JButton login, register;
     private JTextField usuario, senha;
@@ -210,6 +212,7 @@ public class LoginRegister extends JFrame implements ActionListener {
         JFrame frameLocar = new JFrame();
         JFrame frameDevolver = new JFrame();
         JFrame frameUtensilio = new JFrame();
+        JFrame frameMultaPendente = new JFrame();
         //JPanel panel4 = new JPanel();
         //JFrame frameLocar2 = new JFrame();
 
@@ -416,6 +419,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                 utensilios.add(new postit("FaberCastel", "Azul", 2));
                 utensilios.add(new marca_texto("Stabilo Boss", "Roxo", "Sem glitter", 10));
                 utensilios.add(new apoio_livros("Maxcril", 10, 10));
+                id_multapendente.add(0);
                 sinal++;
             }
         }
@@ -732,7 +736,6 @@ public class LoginRegister extends JFrame implements ActionListener {
                                             break;
                                         }
                                     }
-                                    break;
                                 }
                             }
                             else if (j == id_user.size() - 1) {
@@ -929,15 +932,16 @@ public class LoginRegister extends JFrame implements ActionListener {
                 });
             }
             else if (e.getSource() == vermultas) {
-                auxteste = 0;
+                auxteste3 = 0;
                 if (auxteste3 == 0) {
                     auxteste3 = 1;
-                    multaalarme = 0;
                     JPanel panelMP = new JPanel();
                     JFrame frameMP = new JFrame();
                     frameMP.setSize(400, 400);
                     frameMP.add(panelMP);
-            
+                    panelMP.removeAll();
+                    multaalarme = 0; // redefine a variável multaalarme para 0
+                    
                     for (int j = 0; j < id_multapendente.size(); j++) {
                         if (id_multapendente.get(j) == index_user) {
                             multaalarme = 1;
@@ -948,23 +952,22 @@ public class LoginRegister extends JFrame implements ActionListener {
                     if (multaalarme == 0) {
                         JOptionPane.showMessageDialog(null, "você não possui multas pendentes");
                     }
-                    panelMP.revalidate();
                     panelMP.repaint();
                     frameMP.revalidate();
-                
+                    
                     frameMP.addWindowListener(new WindowAdapter() {
                         public void windowClosing(WindowEvent e) {
                             frameMP.dispose();
                         }
                     });
-                
+                    
                     frameMP.setVisible(true);
                 } else {
                     frameMultaPendente.setSize(400, 400);
                     frameMultaPendente.add(panel6);
                     frameMultaPendente.setVisible(true);
                 }
-            }
+            }            
         }
     }
 }
