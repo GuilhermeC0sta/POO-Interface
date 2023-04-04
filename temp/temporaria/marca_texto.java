@@ -1,27 +1,28 @@
 public class marca_texto extends utensilios {
 
     private String cor;
-    private String tamanho;
+    private String brilho;
+    private int quantidade;
 
-    public marca_texto(String marca, String cor, String tamanho, int quantidade) {
+    public marca_texto(String marca, String cor, String brilho, int quantidade) {
         super(marca, quantidade);
         this.cor = cor;
-        this.tamanho = tamanho;
+        this.brilho = brilho;
+        this.quantidade = quantidade;
     }
 
-    public void setCor(String cor) {
-        this.cor = cor;
-    }
-
+    @Override
     public String getCor() {
         return cor;
     }
 
-    public void setTam(String tamanho) {
-        this.tamanho = tamanho;
+    @Override
+    public String getBrilho() {
+        return brilho;
     }
 
-    public String getTam() {
-        return tamanho;
+    @Override
+    public int getQuantidade() {
+        return quantidade;
     }
 }
