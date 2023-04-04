@@ -4,9 +4,7 @@ public class Biblioteca { // ADICIONAR ou REMOVER livros do acervo;
     private ArrayList<conta> contas = new ArrayList<>(); // tava public, coloquei private
     private ArrayList<Livro> livros = new ArrayList<>();
     private ArrayList<audiobook> audiobook = new ArrayList<>();
-    private ArrayList<postit> postit = new ArrayList<>();
-    private ArrayList<apoio_livros> apoio_livros = new ArrayList<>();
-    private ArrayList<marca_texto> marca_texto = new ArrayList<>();
+    private ArrayList<utensilios> utensilios = new ArrayList<>();
 
     private ArrayList<Integer> id_user = new ArrayList<>();
     private ArrayList<Integer> id_userAudio = new ArrayList<>();
@@ -47,6 +45,9 @@ public class Biblioteca { // ADICIONAR ou REMOVER livros do acervo;
         contas.add(new premium(email_b, senha_b, nome_b, 0));
         livros.add(new Livro("Harry Potter", "JK", 7, 55, "Fantasia"));
         contas.get(0).defPlano("Administrador");
+        utensilios.add(new postit("postit", "verde", 10));
+        utensilios.add(new apoio_livros("apoiolivros", 20, 12));
+        utensilios.add(new marca_texto("marcatexto", "azul", "pequeno", 11));
     }
 
     public String login() {
@@ -519,7 +520,7 @@ public class Biblioteca { // ADICIONAR ou REMOVER livros do acervo;
                 System.out.println("Informe a quantidade");
                 qnt_disp = sc.nextInt();
 
-                postit.add(new postit(marca, cor, qnt_disp));
+                utensilios.add(new postit(marca, cor, qnt_disp));
             } else if (escolha == 2) {
 
                 System.out.println("Informe a marca");
@@ -531,7 +532,7 @@ public class Biblioteca { // ADICIONAR ou REMOVER livros do acervo;
                 System.out.println("Informe a quantidade");
                 qnt_disp = sc.nextInt();
 
-                marca_texto.add(new marca_texto(marca, cor, tamanho, qnt_disp));
+                utensilios.add(new marca_texto(marca, cor, tamanho, qnt_disp));
             } else if (escolha == 3) {
                 System.out.println("Informe a marca");
                 marca = sc.next();
@@ -540,7 +541,7 @@ public class Biblioteca { // ADICIONAR ou REMOVER livros do acervo;
                 System.out.println("Informe a quantidade");
                 qnt_disp = sc.nextInt();
 
-                apoio_livros.add(new apoio_livros(marca, slots, qnt_disp));
+                utensilios.add(new apoio_livros(marca, slots, qnt_disp));
             }
 
         } else {
@@ -551,24 +552,24 @@ public class Biblioteca { // ADICIONAR ou REMOVER livros do acervo;
     public void ver_utensilios() {
 
         System.out.println("Postit's: ");
-        for (i = 0; i < postit.size(); i++) {
-            System.out.println("Marca: " + postit.get(i).getMarca() + "\nCor: " + postit.get(i).getCor()
-                    + "\nQuantidade: " + postit.get(i).getQuantidade());
+        for (i = 0; i < utensilios.size(); i++) {
+            System.out.println("Marca: " + utensilios.get(i).getMarca() + "\nCor: " + utensilios.get(i).getCor()
+                    + "\nQuantidade: " + utensilios.get(i).getQuantidade());
         }
         System.out.println("\n");
 
         System.out.println("Marca textos: ");
-        for (i = 0; i < marca_texto.size(); i++) {
-            System.out.println("Marca: " + marca_texto.get(i).getMarca() + "\nCor: " + marca_texto.get(i).getCor()
-                    + "\nTamanho:" + marca_texto.get(i).getTam() + "\nQuantidade: "
-                    + marca_texto.get(i).getQuantidade());
+        for (i = 0; i < utensilios.size(); i++) {
+            System.out.println("Marca: " + utensilios.get(i).getMarca() + "\nCor: " + utensilios.get(i).getCor()
+                    + "\nTamanho:" + utensilios.get(i).getTam() + "\nQuantidade: "
+                    + utensilios.get(i).getQuantidade());
         }
         System.out.println("\n");
 
         System.out.println("Apoio de livros: ");
-        for (i = 0; i < apoio_livros.size(); i++) {
-            System.out.println("Marca: " + apoio_livros.get(i).getMarca() + "\nSlots: " + apoio_livros.get(i).getSlots()
-                    + "\nQuantidade: " + apoio_livros.get(i).getQuantidade());
+        for (i = 0; i < utensilios.size(); i++) {
+            System.out.println("Marca: " + utensilios.get(i).getMarca() + "\nSlots: " + utensilios.get(i).getSlots()
+                    + "\nQuantidade: " + utensilios.get(i).getQuantidade());
         }
     }
 
