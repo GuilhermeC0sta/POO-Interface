@@ -1228,6 +1228,90 @@ public class LoginRegister extends JFrame implements ActionListener {
                     frameMultaPendente.setVisible(true);
                 }
             }
+
+            else if (e.getSource() == remover_itens){
+
+                JTextField itemFieldR = new JTextField();
+                JTextField codigoFieldR = new JTextField();
+
+                JPanel panelRemover = new JPanel();
+                panelRemover.setLayout(new GridLayout(3, 2)); // GridLayout com 3 linhas e 2 colunas
+                panelRemover.add(new JLabel("Digite livro/audiobook para remover um dos itens"));
+                panelRemover.add(itemFieldR);
+                panelRemover.add(new JLabel("Digite o codigo do livro/audiobook:"));
+                panelRemover.add(codigoFieldR);
+
+                int resultRemover = JOptionPane.showConfirmDialog(null, panelRemover, "Remover", JOptionPane.OK_CANCEL_OPTION);
+                
+                if (resultRemover == JOptionPane.OK_OPTION){
+                    if(itemFieldR.getText().equalsIgnoreCase("livro")){
+                        isbn = Integer.parseInt(codigoFieldR.getText());
+
+                        for (int k = 0; k < livros.size(); k++) {
+                            if (isbn == livros.get(k).getIsbn()) {
+                                livros.remove(k);
+                                JOptionPane.showMessageDialog(null, "Livro " + isbn + " removido!");
+                            }
+                        }
+                        
+                    }
+
+                    else if(itemFieldR.getText().equalsIgnoreCase("audiobook")){
+                        codigoR = Integer.parseInt(codigoFieldR.getText());
+
+                        for (int k = 0; k < audiobook2.size(); k++) {
+                            if (codigoR == audiobook2.get(k).getAudio()) {
+                                audiobook2.remove(k);
+                                JOptionPane.showMessageDialog(null, "Audiobook " + codigoR + " removido!");
+                            }
+                        }
+                    }
+                }
+            }
+
+            else if (e.getSource() == livros_devolvidos) {
+                List<Integer> ids_a_remover = new ArrayList<Integer>();
+                for (int j = 0; j < id_devolvido.size(); j++) {
+                    String mensagem = "O usuário de id " + id_devolvido.get(j) + " devolveu o livro " + isbn_devolvido.get(j) + ".\nSe este livro foi devolvido, clique em OK.\nCaso contrário, clique em CANCELAR.";
+                    int resultado = JOptionPane.showConfirmDialog(null, mensagem, "Livro devolvido", JOptionPane.OK_CANCEL_OPTION);
+                    if (resultado == JOptionPane.OK_OPTION) {
+                        id_devolvido.remove(j);
+                        isbn_devolvido.remove(j);
+                        JOptionPane.showMessageDialog(null, "Confirmado que o livro foi devolvido!");
+                    } else if (resultado == JOptionPane.CANCEL_OPTION) {
+                        if (!id_multa.contains(id_devolvido.get(j))) {
+                            String mensagemMulta = "Aplicar multa? Digite S para aplicar multa caso tenha passado o prazo, ou N caso contrário.";
+                            String resposta = JOptionPane.showInputDialog(null, mensagemMulta, "Multa", JOptionPane.QUESTION_MESSAGE);
+                            boolean multado = false;
+                            if (resposta != null && resposta.equalsIgnoreCase("S")) {
+                                JOptionPane.showMessageDialog(null, "Multa aplicada!");
+                                id_multa.add(id_devolvido.get(j));
+                                multado = true;
+                            } else if (resposta != null && resposta.equalsIgnoreCase("N")) {
+                                JOptionPane.showMessageDialog(null, "Multa não aplicada!");
+                                multado = true;
+                            }
+                            if (multado) {
+                                for (int k = 0; k < ids_a_remover.size(); k++) {
+                                    int id = ids_a_remover.get(k);
+                                    if (id == id_devolvido.get(j)) {
+                                        ids_a_remover.remove(k);
+                                        break;
+                                    }
+                                }
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Usuário já foi multado!");
+                        }
+                    }
+                }
+            }
+
+
+
+
+
+
         }
     }
 }
