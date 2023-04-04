@@ -445,7 +445,7 @@ public class LoginRegister extends JFrame implements ActionListener {
             
                 books.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        JPanel panel4 = new JPanel();
+                        JPanel panel4 = new JPanel(new GridLayout(0, 4));
                         JFrame frameLocar2 = new JFrame();
                         frameLocar2.setSize(400, 400);
                         frameLocar2.add(panel4);
@@ -479,7 +479,7 @@ public class LoginRegister extends JFrame implements ActionListener {
             
                 audios.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        JPanel panel4 = new JPanel();
+                        JPanel panel4 = new JPanel(new GridLayout(0, 4));
                         JFrame frameLocar3 = new JFrame();
                         frameLocar3.setSize(400, 400);
                         frameLocar3.add(panel4);
@@ -822,7 +822,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                     public void actionPerformed(ActionEvent e) {
                         if(auxteste3 == 0){
                             auxteste3 = 1;
-                            JPanel panelUten = new JPanel();
+                            JPanel panelUten = new JPanel(new GridLayout(0, 4));
                             JFrame frameUten = new JFrame();
                             frameUten.setSize(400, 400);
                             frameUten.add(panelUten);
@@ -852,6 +852,9 @@ public class LoginRegister extends JFrame implements ActionListener {
                                 }
                             });   
                         }
+                        auxteste3 = 0;
+                        auxteste2 = 0;
+                        auxteste = 0; 
                     }
                 });
             
@@ -859,7 +862,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                     public void actionPerformed(ActionEvent e) {
                         if(auxteste == 0){
                             auxteste = 1;
-                            JPanel panelUten = new JPanel();
+                            JPanel panelUten = new JPanel(new GridLayout(4, 2));
                             JFrame frameUten = new JFrame();
                             frameUten.setSize(400, 400);
                             frameUten.add(panelUten);
@@ -891,6 +894,9 @@ public class LoginRegister extends JFrame implements ActionListener {
                                 }
                             });
                         }
+                        auxteste3 = 0;
+                        auxteste2 = 0;
+                        auxteste = 0; 
                     }
                 });
 
@@ -898,7 +904,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                     public void actionPerformed(ActionEvent e) {
                         if(auxteste2 == 0){
                             auxteste2 = 1;
-                            JPanel panelUten = new JPanel();
+                            JPanel panelUten = new JPanel(new GridLayout(4, 2));
                             JFrame frameUten = new JFrame();
                             frameUten.setSize(400, 400);
                             frameUten.add(panelUten);
@@ -928,6 +934,9 @@ public class LoginRegister extends JFrame implements ActionListener {
                                 }
                             });
                         }
+                        auxteste3 = 0;
+                        auxteste2 = 0;
+                        auxteste = 0; 
                     }
                 });
             }
@@ -969,6 +978,10 @@ public class LoginRegister extends JFrame implements ActionListener {
                 }
             }
             
+            else if(e.getSource() == pagarmultas){
+
+            }
+
             else if (e.getSource() == add_itens){
                 String[] opcoes = {"Livro", "Audiobook", "Utensilio"};
                 int opcaoSelecionada = JOptionPane.showOptionDialog(null, "Selecione o tipo de item a adicionar:", "Adicionar Itens", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoes, opcoes[0]);
@@ -1045,6 +1058,47 @@ public class LoginRegister extends JFrame implements ActionListener {
             else if (e.getSource() == remover_itens){
                 //ESTOU A FAZER
                     
+            }
+
+            else if (e.getSource() == livros_devolvidos){
+                auxteste2 = 0;
+                    
+            }
+
+            else if(e.getSource() == cadastros){
+                auxteste2 = 0;
+                if(auxteste2 == 0){
+                    auxteste2 = 1;
+                    JPanel panelCadastros = new JPanel(new GridLayout(0, 4));
+                    JFrame frameCadastros = new JFrame();
+                    frameCadastros.setSize(400, 400);
+                    frameCadastros.add(panelCadastros);
+                    frameCadastros.setVisible(true);
+                    panelCadastros.removeAll(); // remove todos os componentes do painel
+                    
+                    for (conta user : contas) {
+                        if (user instanceof conta) {
+                            JLabel NomeLabel = new JLabel("Nome: " + user.getNome());
+                            JLabel EmailLabel = new JLabel("Email: " + user.getEmail());
+                            JLabel planoLabel = new JLabel("Plano: \n" + user.getPlano());
+                            panelCadastros.add(NomeLabel);
+                            panelCadastros.add(EmailLabel);
+                            panelCadastros.add(planoLabel);
+                            panelCadastros.add(Box.createRigidArea(new Dimension(0, 10)));
+                        }
+                    }
+                
+                    panelCadastros.revalidate();
+                    panelCadastros.repaint();
+                    frameCadastros.revalidate(); // Atualiza o layout da janela
+                
+                    // adiciona o WindowListener para a janela
+                    frameCadastros.addWindowListener(new WindowAdapter() {
+                        public void windowClosing(WindowEvent e) {
+                            frameCadastros.dispose(); // apaga a janela
+                        }
+                    });
+                }
             }
         }
     }
