@@ -182,6 +182,7 @@ public class LoginRegister extends JFrame implements ActionListener {
     class TelaInicial extends JFrame implements ActionListener {
 
         private JButton audios, books, locar, devolucao ,locarL, editar, mostrar, devolver, verificar, pagarmultas, vermultas, verutensilios, mostrarL, mostrarTudo;
+        private JButton add_itens, remover_itens, livros_devolvidos, multas, cadastros; 
         private JLabel titleLabel;
         private JTextField codigo, item, itemD, codigoD;
         public int isbn;
@@ -323,6 +324,65 @@ public class LoginRegister extends JFrame implements ActionListener {
                 add(panel);
                 setVisible(true);
             }
+            
+            else if(contas.get(index_user).getPlano().equalsIgnoreCase("administrador")){
+
+                JPanel panelAdmin = new JPanel();
+                panelAdmin.setLayout(new BoxLayout(panelAdmin, BoxLayout.Y_AXIS));
+                //add_itens, remover_itens, livros_devolvidos, multas, cadastros; 
+                panelAdmin.add(Box.createRigidArea(new Dimension(0, 50)));
+
+                add_itens = new JButton("Adicionar livro/audiobook/utensilio");
+                add_itens.setPreferredSize(botaoDimensao);
+                add_itens.setMaximumSize(botaoDimensao);
+                add_itens.setMinimumSize(botaoDimensao);
+                add_itens.addActionListener(this);
+                panelAdmin.add(add_itens);
+                add_itens.setAlignmentX(Component.CENTER_ALIGNMENT);
+                panelAdmin.add(Box.createRigidArea(new Dimension(0, 10)));
+
+                remover_itens = new JButton("Remover livro/audiobook");
+                remover_itens.setPreferredSize(botaoDimensao);
+                remover_itens.setMaximumSize(botaoDimensao);
+                remover_itens.setMinimumSize(botaoDimensao);
+                remover_itens.addActionListener(this);
+                panelAdmin.add(remover_itens);
+                remover_itens.setAlignmentX(Component.CENTER_ALIGNMENT);
+                panelAdmin.add(Box.createRigidArea(new Dimension(0, 10)));
+
+                livros_devolvidos = new JButton("Verificar livros devolvidos");
+                livros_devolvidos.setPreferredSize(botaoDimensao);
+                livros_devolvidos.setMaximumSize(botaoDimensao);
+                livros_devolvidos.setMinimumSize(botaoDimensao);
+                livros_devolvidos.addActionListener(this);
+                panelAdmin.add(livros_devolvidos);
+                livros_devolvidos.setAlignmentX(Component.CENTER_ALIGNMENT);
+                panelAdmin.add(Box.createRigidArea(new Dimension(0, 10)));
+
+                multas = new JButton("Confirmar pagamento de multas");
+                multas.setPreferredSize(botaoDimensao);
+                multas.setMaximumSize(botaoDimensao);
+                multas.setMinimumSize(botaoDimensao);
+                multas.addActionListener(this);
+                panelAdmin.add(multas);
+                multas.setAlignmentX(Component.CENTER_ALIGNMENT);
+                panelAdmin.add(Box.createRigidArea(new Dimension(0, 10)));
+
+                cadastros = new JButton("Verificar contas cadastradas");
+                cadastros.setPreferredSize(botaoDimensao);
+                cadastros.setMaximumSize(botaoDimensao);
+                cadastros.setMinimumSize(botaoDimensao);
+                cadastros.addActionListener(this);
+                panelAdmin.add(cadastros);
+                cadastros.setAlignmentX(Component.CENTER_ALIGNMENT);
+                panelAdmin.add(Box.createRigidArea(new Dimension(0, 10)));
+
+
+                add(panelAdmin);
+                setVisible(true);
+                
+            }
+
             
             if(sinal == 0){ //gambiarra
                 livros.add(new Livro("teste", "Micael", 123, 0, "luta"));
@@ -665,25 +725,59 @@ public class LoginRegister extends JFrame implements ActionListener {
                 });
             }
 
-            else if(e.getSource() == editar){
-
+            else if (e.getSource() == editar) {
+                // Cria caixas de texto para nome, email e bio
+                JTextField nomeField = new JTextField(20);
+                JTextField emailField = new JTextField(20);
+                JTextField bioField = new JTextField(20);
+                JLabel bioMsg = new JLabel("BIO - Comum = 50 caracteres; Premium = 200 caracteres");
                 
+                // Cria um painel para as caixas de texto
+                JPanel panelEditar = new JPanel();
+                panelEditar.setLayout(new GridLayout(4, 2)); // GridLayout com 3 linhas e 2 colunas
+                panelEditar.add(new JLabel("Nome:"));
+                panelEditar.add(nomeField);
+                panelEditar.add(new JLabel("E-mail:"));
+                panelEditar.add(emailField);
+                panelEditar.add(new JLabel("Bio:"));
+                panelEditar.add(bioField);
+                panelEditar.add(bioMsg);
+            
+                // Exibe um JOptionPane com as caixas de texto e espera o usuário clicar em OK
+                int result = JOptionPane.showConfirmDialog(null, panelEditar, "Editar perfil", JOptionPane.OK_CANCEL_OPTION);
+                if (result == JOptionPane.OK_OPTION){
+                    // Obtém o texto digitado nas caixas de texto
+                    String nome = nomeField.getText();
+                    String email = emailField.getText();
+                    String bio = bioField.getText();
+                    
+                    if (contas.get(index_user).getPlano().equalsIgnoreCase("a")) {
+
+                        if (bio.length() > 50) {
+                            JOptionPane.showMessageDialog(null, "Você excedeu o número de caracteres");
+                        } else if (bio == "00") {
+                        } else {
+                            contas.get(index_user).defBios(bio);
+                        }
+                        contas.set(index_user, new comum(email, contas.get(index_user).getSenha(), nome, index_user)); //antes era id
+                        contas.get(index_user).defPlano("a");
+                        JOptionPane.showMessageDialog(null, "Nome e email alterados com sucesso!");
+                    }
+
+                    else if (contas.get(index_user).getPlano().equalsIgnoreCase("premium")) {
+
+                        if (bio.length() > 200) {
+                            JOptionPane.showMessageDialog(null, "Você excedeu o número de caracteres");
+                        } else if (bio == "00") {
+                        } else {
+                            contas.get(index_user).defBios(bio);
+                        }
+                        contas.set(index_user, new premium(email, contas.get(index_user).getSenha(), nome, index_user)); //antes era id
+                        contas.get(index_user).defPlano("premium");
+                        JOptionPane.showMessageDialog(null, "Nome e email alterados com sucesso!");
+                    }
+                }
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         }
     }
