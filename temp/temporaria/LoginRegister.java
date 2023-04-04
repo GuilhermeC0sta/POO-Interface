@@ -507,135 +507,133 @@ public class LoginRegister extends JFrame implements ActionListener {
             }
 
 
-            else if(e.getSource() == locar) {
-                JPanel panel2 = new JPanel(new GridLayout(3, 2));
-                panel2.add(new JLabel("Digite se quer um livro/audiobook"));
-                item = new JTextField();
-                item.setPreferredSize(new Dimension(150, 30));
-                panel2.add(item);
-                panel2.add(new JLabel("Digite o codigo do livro/audiobook"));
-                codigo = new JTextField();
-                codigo.setPreferredSize(new Dimension(150, 30));
-                panel2.add(codigo);  
+            else if (e.getSource() == locar) {
+                // Cria caixas de texto para nome, email e bio
+                JTextField itemField = new JTextField(20);
+                JTextField codigoField = new JTextField(20);
+                
+                // Cria um painel para as caixas de texto
+                JPanel panelLocar = new JPanel();
+                panelLocar.setLayout(new GridLayout(3, 2)); // GridLayout com 3 linhas e 2 colunas
+                panelLocar.add(new JLabel("Digite se quer um livro/audiobook:"));
+                panelLocar.add(itemField);
+                panelLocar.add(new JLabel("Digite o codigo do livro/audiobook:"));
+                panelLocar.add(codigoField);
             
-                frameLocar.add(panel2);
-                frameLocar.setSize(500, 300);
-                frameLocar.setVisible(true);
-                panel2.add(Box.createRigidArea(new Dimension(0, 10)));
-
-                locarL = new JButton("Locar livro/audiobook");
-                locarL.addActionListener(this);
-                panel2.add(locarL);
-
+                // Exibe um JOptionPane com as caixas de texto e espera o usuário clicar em OK
+                int resultLocar = JOptionPane.showConfirmDialog(null, panelLocar, "Locar", JOptionPane.OK_CANCEL_OPTION);
                 contalocados = 0;
-                locarL.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        for(int k = 0; k < id_user.size(); k++){
-                            if(id_user.get(k) == index_user){
-                                contalocados+=1;
-                            }
+                if (resultLocar == JOptionPane.OK_OPTION){
+                    // Obtém o texto digitado nas caixas de texto
+                    //String item = itemField.getText();
+                    //String codigo = codigoField.getText();
+                    
+                    for(int k = 0; k < id_user.size(); k++){
+                        if(id_user.get(k) == index_user){
+                            contalocados+=1;
                         }
-
-                        if(contas.get(index_user).getPlano().equalsIgnoreCase("a")){
-                            if(contalocados < 1){
-                                if(item.getText().equalsIgnoreCase("livro")){
-                                    isbn = Integer.parseInt(codigo.getText());
-                                    for (int k = 0; k < livros.size(); k++) {
-                                        if (isbn == livros.get(k).getIsbn()) {
-                                            if (livros.get(k).getQnt_disp() == 0) {
-                                                JOptionPane.showMessageDialog(null, "Livro indisponível, tente novamente em outro momento.");
-                                                break;
-                                            } else {
-                                                int quantidadeL = livros.get(k).getQnt_disp() - 1;
-                                                livros.set(k, new Livro(livros.get(k).getTitulo(), livros.get(k).getAutor(), isbn,
-                                                        quantidadeL, livros.get(k).getGenero()));
-                                                JOptionPane.showMessageDialog(null, "Parabéns, você conseguiu locar um livro!");
-                                                id_user.add(contas.get(index_user).getId()); //esse id antes era id
-                                                isbn_locado.add(isbn);
-                                                //frameLocar.dispose();
-                                                break;
-                                            }
+                    }
+            
+                    if(contas.get(index_user).getPlano().equalsIgnoreCase("a")){
+                        if(contalocados < 1){
+                            if(itemField.getText().equalsIgnoreCase("livro")){
+                                isbn = Integer.parseInt(codigoField.getText());
+                                for (int k = 0; k < livros.size(); k++) {
+                                    if (isbn == livros.get(k).getIsbn()) {
+                                        if (livros.get(k).getQnt_disp() == 0) {
+                                            JOptionPane.showMessageDialog(null, "Livro indisponível, tente novamente em outro momento.");
+                                            break;
+                                        } else {
+                                            int quantidadeL = livros.get(k).getQnt_disp() - 1;
+                                            livros.set(k, new Livro(livros.get(k).getTitulo(), livros.get(k).getAutor(), isbn,
+                                                    quantidadeL, livros.get(k).getGenero()));
+                                            JOptionPane.showMessageDialog(null, "Parabéns, você conseguiu locar um livro!");
+                                            id_user.add(contas.get(index_user).getId()); //esse id antes era id
+                                            isbn_locado.add(isbn);
+                                            //frameLocar.dispose();
+                                            break;
                                         }
                                     }
                                 }
-                                else if(item.getText().equalsIgnoreCase("audiobook")){
-        
-                                    codigoAudio = Integer.parseInt(codigo.getText());
-                                    
-                                    for (int k = 0; k < audiobook2.size(); k++) {
-                                        if (codigoAudio == audiobook2.get(k).getAudio()) {
-                                            if (audiobook2.get(k).getQnt_disp() == 0) {
-                                                JOptionPane.showMessageDialog(null, "Audiobook indisponível, tente novamente em outro momento.");
-                                                break;
-                                            } else {
-                                                int quantidadeA = audiobook2.get(k).getQnt_disp() - 1;
-                                                audiobook2.set(k,
-                                                new audiobook(audiobook2.get(k).getTitulo(), audiobook2.get(k).getAutor(), audiobook2.get(k).getDuracao(), quantidadeA, audiobook2.get(k).getGenero(), codigoAudio));
-                                                JOptionPane.showMessageDialog(null, "Parabéns, você conseguiu locar um audiobook!");
-                                                id_userAudio.add(contas.get(index_user).getId()); //antes tava k, index_user
-                                                audio_locado.add(codigoAudio);
-                                                //frameLocar.dispose();
-                                                break;
-                                            }
+                            }
+                            else if(itemField.getText().equalsIgnoreCase("audiobook")){
+            
+                                codigoAudio = Integer.parseInt(codigoField.getText());
+                                
+                                for (int k = 0; k < audiobook2.size(); k++) {
+                                    if (codigoAudio == audiobook2.get(k).getAudio()) {
+                                        if (audiobook2.get(k).getQnt_disp() == 0) {
+                                            JOptionPane.showMessageDialog(null, "Audiobook indisponível, tente novamente em outro momento.");
+                                            break;
+                                        } else {
+                                            int quantidadeA = audiobook2.get(k).getQnt_disp() - 1;
+                                            audiobook2.set(k,
+                                            new audiobook(audiobook2.get(k).getTitulo(), audiobook2.get(k).getAutor(), audiobook2.get(k).getDuracao(), quantidadeA, audiobook2.get(k).getGenero(), codigoAudio));
+                                            JOptionPane.showMessageDialog(null, "Parabéns, você conseguiu locar um audiobook!");
+                                            id_userAudio.add(contas.get(index_user).getId()); //antes tava k, index_user
+                                            audio_locado.add(codigoAudio);
+                                            //frameLocar.dispose();
+                                            break;
                                         }
                                     }
                                 }
-                                contalocados+=1;
                             }
-                            else{
-                            }
+                            contalocados+=1;
                         }
-
-                        if(contas.get(index_user).getPlano().equalsIgnoreCase("premium")){
-                            if(contalocados < 15){
-                                if(item.getText().equalsIgnoreCase("livro")){
-                                    isbn = Integer.parseInt(codigo.getText());
-                                    for (int k = 0; k < livros.size(); k++) {
-                                        if (isbn == livros.get(k).getIsbn()) {
-                                            if (livros.get(k).getQnt_disp() == 0) {
-                                                JOptionPane.showMessageDialog(null, "Livro indisponível, tente novamente em outro momento.");
-                                                break;
-                                            } else {
-                                                int quantidadeL = livros.get(k).getQnt_disp() - 1;
-                                                livros.set(k, new Livro(livros.get(k).getTitulo(), livros.get(k).getAutor(), isbn,
-                                                        quantidadeL, livros.get(k).getGenero()));
-                                                JOptionPane.showMessageDialog(null, "Parabéns, você conseguiu locar um livro!");
-                                                id_user.add(index_user); //esse id antes era id
-                                                isbn_locado.add(isbn);
-                                                break;
-                                            }
+                        else{
+                            JOptionPane.showMessageDialog(null, "Você não pode locar mais de um item pois a sua conta é comum");
+                        }
+                    }
+            
+                    if(contas.get(index_user).getPlano().equalsIgnoreCase("premium")){
+                        if(contalocados < 15){
+                            if(itemField.getText().equalsIgnoreCase("livro")){
+                                isbn = Integer.parseInt(codigoField.getText());
+                                for (int k = 0; k < livros.size(); k++) {
+                                    if (isbn == livros.get(k).getIsbn()) {
+                                        if (livros.get(k).getQnt_disp() == 0) {
+                                            JOptionPane.showMessageDialog(null, "Livro indisponível, tente novamente em outro momento.");
+                                            break;
+                                        } else {
+                                            int quantidadeL = livros.get(k).getQnt_disp() - 1;
+                                            livros.set(k, new Livro(livros.get(k).getTitulo(), livros.get(k).getAutor(), isbn,
+                                                    quantidadeL, livros.get(k).getGenero()));
+                                            JOptionPane.showMessageDialog(null, "Parabéns, você conseguiu locar um livro!");
+                                            id_user.add(index_user); //esse id antes era id
+                                            isbn_locado.add(isbn);
+                                            break;
                                         }
                                     }
                                 }
-        
-                                else if(item.getText().equalsIgnoreCase("audiobook")){
-                                    codigoAudio = Integer.parseInt(codigo.getText());
-                                    
-                                    for (int k = 0; k < audiobook2.size(); k++) {
-                                        if (codigoAudio == audiobook2.get(k).getAudio()) {
-                                            if (audiobook2.get(k).getQnt_disp() == 0) {
-                                                JOptionPane.showMessageDialog(null, "Audiobook indisponível, tente novamente em outro momento.");
-                                                break;
-                                            } else {
-                                                audiobook2.set(k,
-                                                new audiobook(audiobook2.get(k).getTitulo(), audiobook2.get(k).getAutor(), audiobook2.get(k).getDuracao(), audiobook2.get(k).getQnt_disp() - 1, audiobook2.get(k).getGenero(), codigoAudio));
-                                                JOptionPane.showMessageDialog(null, "Parabéns, você conseguiu locar um audiobook!");
-                                                id_userAudio.add(index_user);
-                                                audio_locado.add(codigoAudio);
-                                                //frameLocar.dispose();
-                                                break;
-                                            }
+                            }
+            
+                            else if(itemField.getText().equalsIgnoreCase("audiobook")){
+                                codigoAudio = Integer.parseInt(codigoField.getText());
+                                
+                                for (int k = 0; k < audiobook2.size(); k++) {
+                                    if (codigoAudio == audiobook2.get(k).getAudio()) {
+                                        if (audiobook2.get(k).getQnt_disp() == 0) {
+                                            JOptionPane.showMessageDialog(null, "Audiobook indisponível, tente novamente em outro momento.");
+                                            break;
+                                        } else {
+                                            audiobook2.set(k,
+                                            new audiobook(audiobook2.get(k).getTitulo(), audiobook2.get(k).getAutor(), audiobook2.get(k).getDuracao(), audiobook2.get(k).getQnt_disp() - 1, audiobook2.get(k).getGenero(), codigoAudio));
+                                            JOptionPane.showMessageDialog(null, "Parabéns, você conseguiu locar um audiobook!");
+                                            id_userAudio.add(index_user);
+                                            audio_locado.add(codigoAudio);
+                                            //frameLocar.dispose();
+                                            break;
                                         }
                                     }
                                 }
-                                contalocados+=1;
                             }
-                            else{
-                            }
+                            contalocados+=1;
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null, "Você só pode locar até no máximo 15 itens");
                         }
                     }
                 }
-                );
             }
 
             else if (e.getSource() == verificar) {
@@ -698,58 +696,52 @@ public class LoginRegister extends JFrame implements ActionListener {
                 });
             } 
 
-            else if(e.getSource() == devolver){
-                JPanel panelDevolver = new JPanel(new GridLayout(3, 2));
-                panelDevolver.add(new JLabel("Digite se quer devolver um livro"));
-                itemD = new JTextField();
-                itemD.setPreferredSize(new Dimension(150, 30));
-                panelDevolver.add(itemD);
-                panelDevolver.add(new JLabel("Digite o codigo do livro"));
-                codigoD = new JTextField();
-                codigoD.setPreferredSize(new Dimension(150, 30));
-                panelDevolver.add(codigoD);  
-
-                frameDevolver.add(panelDevolver);
-                frameDevolver.setSize(500, 300);
-                frameDevolver.setVisible(true);
-                panelDevolver.add(Box.createRigidArea(new Dimension(0, 10)));
-
-                devolucao = new JButton("Devolver livro");
-                devolucao.addActionListener(this);
-                panelDevolver.add(devolucao);
-
-                devolucao.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        if(itemD.getText().equalsIgnoreCase("livro")){
-                            isbn = Integer.parseInt(codigoD.getText());
-                            for (int j = 0; j < id_user.size(); j++) {
-                                if (id_user.get(j) == index_user) {
-                                    if (isbn_locado.get(j) == isbn) {
-                                        id_devolvido.add(j, index_user);
-                                        isbn_devolvido.add(j, isbn);
-                                        id_user.remove(j);
-                                        isbn_locado.remove(j);
-                                        JOptionPane.showMessageDialog(null, "Livro " + isbn + " devolvido!");
-                                        for (int k = 0; k < livros.size(); k++) {
-                                            if (isbn == livros.get(k).getIsbn()) {
-                                                //System.out.println(livros.get(k).getIsbn());
-                                                int devolu = livros.get(k).getQnt_disp() + 1;
-                                                //System.out.println("DPS DE ADICIONAR " + devolu);
-                                                livros.set(k,
-                                                        new Livro(livros.get(k).getTitulo(), livros.get(k).getAutor(), isbn, devolu, livros.get(k).getGenero()));
-                                                break;
-                                            }
+            else if (e.getSource() == devolver) {
+                // Cria caixas de texto para nome, email e bio
+                JTextField itemField2 = new JTextField();
+                JTextField codigoField2 = new JTextField();
+                
+                // Cria um painel para as caixas de texto
+                JPanel panelDevolver = new JPanel();
+                panelDevolver.setLayout(new GridLayout(3, 2)); // GridLayout com 3 linhas e 2 colunas
+                panelDevolver.add(new JLabel("Digite livro para devolver um livro"));
+                panelDevolver.add(itemField2);
+                panelDevolver.add(new JLabel("Digite o codigo do livro:"));
+                panelDevolver.add(codigoField2);
+            
+                // Exibe um JOptionPane com as caixas de texto e espera o usuário clicar em OK
+                int resultDevolver = JOptionPane.showConfirmDialog(null, panelDevolver, "Devolver", JOptionPane.OK_CANCEL_OPTION);
+                if (resultDevolver == JOptionPane.OK_OPTION){
+                    if(itemField2.getText().equalsIgnoreCase("livro")){
+                        isbn = Integer.parseInt(codigoField2.getText());
+                        for (int j = 0; j < id_user.size(); j++) {
+                            if (id_user.get(j) == index_user) {
+                                if (isbn == isbn_locado.get(j)) {
+                                    id_devolvido.add(j, index_user);
+                                    isbn_devolvido.add(j, isbn);
+                                    id_user.remove(j);
+                                    isbn_locado.remove(j);
+                                    JOptionPane.showMessageDialog(null, "Livro " + isbn + " devolvido!");
+                                    for (int k = 0; k < livros.size(); k++) {
+                                        if (isbn == livros.get(k).getIsbn()) {
+                                            //System.out.println(livros.get(k).getIsbn());
+                                            int devolu = livros.get(k).getQnt_disp() + 1;
+                                            //System.out.println("DPS DE ADICIONAR " + devolu);
+                                            livros.set(k,
+                                                    new Livro(livros.get(k).getTitulo(), livros.get(k).getAutor(), isbn, devolu, livros.get(k).getGenero()));
+                                            break;
                                         }
-                                        break;
                                     }
-                                }
-                                if (j == id_user.size() - 1) {
-                                    JOptionPane.showMessageDialog(null, "Este livro não foi locado por você");
+                                    break;
                                 }
                             }
+                            else if (j == id_user.size() - 1) {
+                                JOptionPane.showMessageDialog(null, "Este livro não foi locado por você");
+                            }
                         }
+            
                     }
-                });
+                }
             }
 
             else if (e.getSource() == editar) {
