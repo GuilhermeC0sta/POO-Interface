@@ -16,6 +16,7 @@ public class LoginRegister extends JFrame implements ActionListener {
     private ArrayList<Integer> audio_locado = new ArrayList<>();
     private ArrayList<Integer> id_devolvido = new ArrayList<>();
     private ArrayList<Integer> id_multapendente = new ArrayList<>();
+    private ArrayList<Integer> id_multapaga = new ArrayList<>();
 
     public int sinal = 0;
     public int id = 0;
@@ -25,6 +26,7 @@ public class LoginRegister extends JFrame implements ActionListener {
     public int auxteste3 = 0;
     public int auxteste2 = 0;
     public int multaalarme = 0;
+    public int testemultas = 0;
     
     private JButton login, register;
     private JTextField usuario, senha;
@@ -186,7 +188,7 @@ public class LoginRegister extends JFrame implements ActionListener {
     class TelaInicial extends JFrame implements ActionListener {
 
         private JButton audios, books, locar, devolucao ,locarL, editar, mostrar, devolver, verificar, pagarmultas, vermultas, verutensilios, mostrarL, mostrarTudo, postitbutton, marca_textobutton, apoio_livrosbutton;
-        private JButton add_itens, remover_itens, livros_devolvidos, multas, cadastros; 
+        private JButton add_itens, remover_itens, livros_devolvidos, multas, cadastros, buttonPGM, buttonconfirmar, buttonCP; 
         private JLabel titleLabel;
         private JTextField codigo, item, itemD, codigoD;
         public int isbn;
@@ -246,6 +248,13 @@ public class LoginRegister extends JFrame implements ActionListener {
                 mostrarTudo.setMinimumSize(botaoDimensao);
                 mostrarTudo.addActionListener(this);
                 mostrarTudo.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+                buttonPGM = new JButton("Pagar multa");
+                buttonPGM.setPreferredSize(botaoDimensao);
+                buttonPGM.setMaximumSize(botaoDimensao);
+                buttonPGM.setMinimumSize(botaoDimensao);
+                buttonPGM.addActionListener(this);
+                buttonPGM.setAlignmentX(Component.CENTER_ALIGNMENT);
                 
                 postitbutton = new JButton("Mostrar todos os postits");
                 postitbutton.setPreferredSize(botaoDimensao);
@@ -387,14 +396,12 @@ public class LoginRegister extends JFrame implements ActionListener {
                 livros_devolvidos.setAlignmentX(Component.CENTER_ALIGNMENT);
                 panelAdmin.add(Box.createRigidArea(new Dimension(0, 10)));
 
-                multas = new JButton("Confirmar pagamento de multas");
-                multas.setPreferredSize(botaoDimensao);
-                multas.setMaximumSize(botaoDimensao);
-                multas.setMinimumSize(botaoDimensao);
-                multas.addActionListener(this);
-                panelAdmin.add(multas);
-                multas.setAlignmentX(Component.CENTER_ALIGNMENT);
-                panelAdmin.add(Box.createRigidArea(new Dimension(0, 10)));
+                buttonCP = new JButton("Pagar multa");
+                buttonCP.setPreferredSize(botaoDimensao);
+                buttonCP.setMaximumSize(botaoDimensao);
+                buttonCP.setMinimumSize(botaoDimensao);
+                buttonCP.addActionListener(this);
+                buttonCP.setAlignmentX(Component.CENTER_ALIGNMENT);
 
                 cadastros = new JButton("Verificar contas cadastradas");
                 cadastros.setPreferredSize(botaoDimensao);
@@ -405,6 +412,14 @@ public class LoginRegister extends JFrame implements ActionListener {
                 cadastros.setAlignmentX(Component.CENTER_ALIGNMENT);
                 panelAdmin.add(Box.createRigidArea(new Dimension(0, 10)));
 
+                buttonconfirmar = new JButton("Confirmar pagamento de multas");
+                buttonconfirmar.setPreferredSize(botaoDimensao);
+                buttonconfirmar.setMaximumSize(botaoDimensao);
+                buttonconfirmar.setMinimumSize(botaoDimensao);
+                buttonconfirmar.addActionListener(this);
+                panelAdmin.add(buttonconfirmar);
+                buttonconfirmar.setAlignmentX(Component.CENTER_ALIGNMENT);
+                panelAdmin.add(Box.createRigidArea(new Dimension(0, 10)));
 
                 add(panelAdmin);
                 setVisible(true);
@@ -419,6 +434,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                 utensilios.add(new postit("FaberCastel", "Azul", 2));
                 utensilios.add(new marca_texto("Stabilo Boss", "Roxo", "Sem glitter", 10));
                 utensilios.add(new apoio_livros("Maxcril", 10, 10));
+                id_multapendente.add(0);
                 id_multapendente.add(0);
                 sinal++;
             }
@@ -940,6 +956,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                     }
                 });
             }
+
             else if (e.getSource() == vermultas) {
                 auxteste3 = 0;
                 if (auxteste3 == 0) {
@@ -979,7 +996,67 @@ public class LoginRegister extends JFrame implements ActionListener {
             }
             
             else if(e.getSource() == pagarmultas){
+                testemultas = 0;
+                auxteste3 = 0;
+                if (auxteste3 == 0) {
+                    auxteste3 = 1;
+                    JPanel panelMP = new JPanel(new GridLayout(0,1));
+                    JFrame frameMP = new JFrame();
+                    frameMP.setSize(400, 400);
+                    frameMP.add(panelMP);
+                    panelMP.removeAll();
+                    buttonPGM.setSize(10,10);
+                    multaalarme = 0; // redefine a variável multaalarme para 0
 
+                    for (int j = 0; j < id_multapendente.size(); j++) {
+                        if (id_multapendente.get(j) == index_user) {
+                            multaalarme = 1;
+                            JLabel multalabel = new JLabel("Você possui uma multa não paga");
+                            panelMP.add(multalabel);
+                        }
+                    }
+                    if (multaalarme == 0) {
+                        JOptionPane.showMessageDialog(null, "você não possui multas pendentes");
+                    }
+                    panelMP.repaint();
+                    frameMP.revalidate();
+                    frameMP.addWindowListener(new WindowAdapter() {
+                        public void windowClosing(WindowEvent e) {
+                            frameMP.dispose();
+                        }
+                    });
+                    for (int j = 0; j < id_multapendente.size(); j++) {
+                        if (id_multapendente.get(j) == index_user) {
+                            testemultas +=1;
+                        }
+                    }
+                    if(testemultas != 0){
+                        panelMP.add(buttonPGM);
+                    }
+                    else{
+                        JLabel multalabel2 = new JLabel("Você pagou todas suas multas ou não possui multas");
+                        panelMP.add(multalabel2);
+                    }
+                    buttonPGM.addActionListener(new ActionListener(){
+                        public void actionPerformed(ActionEvent e){
+                            for (int j = 0; j < id_multapendente.size(); j++) {
+                                if (id_multapendente.get(j) == index_user) {
+                                    id_multapaga.add(index_user);
+                                    id_multapendente.remove(j);
+                                    JOptionPane.showMessageDialog(null, "você pagou uma de suas multas");
+                                }
+                            }
+                            frameMP.dispose();
+                        }
+                    });
+                    frameMP.setVisible(true);
+                    
+                } else {
+                    frameMultaPendente.setSize(400, 400);
+                    frameMultaPendente.add(panel6);
+                    frameMultaPendente.setVisible(true);
+                }
+                
             }
 
             else if (e.getSource() == add_itens){
@@ -1098,6 +1175,57 @@ public class LoginRegister extends JFrame implements ActionListener {
                             frameCadastros.dispose(); // apaga a janela
                         }
                     });
+                }
+            }
+
+            else if(e.getSource() == buttonconfirmar){
+                auxteste2 = 0;
+                if(auxteste2 == 0){
+                    JPanel panelCP = new JPanel(new GridLayout(0,1));
+                    JFrame frameCP = new JFrame();
+                    frameCP.setSize(400, 400);
+                    frameCP.add(panelCP);
+                    panelCP.removeAll();
+                    buttonCP.setSize(10,10);
+                    multaalarme = 0; // redefine a variável multaalarme para 0
+                
+                    for (int j = 0; j < id_multapaga.size(); j++) {
+                        multaalarme = 1;
+                        JLabel multalabel = new JLabel("O Usuario: " + id_multapaga.get(j) + " pagou uma multa");
+                        panelCP.add(multalabel);
+                    }
+                    if (multaalarme == 0) {
+                        JOptionPane.showMessageDialog(null, "Não há multas para serem pagas");
+                    }
+                    panelCP.repaint();
+                    frameCP.revalidate();
+                    frameCP.addWindowListener(new WindowAdapter() {
+                        public void windowClosing(WindowEvent e) {
+                            frameCP.dispose();
+                        }
+                    });
+                    if(id_multapaga.size() != 0){
+                        panelCP.add(buttonCP);
+                    }
+                    else{
+                        JLabel multalabel2 = new JLabel("Não há multas a serem confirmadas");
+                        panelCP.add(multalabel2);
+                    }
+                    buttonCP.addActionListener(new ActionListener(){
+                        public void actionPerformed(ActionEvent e){
+                            for (int j = 0; j < id_multapaga.size(); j++) {
+                                id_multapaga.remove(j);
+                                JOptionPane.showMessageDialog(null, "voce confirmou o pagamento de uma das multas");
+                            }
+                            frameCP.dispose();
+                        }
+                    });
+                    frameCP.setVisible(true);
+                    
+                } else {
+                    frameMultaPendente.setSize(400, 400);
+                    frameMultaPendente.add(panel6);
+                    frameMultaPendente.setVisible(true);
                 }
             }
         }
