@@ -429,10 +429,10 @@ public class LoginRegister extends JFrame implements ActionListener {
             }
 
             if(sinal == 0){ //gambiarra
-                livros.add(new Livro("teste", "Micael", 123, 0, "luta"));
-                livros.add(new Livro("teste2", "Micael2", 1234, 150, "romance"));
-                audiobook2.add(new audiobook("teste3audio", "Micael3", 120, 0, "aventura", 25));
-                audiobook2.add(new audiobook("teste3audiosss", "Micael4", 120, 20, "ação", 255));
+                livros.add(new Livro("LivroExemplo", "Guilherme", 10, 0, "luta"));
+                livros.add(new Livro("LivroExemplo", "Janio", 1234, 150, "romance"));
+                audiobook2.add(new audiobook("audioExemplo", "Micael", 120, 0, "aventura", 25));
+                audiobook2.add(new audiobook("audioExemplo", "Castelo", 120, 20, "ação", 255));
                 utensilios.add(new postit("FaberCastel", "Azul", 2));
                 utensilios.add(new marca_texto("Stabilo Boss", "Roxo", "Sem glitter", 10));
                 utensilios.add(new apoio_livros("Maxcril", 10, 10));
@@ -463,7 +463,7 @@ public class LoginRegister extends JFrame implements ActionListener {
             
                 books.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        JPanel panel4 = new JPanel(new GridLayout(0, 4));
+                        JPanel panel4 = new JPanel(new GridLayout(0, 3));
                         JFrame frameLocar2 = new JFrame();
                         frameLocar2.setSize(400, 400);
                         frameLocar2.add(panel4);
@@ -497,7 +497,7 @@ public class LoginRegister extends JFrame implements ActionListener {
             
                 audios.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        JPanel panel4 = new JPanel(new GridLayout(0, 4));
+                        JPanel panel4 = new JPanel(new GridLayout(0, 3));
                         JFrame frameLocar3 = new JFrame();
                         frameLocar3.setSize(400, 400);
                         frameLocar3.add(panel4);
