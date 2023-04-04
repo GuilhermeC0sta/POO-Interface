@@ -928,6 +928,43 @@ public class LoginRegister extends JFrame implements ActionListener {
                     }
                 });
             }
+            else if (e.getSource() == vermultas) {
+                auxteste = 0;
+                if (auxteste3 == 0) {
+                    auxteste3 = 1;
+                    multaalarme = 0;
+                    JPanel panelMP = new JPanel();
+                    JFrame frameMP = new JFrame();
+                    frameMP.setSize(400, 400);
+                    frameMP.add(panelMP);
+            
+                    for (int j = 0; j < id_multapendente.size(); j++) {
+                        if (id_multapendente.get(j) == index_user) {
+                            multaalarme = 1;
+                            JLabel multalabel = new JLabel("Você possui uma multa não paga");
+                            panelMP.add(multalabel);
+                        }
+                    }
+                    if (multaalarme == 0) {
+                        JOptionPane.showMessageDialog(null, "você não possui multas pendentes");
+                    }
+                    panelMP.revalidate();
+                    panelMP.repaint();
+                    frameMP.revalidate();
+                
+                    frameMP.addWindowListener(new WindowAdapter() {
+                        public void windowClosing(WindowEvent e) {
+                            frameMP.dispose();
+                        }
+                    });
+                
+                    frameMP.setVisible(true);
+                } else {
+                    frameMultaPendente.setSize(400, 400);
+                    frameMultaPendente.add(panel6);
+                    frameMultaPendente.setVisible(true);
+                }
+            }
         }
     }
 }
