@@ -967,7 +967,85 @@ public class LoginRegister extends JFrame implements ActionListener {
                     frameMultaPendente.add(panel6);
                     frameMultaPendente.setVisible(true);
                 }
-            }            
+            }
+            
+            else if (e.getSource() == add_itens){
+                String[] opcoes = {"Livro", "Audiobook", "Utensilio"};
+                int opcaoSelecionada = JOptionPane.showOptionDialog(null, "Selecione o tipo de item a adicionar:", "Adicionar Itens", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoes, opcoes[0]);
+                
+                if (opcaoSelecionada == 0){ // Clicou em "Livro"
+                    JTextField tituloAdd = new JTextField();
+                    JTextField autorAdd = new JTextField();
+                    JTextField isbnAdd = new JTextField();
+                    JTextField generoAdd = new JTextField();
+                    JTextField quantidadeAdd = new JTextField();
+                    JPanel panelItens = new JPanel(new GridLayout(0, 1));
+
+                    panelItens.add(new JLabel("Titulo:"));
+                    panelItens.add(tituloAdd);
+                    panelItens.add(new JLabel("Autor:"));
+                    panelItens.add(autorAdd);
+                    panelItens.add(new JLabel("ISBN:"));
+                    panelItens.add(isbnAdd);
+                    panelItens.add(new JLabel("Gênero:"));
+                    panelItens.add(generoAdd);
+                    panelItens.add(new JLabel("Quantidade:"));
+                    panelItens.add(quantidadeAdd);
+
+                    int result = JOptionPane.showConfirmDialog(null, panelItens, "Adicionar Livro", JOptionPane.OK_CANCEL_OPTION);
+                    int isbnAddItem = Integer.parseInt(isbnAdd.getText());
+                    int quantidadeAddItem = Integer.parseInt(quantidadeAdd.getText());
+                    
+                    if (result == JOptionPane.OK_OPTION){
+                        livros.add(new Livro(tituloAdd.getText(), autorAdd.getText(), isbnAddItem, quantidadeAddItem, generoAdd.getText()));
+                        JOptionPane.showMessageDialog(null, "Livro adicionado!");
+                    }
+                }
+                else if (opcaoSelecionada == 1){ // Clicou em "Audiobook"
+                    JTextField tituloAdd = new JTextField();
+                    JTextField autorAdd = new JTextField();
+                    JTextField duracaoAdd = new JTextField();
+                    JTextField generoAdd = new JTextField();
+                    JTextField quantidadeAdd = new JTextField();
+                    JTextField idAudioAdd = new JTextField();
+
+                    JPanel panelItens = new JPanel(new GridLayout(0, 1));
+
+                    panelItens.add(new JLabel("Titulo:"));
+                    panelItens.add(tituloAdd);
+                    panelItens.add(new JLabel("Autor:"));
+                    panelItens.add(autorAdd);
+                    panelItens.add(new JLabel("Duração:"));
+                    panelItens.add(duracaoAdd);
+                    panelItens.add(new JLabel("Gênero:"));
+                    panelItens.add(generoAdd);
+                    panelItens.add(new JLabel("Quantidade:"));
+                    panelItens.add(quantidadeAdd);
+                    panelItens.add(new JLabel("ID do Áudio:"));
+                    panelItens.add(idAudioAdd);
+
+                    int result = JOptionPane.showConfirmDialog(null, panelItens, "Adicionar Audiobook", JOptionPane.OK_CANCEL_OPTION);
+                    
+                    int duracaoAddItem = Integer.parseInt(duracaoAdd.getText());
+                    int quantidadeAddItem = Integer.parseInt(quantidadeAdd.getText());
+                    int idAudioAddItem = Integer.parseInt(idAudioAdd.getText());
+                    
+
+                    if (result == JOptionPane.OK_OPTION){
+                        audiobook2.add(new audiobook(tituloAdd.getText(), autorAdd.getText(), duracaoAddItem, quantidadeAddItem, generoAdd.getText(), idAudioAddItem));
+                        JOptionPane.showMessageDialog(null, "Audio adicionado!");
+                    }
+                }
+
+                else if (opcaoSelecionada == 2){ // Clicou em "Utensilio"
+                    
+                }
+            }
+
+            else if (e.getSource() == remover_itens){
+                //ESTOU A FAZER
+                    
+            }
         }
     }
 }
