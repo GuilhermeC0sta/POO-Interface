@@ -8,6 +8,7 @@ public class LoginRegister extends JFrame implements ActionListener {
     public ArrayList<conta> contas = new ArrayList<conta>();
     public ArrayList<Livro> livros = new ArrayList<Livro>();
     public ArrayList<audiobook> audiobook2 = new ArrayList<audiobook>();
+    public ArrayList<utensilios> utensilios = new ArrayList<utensilios>();
     private ArrayList<Integer> id_user = new ArrayList<>();
     private ArrayList<Integer> id_userAudio = new ArrayList<>();
     private ArrayList<Integer> isbn_locado = new ArrayList<>();
@@ -21,6 +22,7 @@ public class LoginRegister extends JFrame implements ActionListener {
     public int contalocados = 0;
     public int auxteste = 0;
     public int auxteste3 = 0;
+    public int auxteste2 = 0;
     
     private JButton login, register;
     private JTextField usuario, senha;
@@ -181,7 +183,7 @@ public class LoginRegister extends JFrame implements ActionListener {
 
     class TelaInicial extends JFrame implements ActionListener {
 
-        private JButton audios, books, locar, devolucao ,locarL, editar, mostrar, devolver, verificar, pagarmultas, vermultas, verutensilios, mostrarL, mostrarTudo;
+        private JButton audios, books, locar, devolucao ,locarL, editar, mostrar, devolver, verificar, pagarmultas, vermultas, verutensilios, mostrarL, mostrarTudo, postitbutton, marca_textobutton, apoio_livrosbutton;
         private JButton add_itens, remover_itens, livros_devolvidos, multas, cadastros; 
         private JLabel titleLabel;
         private JTextField codigo, item, itemD, codigoD;
@@ -196,6 +198,8 @@ public class LoginRegister extends JFrame implements ActionListener {
 
         JPanel panel3 = new JPanel();
         JPanel panelEditar = new JPanel();
+        JPanel panel6 = new JPanel();
+        JPanel panelUtensilios = new JPanel();
         JPanel panel5 = new JPanel();
         JPanel panelLocadosA = new JPanel();
         //JPanel panelLocados = new JPanel();
@@ -205,6 +209,7 @@ public class LoginRegister extends JFrame implements ActionListener {
         JFrame frameVerificar = new JFrame();
         JFrame frameLocar = new JFrame();
         JFrame frameDevolver = new JFrame();
+        JFrame frameUtensilio = new JFrame();
         //JPanel panel4 = new JPanel();
         //JFrame frameLocar2 = new JFrame();
 
@@ -238,7 +243,27 @@ public class LoginRegister extends JFrame implements ActionListener {
                 mostrarTudo.setMinimumSize(botaoDimensao);
                 mostrarTudo.addActionListener(this);
                 mostrarTudo.setAlignmentX(Component.CENTER_ALIGNMENT);
+                
+                postitbutton = new JButton("Mostrar todos os postits");
+                postitbutton.setPreferredSize(botaoDimensao);
+                postitbutton.setMaximumSize(botaoDimensao);
+                postitbutton.setMinimumSize(botaoDimensao);
+                postitbutton.addActionListener(this);
+                postitbutton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+                marca_textobutton = new JButton("Mostrar todos os marca-textos");
+                marca_textobutton.setPreferredSize(botaoDimensao);
+                marca_textobutton.setMaximumSize(botaoDimensao);
+                marca_textobutton.setMinimumSize(botaoDimensao);
+                marca_textobutton.addActionListener(this);
+                marca_textobutton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+                apoio_livrosbutton = new JButton("Mostrar todos os apoios para livros");
+                apoio_livrosbutton.setPreferredSize(botaoDimensao);
+                apoio_livrosbutton.setMaximumSize(botaoDimensao);
+                apoio_livrosbutton.setMinimumSize(botaoDimensao);
+                apoio_livrosbutton.addActionListener(this);
+                apoio_livrosbutton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
                 books = new JButton("Mostrar livros");
                 books.setPreferredSize(botaoDimensao);
@@ -383,12 +408,14 @@ public class LoginRegister extends JFrame implements ActionListener {
                 
             }
 
-            
             if(sinal == 0){ //gambiarra
                 livros.add(new Livro("teste", "Micael", 123, 0, "luta"));
                 livros.add(new Livro("teste2", "Micael2", 1234, 150, "romance"));
                 audiobook2.add(new audiobook("teste3audio", "Micael3", 120, 0, "aventura", 25));
                 audiobook2.add(new audiobook("teste3audiosss", "Micael4", 120, 20, "ação", 255));
+                utensilios.add(new postit("FaberCastel", "Azul", 2));
+                utensilios.add(new marca_texto("Stabilo Boss", "Roxo", "Sem glitter", 10));
+                utensilios.add(new apoio_livros("Maxcril", 10, 10));
                 sinal++;
             }
         }
@@ -779,6 +806,136 @@ public class LoginRegister extends JFrame implements ActionListener {
                 }
             }
 
+            else if (e.getSource() == verutensilios) {
+                auxteste3 = 0;
+                auxteste2 = 0;
+                auxteste = 0; 
+                frameUtensilio.setSize(400, 400);
+                frameUtensilio.add(panel6);
+                panel6.add(marca_textobutton);
+                panel6.add(Box.createRigidArea(new Dimension(0, 50)));
+                panel6.add(postitbutton);
+                panel6.add(Box.createRigidArea(new Dimension(0, 50)));
+                panel6.add(apoio_livrosbutton);
+            
+                marca_textobutton.setAlignmentX(Component.CENTER_ALIGNMENT);
+                postitbutton.setAlignmentX(Component.CENTER_ALIGNMENT);
+                apoio_livrosbutton.setAlignmentX(Component.CENTER_ALIGNMENT);
+                frameUtensilio.setVisible(true);
+            
+                postitbutton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        if(auxteste3 == 0){
+                            auxteste3 = 1;
+                            JPanel panelUten = new JPanel();
+                            JFrame frameUten = new JFrame();
+                            frameUten.setSize(400, 400);
+                            frameUten.add(panelUten);
+                            frameUten.setVisible(true);
+                            panelUten.removeAll(); // remove todos os componentes do painel
+                            
+                            for (utensilios utensi : utensilios) {
+                                if (utensi instanceof postit) {
+                                    JLabel corlabel = new JLabel("Cor: " + utensi.getCor());
+                                    JLabel marcalabel = new JLabel("ISBN: " + utensi.getMarca());
+                                    JLabel qntdLabel = new JLabel("Quantidade: \n" + utensi.getQuantidade());
+                                    // adicionar componentes ao painel central
+                                    panelUten.add(corlabel);
+                                    panelUten.add(marcalabel);
+                                    panelUten.add(qntdLabel);
+                                }
+                            }
+                        
+                            panelUten.revalidate();
+                            panelUten.repaint();
+                            frameUten.revalidate(); // Atualiza o layout da janela
+                        
+                            // adiciona o WindowListener para a janela
+                            frameUten.addWindowListener(new WindowAdapter() {
+                                public void windowClosing(WindowEvent e) {
+                                    frameUten.dispose(); // apaga a janela
+                                }
+                            });   
+                        }
+                    }
+                });
+            
+                marca_textobutton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        if(auxteste == 0){
+                            auxteste = 1;
+                            JPanel panelUten = new JPanel();
+                            JFrame frameUten = new JFrame();
+                            frameUten.setSize(400, 400);
+                            frameUten.add(panelUten);
+                            frameUten.setVisible(true);
+                            panelUten.removeAll(); // remove todos os componentes do painel
+                            
+                            for (utensilios utensi : utensilios) {
+                                if (utensi instanceof marca_texto) {
+                                        JLabel corlabel = new JLabel("Cor: " + utensi.getCor());
+                                        JLabel marcalabel = new JLabel("ISBN: " + utensi.getMarca());
+                                        JLabel qntdLabel = new JLabel("Quantidade: \n" + utensi.getQuantidade());
+                                        JLabel combrilhoLabel = new JLabel("Quantidade: \n" + utensi.getBrilho());
+                                        // adicionar componentes ao painel central
+                                        panelUten.add(corlabel);
+                                        panelUten.add(marcalabel);
+                                        panelUten.add(qntdLabel);
+                                        panelUten.add(combrilhoLabel);
+                                    }
+                                }
+                            
+                            panelUten.revalidate();
+                            panelUten.repaint();
+                            frameUten.revalidate(); // Atualiza o layout da janela
+                            
+                            // adiciona o WindowListener para a janela
+                            frameUten.addWindowListener(new WindowAdapter() {
+                                public void windowClosing(WindowEvent e) {
+                                    frameUten.dispose(); // apaga a janela
+                                }
+                            });
+                        }
+                    }
+                });
+
+                apoio_livrosbutton.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        if(auxteste2 == 0){
+                            auxteste2 = 1;
+                            JPanel panelUten = new JPanel();
+                            JFrame frameUten = new JFrame();
+                            frameUten.setSize(400, 400);
+                            frameUten.add(panelUten);
+                            frameUten.setVisible(true);
+                            panelUten.removeAll(); // remove todos os componentes do painel
+                            
+                            for (utensilios utensi : utensilios) {
+                                if (utensi instanceof apoio_livros) {
+                                    JLabel slotslabel = new JLabel("Cor: " + utensi.getSlots());
+                                    JLabel marcalabel = new JLabel("ISBN: " + utensi.getMarca());
+                                    JLabel qntdLabel = new JLabel("Quantidade: \n" + utensi.getQuantidade());
+                                    // adicionar componentes ao painel central
+                                    panelUten.add(slotslabel);
+                                    panelUten.add(marcalabel);
+                                    panelUten.add(qntdLabel);
+                                }
+                            }
+                        
+                            panelUten.revalidate();
+                            panelUten.repaint();
+                            frameUten.revalidate(); // Atualiza o layout da janela
+                        
+                            // adiciona o WindowListener para a janela
+                            frameUten.addWindowListener(new WindowAdapter() {
+                                public void windowClosing(WindowEvent e) {
+                                    frameUten.dispose(); // apaga a janela
+                                }
+                            });
+                        }
+                    }
+                });
+            }
         }
     }
 }
