@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.List;
 
 import java.util.ArrayList;
 
@@ -17,6 +18,7 @@ public class LoginRegister extends JFrame implements ActionListener {
     private ArrayList<Integer> id_devolvido = new ArrayList<>();
     private ArrayList<Integer> id_multapendente = new ArrayList<>();
     private ArrayList<Integer> id_multapaga = new ArrayList<>();
+    private ArrayList<Integer> id_multa = new ArrayList<>();
 
     public int sinal = 0;
     public int id = 0;
@@ -193,7 +195,7 @@ public class LoginRegister extends JFrame implements ActionListener {
         private JTextField codigo, item, itemD, codigoD;
         public int isbn;
         public int codigoAudio;
-
+        public int codigoR;
 
         JFrame frameLocar2 = new JFrame();
         JFrame frameLocarA = new JFrame();
@@ -504,7 +506,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                             if (audio instanceof audiobook) {
                                 JLabel tituloLabel3 = new JLabel("Título: " + audio.getTitulo());
                                 JLabel codigoLabel = new JLabel("Codigo do áudio: " + audio.getAudio());
-                                JLabel qntdLabel3 = new JLabel("Duracao em min: \n" + audio.getDuracao());
+                                JLabel qntdLabel3 = new JLabel("Quantidade: \n" + audio.getQnt_disp());
                                 // adicionar componentes ao painel central
                                 panel4.add(tituloLabel3);
                                 panel4.add(codigoLabel);
@@ -586,7 +588,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                                             JOptionPane.showMessageDialog(null, "Audiobook indisponível, tente novamente em outro momento.");
                                             break;
                                         } else {
-                                            int quantidadeA = audiobook2.get(k).getQnt_disp();
+                                            int quantidadeA = audiobook2.get(k).getQnt_disp() - 1;
                                             audiobook2.set(k,
                                             new audiobook(audiobook2.get(k).getTitulo(), audiobook2.get(k).getAutor(), audiobook2.get(k).getDuracao(), quantidadeA, audiobook2.get(k).getGenero(), codigoAudio));
                                             JOptionPane.showMessageDialog(null, "Parabéns, você conseguiu locar um audiobook!");
@@ -637,7 +639,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                                             break;
                                         } else {
                                             audiobook2.set(k,
-                                            new audiobook(audiobook2.get(k).getTitulo(), audiobook2.get(k).getAutor(), audiobook2.get(k).getDuracao(), audiobook2.get(k).getQnt_disp(), audiobook2.get(k).getGenero(), codigoAudio));
+                                            new audiobook(audiobook2.get(k).getTitulo(), audiobook2.get(k).getAutor(), audiobook2.get(k).getDuracao(), audiobook2.get(k).getQnt_disp() - 1, audiobook2.get(k).getGenero(), codigoAudio));
                                             JOptionPane.showMessageDialog(null, "Parabéns, você conseguiu locar um audiobook!");
                                             id_userAudio.add(index_user);
                                             audio_locado.add(codigoAudio);
@@ -1132,15 +1134,6 @@ public class LoginRegister extends JFrame implements ActionListener {
                 }
             }
 
-            else if (e.getSource() == remover_itens){
-                //ESTOU A FAZER
-                    
-            }
-
-            else if (e.getSource() == livros_devolvidos){
-                auxteste2 = 0;
-                    
-            }
 
             else if(e.getSource() == cadastros){
                 auxteste2 = 0;
@@ -1306,11 +1299,6 @@ public class LoginRegister extends JFrame implements ActionListener {
                     }
                 }
             }
-
-
-
-
-
 
         }
     }
