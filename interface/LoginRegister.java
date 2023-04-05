@@ -1190,7 +1190,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                         int slotsA = Integer.parseInt(slotsField.getText());
                         int quantidadeA = Integer.parseInt(quantidadeField.getText());
                         utensilios.add(new apoio_livros(marcaA, slotsA, quantidadeA));
-                        JOptionPane.showMessageDialog(null, "Marca texto adicionado!");
+                        JOptionPane.showMessageDialog(null, "Apoio para Livros adicionado!");
                     }
                 }
                 }
