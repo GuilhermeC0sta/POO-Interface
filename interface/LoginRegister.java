@@ -869,7 +869,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                     public void actionPerformed(ActionEvent e) {
                         if(auxteste == 0){
                             auxteste = 1;
-                            JPanel panelUten = new JPanel(new GridLayout(4, 2));
+                            JPanel panelUten = new JPanel(new GridLayout(0, 4));
                             JFrame frameUten = new JFrame();
                             frameUten.setSize(400, 400);
                             frameUten.add(panelUten);
@@ -911,7 +911,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                     public void actionPerformed(ActionEvent e) {
                         if(auxteste2 == 0){
                             auxteste2 = 1;
-                            JPanel panelUten = new JPanel(new GridLayout(4, 2));
+                            JPanel panelUten = new JPanel(new GridLayout(0, 4));
                             JFrame frameUten = new JFrame();
                             frameUten.setSize(400, 400);
                             frameUten.add(panelUten);
