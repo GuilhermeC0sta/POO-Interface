@@ -29,7 +29,7 @@ public class LoginRegister extends JFrame implements ActionListener {
     public int auxteste2 = 0;
     public int multaalarme = 0;
     public int testemultas = 0;
-    
+
     private JButton login, register;
     private JTextField usuario, senha;
 
@@ -63,9 +63,8 @@ public class LoginRegister extends JFrame implements ActionListener {
         add(panel);
         setSize(550, 400);
         setVisible(true);
-        
-    }
 
+    }
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == login) {
@@ -249,7 +248,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                 buttonPGM.addActionListener(this);
                 buttonPGM.setAlignmentX(Component.CENTER_ALIGNMENT);
                 
-                postitbutton = new JButton("Mostrar todos os postits");
+                postitbutton = new JButton("Mostrar utensilios em geral");
                 postitbutton.setPreferredSize(botaoDimensao);
                 postitbutton.setMaximumSize(botaoDimensao);
                 postitbutton.setMinimumSize(botaoDimensao);
@@ -824,52 +823,12 @@ public class LoginRegister extends JFrame implements ActionListener {
                 postitbutton.setAlignmentX(Component.CENTER_ALIGNMENT);
                 apoio_livrosbutton.setAlignmentX(Component.CENTER_ALIGNMENT);
                 frameUtensilio.setVisible(true);
-            
-                postitbutton.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        if(auxteste3 == 0){
-                            auxteste3 = 1;
-                            JPanel panelUten = new JPanel(new GridLayout(0, 4));
-                            JFrame frameUten = new JFrame();
-                            frameUten.setSize(400, 400);
-                            frameUten.add(panelUten);
-                            frameUten.setVisible(true);
-                            panelUten.removeAll(); // remove todos os componentes do painel
-                            
-                            for (utensilios utensi : utensilios) {
-                                if (utensi instanceof postit) {
-                                    JLabel corlabel = new JLabel("Cor: " + utensi.getCor());
-                                    JLabel marcalabel = new JLabel("ISBN: " + utensi.getMarca());
-                                    JLabel qntdLabel = new JLabel("Quantidade: \n" + utensi.getQuantidade());
-                                    // adicionar componentes ao painel central
-                                    panelUten.add(corlabel);
-                                    panelUten.add(marcalabel);
-                                    panelUten.add(qntdLabel);
-                                }
-                            }
-                        
-                            panelUten.revalidate();
-                            panelUten.repaint();
-                            frameUten.revalidate(); // Atualiza o layout da janela
-                        
-                            // adiciona o WindowListener para a janela
-                            frameUten.addWindowListener(new WindowAdapter() {
-                                public void windowClosing(WindowEvent e) {
-                                    frameUten.dispose(); // apaga a janela
-                                }
-                            });   
-                        }
-                        auxteste3 = 0;
-                        auxteste2 = 0;
-                        auxteste = 0; 
-                    }
-                });
-            
+                     
                 marca_textobutton.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         if(auxteste == 0){
                             auxteste = 1;
-                            JPanel panelUten = new JPanel(new GridLayout(0, 4));
+                            JPanel panelUten = new JPanel(new GridLayout(0, 1));
                             JFrame frameUten = new JFrame();
                             frameUten.setSize(400, 400);
                             frameUten.add(panelUten);
@@ -877,17 +836,9 @@ public class LoginRegister extends JFrame implements ActionListener {
                             panelUten.removeAll(); // remove todos os componentes do painel
                             
                             for (utensilios utensi : utensilios) {
-                                if (utensi instanceof marca_texto) {
-                                        JLabel corlabel = new JLabel("Cor: " + utensi.getCor());
-                                        JLabel marcalabel = new JLabel("ISBN: " + utensi.getMarca());
-                                        JLabel qntdLabel = new JLabel("Quantidade: \n" + utensi.getQuantidade());
-                                        JLabel combrilhoLabel = new JLabel("Brilho: \n" + utensi.getBrilho());
+                                        JLabel corlabel = new JLabel( "" + utensi.getInformacao() );
                                         // adicionar componentes ao painel central
                                         panelUten.add(corlabel);
-                                        panelUten.add(marcalabel);
-                                        panelUten.add(qntdLabel);
-                                        panelUten.add(combrilhoLabel);
-                                    }
                                 }
                             
                             panelUten.revalidate();
@@ -919,15 +870,13 @@ public class LoginRegister extends JFrame implements ActionListener {
                             panelUten.removeAll(); // remove todos os componentes do painel
                             
                             for (utensilios utensi : utensilios) {
-                                if (utensi instanceof apoio_livros) {
-                                    JLabel slotslabel = new JLabel("Cor: " + utensi.getSlots());
+                                    JLabel slotslabel = new JLabel("Cor: " + ((apoio_livros) utensi).getSlots());
                                     JLabel marcalabel = new JLabel("Marca: " + utensi.getMarca());
                                     JLabel qntdLabel = new JLabel("Quantidade: \n" + utensi.getQuantidade());
                                     // adicionar componentes ao painel central
                                     panelUten.add(slotslabel);
                                     panelUten.add(marcalabel);
                                     panelUten.add(qntdLabel);
-                                }
                             }
                         
                             panelUten.revalidate();
@@ -948,382 +897,391 @@ public class LoginRegister extends JFrame implements ActionListener {
                 });
             }
 
-            else if (e.getSource() == vermultas) {
-                auxteste3 = 0;
-                if (auxteste3 == 0) {
-                    auxteste3 = 1;
-                    JPanel panelMP = new JPanel();
-                    JFrame frameMP = new JFrame();
-                    frameMP.setSize(400, 400);
-                    frameMP.add(panelMP);
-                    panelMP.removeAll();
-                    multaalarme = 0; // redefine a variável multaalarme para 0
-                    
+    else if(e.getSource()==vermultas)
+    {
+        auxteste3 = 0;
+        if (auxteste3 == 0) {
+            auxteste3 = 1;
+            JPanel panelMP = new JPanel();
+            JFrame frameMP = new JFrame();
+            frameMP.setSize(400, 400);
+            frameMP.add(panelMP);
+            panelMP.removeAll();
+            multaalarme = 0; // redefine a variável multaalarme para 0
+
+            for (int j = 0; j < id_multapendente.size(); j++) {
+                if (id_multapendente.get(j) == index_user) {
+                    multaalarme = 1;
+                    JLabel multalabel = new JLabel("Você possui uma multa não paga");
+                    panelMP.add(multalabel);
+                }
+            }
+            if (multaalarme == 0) {
+                JOptionPane.showMessageDialog(null, "você não possui multas pendentes");
+            }
+            panelMP.repaint();
+            frameMP.revalidate();
+
+            frameMP.addWindowListener(new WindowAdapter() {
+                public void windowClosing(WindowEvent e) {
+                    frameMP.dispose();
+                }
+            });
+
+            frameMP.setVisible(true);
+        } else {
+            frameMultaPendente.setSize(400, 400);
+            frameMultaPendente.add(panel6);
+            frameMultaPendente.setVisible(true);
+        }
+    }
+
+    else if(e.getSource()==pagarmultas)
+    {
+        testemultas = 0;
+        auxteste3 = 0;
+        if (auxteste3 == 0) {
+            auxteste3 = 1;
+            JPanel panelMP = new JPanel(new GridLayout(0, 1));
+            JFrame frameMP = new JFrame();
+            frameMP.setSize(400, 400);
+            frameMP.add(panelMP);
+            panelMP.removeAll();
+            buttonPGM.setSize(10, 10);
+            multaalarme = 0; // redefine a variável multaalarme para 0
+
+            for (int j = 0; j < id_multapendente.size(); j++) {
+                if (id_multapendente.get(j) == index_user) {
+                    multaalarme = 1;
+                    JLabel multalabel = new JLabel("Você possui uma multa não paga");
+                    panelMP.add(multalabel);
+                }
+            }
+            if (multaalarme == 0) {
+                JOptionPane.showMessageDialog(null, "você não possui multas pendentes");
+            }
+            panelMP.repaint();
+            frameMP.revalidate();
+            frameMP.addWindowListener(new WindowAdapter() {
+                public void windowClosing(WindowEvent e) {
+                    frameMP.dispose();
+                }
+            });
+            for (int j = 0; j < id_multapendente.size(); j++) {
+                if (id_multapendente.get(j) == index_user) {
+                    testemultas += 1;
+                }
+            }
+            if (testemultas != 0) {
+                panelMP.add(buttonPGM);
+            } else {
+                JLabel multalabel2 = new JLabel("Você pagou todas suas multas ou não possui multas");
+                panelMP.add(multalabel2);
+            }
+            buttonPGM.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
                     for (int j = 0; j < id_multapendente.size(); j++) {
                         if (id_multapendente.get(j) == index_user) {
-                            multaalarme = 1;
-                            JLabel multalabel = new JLabel("Você possui uma multa não paga");
-                            panelMP.add(multalabel);
+                            id_multapaga.add(index_user);
+                            id_multapendente.remove(j);
+                            JOptionPane.showMessageDialog(null, "você pagou uma de suas multas");
                         }
                     }
-                    if (multaalarme == 0) {
-                        JOptionPane.showMessageDialog(null, "você não possui multas pendentes");
-                    }
-                    panelMP.repaint();
-                    frameMP.revalidate();
-                    
-                    frameMP.addWindowListener(new WindowAdapter() {
-                        public void windowClosing(WindowEvent e) {
-                            frameMP.dispose();
-                        }
-                    });
-                    
-                    frameMP.setVisible(true);
-                } else {
-                    frameMultaPendente.setSize(400, 400);
-                    frameMultaPendente.add(panel6);
-                    frameMultaPendente.setVisible(true);
+                    frameMP.dispose();
+                }
+            });
+            frameMP.setVisible(true);
+
+        } else {
+            frameMultaPendente.setSize(400, 400);
+            frameMultaPendente.add(panel6);
+            frameMultaPendente.setVisible(true);
+        }
+
+    }
+
+    else if(e.getSource()==add_itens)
+    {
+        String[] opcoes = { "Livro", "Audiobook", "Utensilio" };
+        int opcaoSelecionada = JOptionPane.showOptionDialog(null, "Selecione o tipo de item a adicionar:",
+                "Adicionar Itens", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoes, opcoes[0]);
+
+        if (opcaoSelecionada == 0) { // Clicou em "Livro"
+            JTextField tituloAdd = new JTextField();
+            JTextField autorAdd = new JTextField();
+            JTextField isbnAdd = new JTextField();
+            JTextField generoAdd = new JTextField();
+            JTextField quantidadeAdd = new JTextField();
+            JPanel panelItens = new JPanel(new GridLayout(0, 1));
+
+            panelItens.add(new JLabel("Titulo:"));
+            panelItens.add(tituloAdd);
+            panelItens.add(new JLabel("Autor:"));
+            panelItens.add(autorAdd);
+            panelItens.add(new JLabel("ISBN:"));
+            panelItens.add(isbnAdd);
+            panelItens.add(new JLabel("Gênero:"));
+            panelItens.add(generoAdd);
+            panelItens.add(new JLabel("Quantidade:"));
+            panelItens.add(quantidadeAdd);
+
+            int result = JOptionPane.showConfirmDialog(null, panelItens, "Adicionar Livro",
+                    JOptionPane.OK_CANCEL_OPTION);
+            int isbnAddItem = Integer.parseInt(isbnAdd.getText());
+            int quantidadeAddItem = Integer.parseInt(quantidadeAdd.getText());
+
+            if (result == JOptionPane.OK_OPTION) {
+                livros.add(new Livro(tituloAdd.getText(), autorAdd.getText(), isbnAddItem, quantidadeAddItem,
+                        generoAdd.getText()));
+                JOptionPane.showMessageDialog(null, "Livro adicionado!");
+            }
+        } else if (opcaoSelecionada == 1) { // Clicou em "Audiobook"
+            JTextField tituloAdd = new JTextField();
+            JTextField autorAdd = new JTextField();
+            JTextField duracaoAdd = new JTextField();
+            JTextField generoAdd = new JTextField();
+            JTextField quantidadeAdd = new JTextField();
+            JTextField idAudioAdd = new JTextField();
+
+            JPanel panelItens = new JPanel(new GridLayout(0, 1));
+
+            panelItens.add(new JLabel("Titulo:"));
+            panelItens.add(tituloAdd);
+            panelItens.add(new JLabel("Autor:"));
+            panelItens.add(autorAdd);
+            panelItens.add(new JLabel("Duração:"));
+            panelItens.add(duracaoAdd);
+            panelItens.add(new JLabel("Gênero:"));
+            panelItens.add(generoAdd);
+            panelItens.add(new JLabel("Quantidade:"));
+            panelItens.add(quantidadeAdd);
+            panelItens.add(new JLabel("ID do Áudio:"));
+            panelItens.add(idAudioAdd);
+
+            int result = JOptionPane.showConfirmDialog(null, panelItens, "Adicionar Audiobook",
+                    JOptionPane.OK_CANCEL_OPTION);
+
+            int duracaoAddItem = Integer.parseInt(duracaoAdd.getText());
+            int quantidadeAddItem = Integer.parseInt(quantidadeAdd.getText());
+            int idAudioAddItem = Integer.parseInt(idAudioAdd.getText());
+
+            if (result == JOptionPane.OK_OPTION) {
+                audiobook2.add(new audiobook(tituloAdd.getText(), autorAdd.getText(), duracaoAddItem, quantidadeAddItem,
+                        generoAdd.getText(), idAudioAddItem));
+                JOptionPane.showMessageDialog(null, "Audio adicionado!");
+            }
+        }
+
+        else if (opcaoSelecionada == 2) { // Clicou em "Utensilio"
+            String[] options = { "Postit", "Marca texto", "Apoio de livros" };
+            int utensilioOption = JOptionPane.showOptionDialog(null, "Escolha o utensílio a adicionar:",
+                    "Adicionar Utensílio", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options,
+                    options[0]);
+
+            if (utensilioOption == 0) { // Adicionar Postit
+                JTextField corField = new JTextField();
+                JTextField marcaField = new JTextField();
+                JTextField quantidadeField = new JTextField();
+                JPanel panelP = new JPanel(new GridLayout(0, 1));
+                panelP.add(new JLabel("Cor:"));
+                panelP.add(corField);
+                panelP.add(new JLabel("Marca:"));
+                panelP.add(marcaField);
+                panelP.add(new JLabel("Quantidade:"));
+                panelP.add(quantidadeField);
+                int result = JOptionPane.showConfirmDialog(null, panelP, "Adicionar Postit",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+                if (result == JOptionPane.OK_OPTION) {
+                    // Adicionar postit ao inventário com os dados preenchidos
+                    String corP = corField.getText();
+                    String marcaP = marcaField.getText();
+                    int quantidadeP = Integer.parseInt(quantidadeField.getText());
+                    utensilios.add(new postit(marcaP, corP, quantidadeP));
+                    JOptionPane.showMessageDialog(null, "Postit adiconado!");
+                }
+            } else if (utensilioOption == 1) { // Adicionar Marca Texto
+                JTextField marcaField = new JTextField();
+                JTextField corField = new JTextField();
+                JTextField brilhoField = new JTextField();
+                JTextField quantidadeField = new JTextField();
+                JPanel panelM = new JPanel(new GridLayout(0, 1));
+
+                panelM.add(new JLabel("Marca:"));
+                panelM.add(marcaField);
+                panelM.add(new JLabel("Cor:"));
+                panelM.add(corField);
+                panelM.add(new JLabel("Brilho:"));
+                panelM.add(brilhoField);
+                panelM.add(new JLabel("Quantidade:"));
+                panelM.add(quantidadeField);
+                int result = JOptionPane.showConfirmDialog(null, panelM, "Adicionar Marca Texto",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+                if (result == JOptionPane.OK_OPTION) {
+                    // Adicionar marca texto ao inventário com os dados preenchidos
+                    String marcaM = marcaField.getText();
+                    String corM = corField.getText();
+                    String brilhoM = brilhoField.getText();
+                    int quantidadeM = Integer.parseInt(quantidadeField.getText());
+                    utensilios.add(new marca_texto(marcaM, corM, brilhoM, quantidadeM));
+                    JOptionPane.showMessageDialog(null, "Marca texto adicionado!");
+                }
+            } else if (utensilioOption == 2) { // Adicionar Apoio de Livros
+                JTextField marcaField = new JTextField();
+                JTextField slotsField = new JTextField();
+                JTextField quantidadeField = new JTextField();
+                JPanel panel = new JPanel(new GridLayout(0, 1));
+                panel.add(new JLabel("Marca:"));
+                panel.add(marcaField);
+                panel.add(new JLabel("Slots:"));
+                panel.add(slotsField);
+                panel.add(new JLabel("Quantidade:"));
+                panel.add(quantidadeField);
+                int result = JOptionPane.showConfirmDialog(null, panel, "Adicionar Apoio de Livros",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+                if (result == JOptionPane.OK_OPTION) {
+                    // Adicionar apoio de livros ao inventário com os dados preenchidos
+                    String marcaA = marcaField.getText();
+                    int slotsA = Integer.parseInt(slotsField.getText());
+                    int quantidadeA = Integer.parseInt(quantidadeField.getText());
+                    utensilios.add(new apoio_livros(marcaA, slotsA, quantidadeA));
+                    JOptionPane.showMessageDialog(null, "Apoio para Livros adicionado!");
                 }
             }
-            
-            else if(e.getSource() == pagarmultas){
-                testemultas = 0;
-                auxteste3 = 0;
-                if (auxteste3 == 0) {
-                    auxteste3 = 1;
-                    JPanel panelMP = new JPanel(new GridLayout(0,1));
-                    JFrame frameMP = new JFrame();
-                    frameMP.setSize(400, 400);
-                    frameMP.add(panelMP);
-                    panelMP.removeAll();
-                    buttonPGM.setSize(10,10);
-                    multaalarme = 0; // redefine a variável multaalarme para 0
+        }
+    }
 
-                    for (int j = 0; j < id_multapendente.size(); j++) {
-                        if (id_multapendente.get(j) == index_user) {
-                            multaalarme = 1;
-                            JLabel multalabel = new JLabel("Você possui uma multa não paga");
-                            panelMP.add(multalabel);
-                        }
-                    }
-                    if (multaalarme == 0) {
-                        JOptionPane.showMessageDialog(null, "você não possui multas pendentes");
-                    }
-                    panelMP.repaint();
-                    frameMP.revalidate();
-                    frameMP.addWindowListener(new WindowAdapter() {
-                        public void windowClosing(WindowEvent e) {
-                            frameMP.dispose();
-                        }
-                    });
-                    for (int j = 0; j < id_multapendente.size(); j++) {
-                        if (id_multapendente.get(j) == index_user) {
-                            testemultas +=1;
-                        }
-                    }
-                    if(testemultas != 0){
-                        panelMP.add(buttonPGM);
-                    }
-                    else{
-                        JLabel multalabel2 = new JLabel("Você pagou todas suas multas ou não possui multas");
-                        panelMP.add(multalabel2);
-                    }
-                    buttonPGM.addActionListener(new ActionListener(){
-                        public void actionPerformed(ActionEvent e){
-                            for (int j = 0; j < id_multapendente.size(); j++) {
-                                if (id_multapendente.get(j) == index_user) {
-                                    id_multapaga.add(index_user);
-                                    id_multapendente.remove(j);
-                                    JOptionPane.showMessageDialog(null, "você pagou uma de suas multas");
-                                }
-                            }
-                            frameMP.dispose();
-                        }
-                    });
-                    frameMP.setVisible(true);
-                    
-                } else {
-                    frameMultaPendente.setSize(400, 400);
-                    frameMultaPendente.add(panel6);
-                    frameMultaPendente.setVisible(true);
-                }
-                
+    else if(e.getSource()==cadastros)
+    {
+        auxteste2 = 0;
+        if (auxteste2 == 0) {
+            auxteste2 = 1;
+            JPanel panelCadastros = new JPanel(new GridLayout(0, 4));
+            JFrame frameCadastros = new JFrame();
+            frameCadastros.setSize(400, 400);
+            frameCadastros.add(panelCadastros);
+            frameCadastros.setVisible(true);
+            panelCadastros.removeAll(); // remove todos os componentes do painel
+
+            for (conta user : contas) {
+                    JLabel NomeLabel = new JLabel("Nome: " + user.getNome());
+                    JLabel EmailLabel = new JLabel("Email: " + user.getEmail());
+                    JLabel planoLabel = new JLabel("Plano: \n" + user.getPlano());
+                    panelCadastros.add(NomeLabel);
+                    panelCadastros.add(EmailLabel);
+                    panelCadastros.add(planoLabel);
+                    panelCadastros.add(Box.createRigidArea(new Dimension(0, 10)));
             }
 
-            else if (e.getSource() == add_itens){
-                String[] opcoes = {"Livro", "Audiobook", "Utensilio"};
-                int opcaoSelecionada = JOptionPane.showOptionDialog(null, "Selecione o tipo de item a adicionar:", "Adicionar Itens", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoes, opcoes[0]);
-                
-                if (opcaoSelecionada == 0){ // Clicou em "Livro"
-                    JTextField tituloAdd = new JTextField();
-                    JTextField autorAdd = new JTextField();
-                    JTextField isbnAdd = new JTextField();
-                    JTextField generoAdd = new JTextField();
-                    JTextField quantidadeAdd = new JTextField();
-                    JPanel panelItens = new JPanel(new GridLayout(0, 1));
+            panelCadastros.revalidate();
+            panelCadastros.repaint();
+            frameCadastros.revalidate(); // Atualiza o layout da janela
 
-                    panelItens.add(new JLabel("Titulo:"));
-                    panelItens.add(tituloAdd);
-                    panelItens.add(new JLabel("Autor:"));
-                    panelItens.add(autorAdd);
-                    panelItens.add(new JLabel("ISBN:"));
-                    panelItens.add(isbnAdd);
-                    panelItens.add(new JLabel("Gênero:"));
-                    panelItens.add(generoAdd);
-                    panelItens.add(new JLabel("Quantidade:"));
-                    panelItens.add(quantidadeAdd);
-
-                    int result = JOptionPane.showConfirmDialog(null, panelItens, "Adicionar Livro", JOptionPane.OK_CANCEL_OPTION);
-                    int isbnAddItem = Integer.parseInt(isbnAdd.getText());
-                    int quantidadeAddItem = Integer.parseInt(quantidadeAdd.getText());
-                    
-                    if (result == JOptionPane.OK_OPTION){
-                        livros.add(new Livro(tituloAdd.getText(), autorAdd.getText(), isbnAddItem, quantidadeAddItem, generoAdd.getText()));
-                        JOptionPane.showMessageDialog(null, "Livro adicionado!");
-                    }
+            // adiciona o WindowListener para a janela
+            frameCadastros.addWindowListener(new WindowAdapter() {
+                public void windowClosing(WindowEvent e) {
+                    frameCadastros.dispose(); // apaga a janela
                 }
-                else if (opcaoSelecionada == 1){ // Clicou em "Audiobook"
-                    JTextField tituloAdd = new JTextField();
-                    JTextField autorAdd = new JTextField();
-                    JTextField duracaoAdd = new JTextField();
-                    JTextField generoAdd = new JTextField();
-                    JTextField quantidadeAdd = new JTextField();
-                    JTextField idAudioAdd = new JTextField();
+            });
+        }
+    }
 
-                    JPanel panelItens = new JPanel(new GridLayout(0, 1));
+    else if(e.getSource()==buttonconfirmar)
+    {
+        auxteste2 = 0;
+        if (auxteste2 == 0) {
+            JPanel panelCP = new JPanel(new GridLayout(0, 1));
+            JFrame frameCP = new JFrame();
+            frameCP.setSize(400, 400);
+            frameCP.add(panelCP);
+            panelCP.removeAll();
+            buttonCP.setSize(10, 10);
+            multaalarme = 0; // redefine a variável multaalarme para 0
 
-                    panelItens.add(new JLabel("Titulo:"));
-                    panelItens.add(tituloAdd);
-                    panelItens.add(new JLabel("Autor:"));
-                    panelItens.add(autorAdd);
-                    panelItens.add(new JLabel("Duração:"));
-                    panelItens.add(duracaoAdd);
-                    panelItens.add(new JLabel("Gênero:"));
-                    panelItens.add(generoAdd);
-                    panelItens.add(new JLabel("Quantidade:"));
-                    panelItens.add(quantidadeAdd);
-                    panelItens.add(new JLabel("ID do Áudio:"));
-                    panelItens.add(idAudioAdd);
-
-                    int result = JOptionPane.showConfirmDialog(null, panelItens, "Adicionar Audiobook", JOptionPane.OK_CANCEL_OPTION);
-                    
-                    int duracaoAddItem = Integer.parseInt(duracaoAdd.getText());
-                    int quantidadeAddItem = Integer.parseInt(quantidadeAdd.getText());
-                    int idAudioAddItem = Integer.parseInt(idAudioAdd.getText());
-                    
-
-                    if (result == JOptionPane.OK_OPTION){
-                        audiobook2.add(new audiobook(tituloAdd.getText(), autorAdd.getText(), duracaoAddItem, quantidadeAddItem, generoAdd.getText(), idAudioAddItem));
-                        JOptionPane.showMessageDialog(null, "Audio adicionado!");
-                    }
-                }
-
-                else if (opcaoSelecionada == 2){ // Clicou em "Utensilio"
-                String[] options = {"Postit", "Marca texto", "Apoio de livros"};
-                int utensilioOption = JOptionPane.showOptionDialog(null, "Escolha o utensílio a adicionar:", "Adicionar Utensílio", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
-            
-                if(utensilioOption == 0){ // Adicionar Postit
-                    JTextField corField = new JTextField();
-                    JTextField marcaField = new JTextField();
-                    JTextField quantidadeField = new JTextField();
-                    JPanel panelP = new JPanel(new GridLayout(0, 1));
-                    panelP.add(new JLabel("Cor:"));
-                    panelP.add(corField);
-                    panelP.add(new JLabel("Marca:"));
-                    panelP.add(marcaField);
-                    panelP.add(new JLabel("Quantidade:"));
-                    panelP.add(quantidadeField);
-                    int result = JOptionPane.showConfirmDialog(null, panelP, "Adicionar Postit", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-            
-                    if(result == JOptionPane.OK_OPTION){
-                        // Adicionar postit ao inventário com os dados preenchidos
-                        String corP = corField.getText();
-                        String marcaP = marcaField.getText();
-                        int quantidadeP = Integer.parseInt(quantidadeField.getText());
-                        utensilios.add(new postit(marcaP, corP, quantidadeP));
-                        JOptionPane.showMessageDialog(null, "Postit adiconado!");
-                    }
-                }
-                else if(utensilioOption == 1){ // Adicionar Marca Texto
-                    JTextField marcaField = new JTextField();
-                    JTextField corField = new JTextField();
-                    JTextField brilhoField = new JTextField();
-                    JTextField quantidadeField = new JTextField();
-                    JPanel panelM = new JPanel(new GridLayout(0, 1));
-
-                    panelM.add(new JLabel("Marca:"));
-                    panelM.add(marcaField);
-                    panelM.add(new JLabel("Cor:"));
-                    panelM.add(corField);
-                    panelM.add(new JLabel("Brilho:"));
-                    panelM.add(brilhoField);
-                    panelM.add(new JLabel("Quantidade:"));
-                    panelM.add(quantidadeField);
-                    int result = JOptionPane.showConfirmDialog(null, panelM, "Adicionar Marca Texto", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-            
-                    if(result == JOptionPane.OK_OPTION){
-                        // Adicionar marca texto ao inventário com os dados preenchidos
-                        String marcaM = marcaField.getText();
-                        String corM = corField.getText();
-                        String brilhoM = brilhoField.getText();
-                        int quantidadeM = Integer.parseInt(quantidadeField.getText());
-                        utensilios.add(new marca_texto(marcaM, corM, brilhoM, quantidadeM));
-                        JOptionPane.showMessageDialog(null, "Marca texto adicionado!");
-                    }
-                }
-                else if(utensilioOption == 2){ // Adicionar Apoio de Livros
-                    JTextField marcaField = new JTextField();
-                    JTextField slotsField = new JTextField();
-                    JTextField quantidadeField = new JTextField();
-                    JPanel panel = new JPanel(new GridLayout(0, 1));
-                    panel.add(new JLabel("Marca:"));
-                    panel.add(marcaField);
-                    panel.add(new JLabel("Slots:"));
-                    panel.add(slotsField);
-                    panel.add(new JLabel("Quantidade:"));
-                    panel.add(quantidadeField);
-                    int result = JOptionPane.showConfirmDialog(null, panel, "Adicionar Apoio de Livros", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-            
-                    if(result == JOptionPane.OK_OPTION){
-                        // Adicionar apoio de livros ao inventário com os dados preenchidos
-                        String marcaA = marcaField.getText();
-                        int slotsA = Integer.parseInt(slotsField.getText());
-                        int quantidadeA = Integer.parseInt(quantidadeField.getText());
-                        utensilios.add(new apoio_livros(marcaA, slotsA, quantidadeA));
-                        JOptionPane.showMessageDialog(null, "Apoio para Livros adicionado!");
-                    }
-                }
-                }
+            for (int j = 0; j < id_multapaga.size(); j++) {
+                multaalarme = 1;
+                JLabel multalabel = new JLabel("O Usuario: " + id_multapaga.get(j) + " pagou uma multa");
+                panelCP.add(multalabel);
             }
-
-            else if(e.getSource() == cadastros){
-                auxteste2 = 0;
-                if(auxteste2 == 0){
-                    auxteste2 = 1;
-                    JPanel panelCadastros = new JPanel(new GridLayout(0, 4));
-                    JFrame frameCadastros = new JFrame();
-                    frameCadastros.setSize(400, 400);
-                    frameCadastros.add(panelCadastros);
-                    frameCadastros.setVisible(true);
-                    panelCadastros.removeAll(); // remove todos os componentes do painel
-                    
-                    for (conta user : contas) {
-                        if (user instanceof conta) {
-                            JLabel NomeLabel = new JLabel("Nome: " + user.getNome());
-                            JLabel EmailLabel = new JLabel("Email: " + user.getEmail());
-                            JLabel planoLabel = new JLabel("Plano: \n" + user.getPlano());
-                            panelCadastros.add(NomeLabel);
-                            panelCadastros.add(EmailLabel);
-                            panelCadastros.add(planoLabel);
-                            panelCadastros.add(Box.createRigidArea(new Dimension(0, 10)));
-                        }
-                    }
-                
-                    panelCadastros.revalidate();
-                    panelCadastros.repaint();
-                    frameCadastros.revalidate(); // Atualiza o layout da janela
-                
-                    // adiciona o WindowListener para a janela
-                    frameCadastros.addWindowListener(new WindowAdapter() {
-                        public void windowClosing(WindowEvent e) {
-                            frameCadastros.dispose(); // apaga a janela
-                        }
-                    });
-                }
+            if (multaalarme == 0) {
+                JOptionPane.showMessageDialog(null, "Não há multas para serem pagas");
             }
-
-            else if(e.getSource() == buttonconfirmar){
-                auxteste2 = 0;
-                if(auxteste2 == 0){
-                    JPanel panelCP = new JPanel(new GridLayout(0,1));
-                    JFrame frameCP = new JFrame();
-                    frameCP.setSize(400, 400);
-                    frameCP.add(panelCP);
-                    panelCP.removeAll();
-                    buttonCP.setSize(10,10);
-                    multaalarme = 0; // redefine a variável multaalarme para 0
-                
+            panelCP.repaint();
+            frameCP.revalidate();
+            frameCP.addWindowListener(new WindowAdapter() {
+                public void windowClosing(WindowEvent e) {
+                    frameCP.dispose();
+                }
+            });
+            if (id_multapaga.size() != 0) {
+                panelCP.add(buttonCP);
+            } else {
+                JLabel multalabel2 = new JLabel("Não há multas a serem confirmadas");
+                panelCP.add(multalabel2);
+            }
+            buttonCP.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
                     for (int j = 0; j < id_multapaga.size(); j++) {
-                        multaalarme = 1;
-                        JLabel multalabel = new JLabel("O Usuario: " + id_multapaga.get(j) + " pagou uma multa");
-                        panelCP.add(multalabel);
+                        id_multapaga.remove(j);
+                        JOptionPane.showMessageDialog(null, "voce confirmou o pagamento de uma das multas");
                     }
-                    if (multaalarme == 0) {
-                        JOptionPane.showMessageDialog(null, "Não há multas para serem pagas");
-                    }
-                    panelCP.repaint();
-                    frameCP.revalidate();
-                    frameCP.addWindowListener(new WindowAdapter() {
-                        public void windowClosing(WindowEvent e) {
-                            frameCP.dispose();
-                        }
-                    });
-                    if(id_multapaga.size() != 0){
-                        panelCP.add(buttonCP);
-                    }
-                    else{
-                        JLabel multalabel2 = new JLabel("Não há multas a serem confirmadas");
-                        panelCP.add(multalabel2);
-                    }
-                    buttonCP.addActionListener(new ActionListener(){
-                        public void actionPerformed(ActionEvent e){
-                            for (int j = 0; j < id_multapaga.size(); j++) {
-                                id_multapaga.remove(j);
-                                JOptionPane.showMessageDialog(null, "voce confirmou o pagamento de uma das multas");
-                            }
-                            frameCP.dispose();
-                        }
-                    });
-                    frameCP.setVisible(true);
-                    
-                } else {
-                    frameMultaPendente.setSize(400, 400);
-                    frameMultaPendente.add(panel6);
-                    frameMultaPendente.setVisible(true);
+                    frameCP.dispose();
                 }
+            });
+            frameCP.setVisible(true);
+
+        } else {
+            frameMultaPendente.setSize(400, 400);
+            frameMultaPendente.add(panel6);
+            frameMultaPendente.setVisible(true);
+        }
+    }
+
+    else if(e.getSource()==remover_itens)
+    {
+
+        JTextField itemFieldR = new JTextField();
+        JTextField codigoFieldR = new JTextField();
+
+        JPanel panelRemover = new JPanel();
+        panelRemover.setLayout(new GridLayout(3, 2)); // GridLayout com 3 linhas e 2 colunas
+        panelRemover.add(new JLabel("Digite livro/audiobook para remover um dos itens"));
+        panelRemover.add(itemFieldR);
+        panelRemover.add(new JLabel("Digite o codigo do livro/audiobook:"));
+        panelRemover.add(codigoFieldR);
+
+        int resultRemover = JOptionPane.showConfirmDialog(null, panelRemover, "Remover", JOptionPane.OK_CANCEL_OPTION);
+
+        if (resultRemover == JOptionPane.OK_OPTION) {
+            if (itemFieldR.getText().equalsIgnoreCase("livro")) {
+                isbn = Integer.parseInt(codigoFieldR.getText());
+
+                for (int k = 0; k < livros.size(); k++) {
+                    if (isbn == livros.get(k).getIsbn()) {
+                        livros.remove(k);
+                        JOptionPane.showMessageDialog(null, "Livro " + isbn + " removido!");
+                    }
+                }
+
             }
 
-            else if (e.getSource() == remover_itens){
+            else if (itemFieldR.getText().equalsIgnoreCase("audiobook")) {
+                codigoR = Integer.parseInt(codigoFieldR.getText());
 
-                JTextField itemFieldR = new JTextField();
-                JTextField codigoFieldR = new JTextField();
-
-                JPanel panelRemover = new JPanel();
-                panelRemover.setLayout(new GridLayout(3, 2)); // GridLayout com 3 linhas e 2 colunas
-                panelRemover.add(new JLabel("Digite livro/audiobook para remover um dos itens"));
-                panelRemover.add(itemFieldR);
-                panelRemover.add(new JLabel("Digite o codigo do livro/audiobook:"));
-                panelRemover.add(codigoFieldR);
-
-                int resultRemover = JOptionPane.showConfirmDialog(null, panelRemover, "Remover", JOptionPane.OK_CANCEL_OPTION);
-                
-                if (resultRemover == JOptionPane.OK_OPTION){
-                    if(itemFieldR.getText().equalsIgnoreCase("livro")){
-                        isbn = Integer.parseInt(codigoFieldR.getText());
-
-                        for (int k = 0; k < livros.size(); k++) {
-                            if (isbn == livros.get(k).getIsbn()) {
-                                livros.remove(k);
-                                JOptionPane.showMessageDialog(null, "Livro " + isbn + " removido!");
-                            }
-                        }
-                        
-                    }
-
-                    else if(itemFieldR.getText().equalsIgnoreCase("audiobook")){
-                        codigoR = Integer.parseInt(codigoFieldR.getText());
-
-                        for (int k = 0; k < audiobook2.size(); k++) {
-                            if (codigoR == audiobook2.get(k).getAudio()) {
-                                audiobook2.remove(k);
-                                JOptionPane.showMessageDialog(null, "Audiobook " + codigoR + " removido!");
-                            }
-                        }
+                for (int k = 0; k < audiobook2.size(); k++) {
+                    if (codigoR == audiobook2.get(k).getAudio()) {
+                        audiobook2.remove(k);
+                        JOptionPane.showMessageDialog(null, "Audiobook " + codigoR + " removido!");
                     }
                 }
             }
+        }
+    }
 
-            else if (e.getSource() == livros_devolvidos) {
+    else if(e.getSource()==livros_devolvidos)
+    {
                 List<Integer> ids_a_remover = new ArrayList<Integer>();
                 for (int j = 0; j < id_devolvido.size(); j++) {
                     String mensagem = "O usuário de id " + id_devolvido.get(j) + " devolveu o livro " + isbn_devolvido.get(j) + ".\nSe este livro foi devolvido, clique em OK.\nCaso contrário, clique em CANCELAR.";
@@ -1361,6 +1319,4 @@ public class LoginRegister extends JFrame implements ActionListener {
                 }
             }
 
-        }
-    }
-}
+}}}
