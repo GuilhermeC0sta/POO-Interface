@@ -635,14 +635,14 @@ public class LoginRegister extends JFrame implements ActionListener {
                                                 JOptionPane.showMessageDialog(null,
                                                         "Livro indisponível, tente novamente em outro momento.");
                                                 break;
-                                            } else {
+                                            } else if (livros.get(k).getQnt_disp() > 0) {
                                                 int quantidadeL = livros.get(k).getQnt_disp() - 1;
                                                 livros.set(k,
                                                         new Livro(livros.get(k).getTitulo(), livros.get(k).getAutor(),
                                                                 isbn, quantidadeL, livros.get(k).getGenero()));
                                                 JOptionPane.showMessageDialog(null,
                                                         "Parabéns, você conseguiu locar um livro!");
-                                                id_user.add(index_user);
+                                                id_user.add(contas.get(index_user).getId());
                                                 isbn_locado.add(isbn);
                                                 break;
                                             }
@@ -754,14 +754,12 @@ public class LoginRegister extends JFrame implements ActionListener {
                 });
             } else if (e.getSource() == devolver) {
                 // Cria caixas de texto para nome, email e bio
-                JTextField itemField2 = new JTextField();
+                JTextField itemField2 = new JTextField("livro");
                 JTextField codigoField2 = new JTextField();
 
                 // Cria um painel para as caixas de texto
                 JPanel panelDevolver = new JPanel();
                 panelDevolver.setLayout(new GridLayout(3, 2)); // GridLayout com 3 linhas e 2 colunas
-                panelDevolver.add(new JLabel("Digite livro para devolver um livro"));
-                panelDevolver.add(itemField2);
                 panelDevolver.add(new JLabel("Digite o codigo do livro:"));
                 panelDevolver.add(codigoField2);
 
@@ -770,7 +768,12 @@ public class LoginRegister extends JFrame implements ActionListener {
                         JOptionPane.OK_CANCEL_OPTION);
                 if (resultDevolver == JOptionPane.OK_OPTION) {
                     if (itemField2.getText().equalsIgnoreCase("livro")) {
-                        isbn = Integer.parseInt(codigoField2.getText());
+                        try {
+                            isbn = Integer.parseInt(codigoField2.getText());
+                        } catch (NumberFormatException ex) {
+                            JOptionPane.showMessageDialog(null, "Digite um ISBN válido no campo de código");
+                            return;
+                        }
                         for (int j = 0; j < id_user.size(); j++) {
                             if (id_user.get(j) == index_user) {
                                 if (isbn == isbn_locado.get(j)) {
@@ -781,21 +784,20 @@ public class LoginRegister extends JFrame implements ActionListener {
                                     JOptionPane.showMessageDialog(null, "Livro " + isbn + " devolvido!");
                                     for (int k = 0; k < livros.size(); k++) {
                                         if (isbn == livros.get(k).getIsbn()) {
-                                            // System.out.println(livros.get(k).getIsbn());
                                             int devolu = livros.get(k).getQnt_disp() + 1;
-                                            // System.out.println("DPS DE ADICIONAR " + devolu);
                                             livros.set(k,
                                                     new Livro(livros.get(k).getTitulo(), livros.get(k).getAutor(), isbn,
                                                             devolu, livros.get(k).getGenero()));
                                             break;
                                         }
                                     }
+                                } else if (j == id_user.size() - 1) {
+                                    JOptionPane.showMessageDialog(null, "Código ISBN não encontrado");
                                 }
                             } else if (j == id_user.size() - 1) {
                                 JOptionPane.showMessageDialog(null, "Este livro não foi locado por você");
                             }
                         }
-
                     }
                 }
             } else if (e.getSource() == editar) {
