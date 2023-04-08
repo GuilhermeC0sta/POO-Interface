@@ -194,15 +194,6 @@ public class LoginRegister extends JFrame implements ActionListener {
         return null;
     }
 
-    private conta findEmail(String usuario) {
-        for (conta contas : contas) {
-            if (contas.getEmail().equals(usuario)) {
-                return contas;
-            }
-        }
-        return null;
-    }
-
     public static boolean isEmailValid(String email) {
         String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
         Pattern pattern = Pattern.compile(regex);
@@ -809,8 +800,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                 }
             } else if (e.getSource() == editar) {
                 // Cria caixas de texto para nome, email e bio
-                JTextField nomeField = new JTextField(20);
-                JTextField emailField = new JTextField(20);
+                JTextField nomeField = new JTextField(contas.get(index_user).getNome());
                 JTextField bioField = new JTextField(20);
                 JLabel bioMsg = new JLabel("BIO - Comum = 50 caracteres; Premium = 200 caracteres");
 
@@ -819,8 +809,6 @@ public class LoginRegister extends JFrame implements ActionListener {
                 panelEditar.setLayout(new GridLayout(4, 2)); // GridLayout com 3 linhas e 2 colunas
                 panelEditar.add(new JLabel("Nome:"));
                 panelEditar.add(nomeField);
-                panelEditar.add(new JLabel("E-mail:"));
-                panelEditar.add(emailField);
                 panelEditar.add(new JLabel("Bio:"));
                 panelEditar.add(bioField);
                 panelEditar.add(bioMsg);
@@ -831,43 +819,39 @@ public class LoginRegister extends JFrame implements ActionListener {
                 if (result == JOptionPane.OK_OPTION) {
                     // Obtém o texto digitado nas caixas de texto
                     String nome = nomeField.getText();
-                    String email = emailField.getText();
                     String bio = bioField.getText();
-                    if (isEmailValid(email) == false) {
-                        JOptionPane.showMessageDialog(null, "Email inválido");
-                    } else if (findEmail(email) != null) {
-                        JOptionPane.showMessageDialog(null, "Email já existe");
-                    } else {
 
-                        if (contas.get(index_user).getPlano().equalsIgnoreCase("comum")) {
+                    if (contas.get(index_user).getPlano().equalsIgnoreCase("comum")) {
 
-                            if (bio.length() > 50) {
-                                JOptionPane.showMessageDialog(null, "Você excedeu o número de caracteres");
-                            } else if (bio == "00") {
-                            } else {
-                                contas.get(index_user).defBios(bio);
-                            }
-                            contas.set(index_user,
-                                    new comum(email, contas.get(index_user).getSenha(), nome, index_user)); // antes
-                            // era
-                            // id
-                            contas.get(index_user).defPlano("a");
-                            JOptionPane.showMessageDialog(null, "Nome e email alterados com sucesso!");
-                        } else if (contas.get(index_user).getPlano().equalsIgnoreCase("premium")) {
-
-                            if (bio.length() > 200) {
-                                JOptionPane.showMessageDialog(null, "Você excedeu o número de caracteres");
-                            } else if (bio == "00") {
-                            } else {
-                                contas.get(index_user).defBios(bio);
-                            }
-                            contas.set(index_user,
-                                    new premium(email, contas.get(index_user).getSenha(), nome, index_user)); // antes
-                            // era
-                            // id
-                            contas.get(index_user).defPlano("premium");
-                            JOptionPane.showMessageDialog(null, "Nome e email alterados com sucesso!");
+                        if (bio.length() > 50) {
+                            JOptionPane.showMessageDialog(null, "Você excedeu o número de caracteres");
+                        } else if (bio == "00") {
+                        } else {
+                            contas.get(index_user).defBios(bio);
                         }
+                        contas.set(index_user,
+                                new comum(contas.get(index_user).getEmail(), contas.get(index_user).getSenha(), nome,
+                                        index_user)); // antes
+                        // era
+                        // id
+                        contas.get(index_user).defPlano("a");
+                        JOptionPane.showMessageDialog(null, "Nome alterado com sucesso!");
+                    } else if (contas.get(index_user).getPlano().equalsIgnoreCase("premium")) {
+
+                        if (bio.length() > 200) {
+                            JOptionPane.showMessageDialog(null, "Você excedeu o número de caracteres");
+                        } else if (bio == "00") {
+                        } else {
+                            contas.get(index_user).defBios(bio);
+                        }
+                        contas.set(index_user,
+                                new premium(contas.get(index_user).getEmail(), contas.get(index_user).getSenha(), nome,
+                                        index_user)); // antes
+                        // era
+                        // id
+                        contas.get(index_user).defPlano("premium");
+                        JOptionPane.showMessageDialog(null, "Nome alterado com sucesso!");
+
                     }
                 }
             } else if (e.getSource() == verutensilios) {
