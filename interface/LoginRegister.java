@@ -3,7 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.List;
-
+import java.util.regex.*;
 import java.util.ArrayList;
 
 public class LoginRegister extends JFrame implements ActionListener {
@@ -151,43 +151,54 @@ public class LoginRegister extends JFrame implements ActionListener {
                 String email2 = email.getText();
                 String plano2 = plano.getSelectedItem().toString();
                 String senha2 = senha.getText();
+                conta contas2 = findUser(email2, senha2);
+                if (isEmailValid(email2)) {
 
-                conta contas2 = findUser(usuario, senha2);
-
-                if (contas2 != null) {
-                    JOptionPane.showMessageDialog(null, "Esse usuário já existe!");
+                    if (contas2 != null) {
+                        JOptionPane.showMessageDialog(null, "Esse usuário já existe!");
+                    } else {
+                        if (plano2.equals("premium")) {
+                            contas.add(new premium(email2, senha2, usuario, id));
+                            contas.get(id).defPlano("premium");
+                            id += 1;
+                            JOptionPane.showMessageDialog(null, "Conta premium registrada com sucesso!");
+                        }
+                        if (plano2.equals("comum")) {
+                            contas.add(new comum(email2, senha2, usuario, id));
+                            contas.get(id).defPlano("comum");
+                            id += 1;
+                            JOptionPane.showMessageDialog(null, "Conta comum registrada com sucesso!");
+                        }
+                        if (plano2.equals("administrador")) {
+                            contas.add(new admin(email2, senha2, usuario, id));
+                            contas.get(id).defPlano("administrador");
+                            id += 1;
+                            JOptionPane.showMessageDialog(null, "Conta administador registrada com sucesso!");
+                        }
+                    }
+                    dispose();
                 } else {
-                    if (plano2.equals("premium")) {
-                        contas.add(new premium(email2, senha2, usuario, id));
-                        contas.get(id).defPlano("premium");
-                        id += 1;
-                        JOptionPane.showMessageDialog(null, "Conta premium registrada com sucesso!");
-                    }
-                    if (plano2.equals("comum")) {
-                        contas.add(new comum(email2, senha2, usuario, id));
-                        contas.get(id).defPlano("comum");
-                        id += 1;
-                        JOptionPane.showMessageDialog(null, "Conta comum registrada com sucesso!");
-                    }
-                    if (plano2.equals("administrador")) {
-                        contas.add(new admin(email2, senha2, usuario, id));
-                        contas.get(id).defPlano("administrador");
-                        id += 1;
-                        JOptionPane.showMessageDialog(null, "Conta administador registrada com sucesso!");
-                    }
+                    JOptionPane.showMessageDialog(null, "Esse email é inválido!");
                 }
-                dispose();
+
             }
         }
     }
 
     private conta findUser(String usuario, String senha) {
         for (conta contas : contas) {
-            if (contas.getNome().equals(usuario) && contas.getSenha().equals(senha)) {
+            if (contas.getEmail().equals(usuario) && contas.getSenha().equals(senha)) {
                 return contas;
             }
         }
         return null;
+    }
+
+    public static boolean isEmailValid(String email) {
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
     }
 
     public static void main(String[] args) {
@@ -260,26 +271,12 @@ public class LoginRegister extends JFrame implements ActionListener {
                 buttonPGM.addActionListener(this);
                 buttonPGM.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-                postitbutton = new JButton("Mostrar utensilios em geral");
-                postitbutton.setPreferredSize(botaoDimensao);
-                postitbutton.setMaximumSize(botaoDimensao);
-                postitbutton.setMinimumSize(botaoDimensao);
-                postitbutton.addActionListener(this);
-                postitbutton.setAlignmentX(Component.CENTER_ALIGNMENT);
-
                 marca_textobutton = new JButton("Mostrar todos os marca-textos");
                 marca_textobutton.setPreferredSize(botaoDimensao);
                 marca_textobutton.setMaximumSize(botaoDimensao);
                 marca_textobutton.setMinimumSize(botaoDimensao);
                 marca_textobutton.addActionListener(this);
                 marca_textobutton.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-                apoio_livrosbutton = new JButton("Mostrar todos os apoios para livros");
-                apoio_livrosbutton.setPreferredSize(botaoDimensao);
-                apoio_livrosbutton.setMaximumSize(botaoDimensao);
-                apoio_livrosbutton.setMinimumSize(botaoDimensao);
-                apoio_livrosbutton.addActionListener(this);
-                apoio_livrosbutton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
                 books = new JButton("Mostrar livros");
                 books.setPreferredSize(botaoDimensao);
@@ -426,7 +423,7 @@ public class LoginRegister extends JFrame implements ActionListener {
 
             }
 
-            if (sinal == 0) { // gambiarra
+            if (sinal == 0) { // criando informações
                 livros.add(new Livro("LivroExemplo", "Guilherme", 10, 0, "luta"));
                 livros.add(new Livro("LivroExemplo", "Janio", 1234, 150, "romance"));
                 audiobook2.add(new audiobook("audioExemplo", "Micael", 120, 0, "aventura", 25));
@@ -473,7 +470,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                             if (livro instanceof Livro) {
                                 JLabel tituloLabel2 = new JLabel("Título: " + livro.getTitulo());
                                 JLabel isbnLabel = new JLabel("ISBN: " + livro.getIsbn());
-                                JLabel qntdLabel = new JLabel("Quantidade: \n" + livro.getQnt_disp());
+                                JLabel qntdLabel = new JLabel("Quantidade: " + livro.getQnt_disp());
                                 // adicionar componentes ao painel central
                                 panel4.add(tituloLabel2);
                                 panel4.add(isbnLabel);
@@ -506,7 +503,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                             if (audio instanceof audiobook) {
                                 JLabel tituloLabel3 = new JLabel("Título: " + audio.getTitulo());
                                 JLabel codigoLabel = new JLabel("Codigo do áudio: " + audio.getAudio());
-                                JLabel qntdLabel3 = new JLabel("Quantidade: \n" + audio.getQnt_disp());
+                                JLabel qntdLabel3 = new JLabel("Quantidade: " + audio.getQnt_disp());
                                 // adicionar componentes ao painel central
                                 panel4.add(tituloLabel3);
                                 panel4.add(codigoLabel);
