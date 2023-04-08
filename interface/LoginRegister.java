@@ -194,6 +194,15 @@ public class LoginRegister extends JFrame implements ActionListener {
         return null;
     }
 
+    private conta findEmail(String usuario) {
+        for (conta contas : contas) {
+            if (contas.getEmail().equals(usuario)) {
+                return contas;
+            }
+        }
+        return null;
+    }
+
     public static boolean isEmailValid(String email) {
         String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
         Pattern pattern = Pattern.compile(regex);
@@ -578,7 +587,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                                                 isbn_locado.add(isbn);
                                                 break;
                                             }
-                                        } else if (k==livros.size()-1){
+                                        } else if (k == livros.size() - 1) {
                                             JOptionPane.showMessageDialog(null, "Código ISBN não encontrado.");
                                             break;
                                         }
@@ -608,7 +617,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                                                 audio_locado.add(codigoAudio);
                                                 break;
                                             }
-                                        }  else if (k==audiobook2.size()-1){
+                                        } else if (k == audiobook2.size() - 1) {
                                             JOptionPane.showMessageDialog(null, "Código ISBN não encontrado.");
                                             break;
                                         }
@@ -646,7 +655,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                                                 isbn_locado.add(isbn);
                                                 break;
                                             }
-                                        } else if (k==livros.size()-1){
+                                        } else if (k == livros.size() - 1) {
                                             JOptionPane.showMessageDialog(null, "Código ISBN não encontrado.");
                                             break;
                                         }
@@ -674,7 +683,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                                                 audio_locado.add(codigoAudio);
                                                 break;
                                             }
-                                        } else if (k==audiobook2.size()-1){
+                                        } else if (k == audiobook2.size() - 1) {
                                             JOptionPane.showMessageDialog(null, "Código de audiobook não encontrado.");
                                             break;
                                         }
@@ -824,33 +833,41 @@ public class LoginRegister extends JFrame implements ActionListener {
                     String nome = nomeField.getText();
                     String email = emailField.getText();
                     String bio = bioField.getText();
+                    if (isEmailValid(email) == false) {
+                        JOptionPane.showMessageDialog(null, "Email inválido");
+                    } else if (findEmail(email) != null) {
+                        JOptionPane.showMessageDialog(null, "Email já existe");
+                    } else {
 
-                    if (contas.get(index_user).getPlano().equalsIgnoreCase("comum")) {
+                        if (contas.get(index_user).getPlano().equalsIgnoreCase("comum")) {
 
-                        if (bio.length() > 50) {
-                            JOptionPane.showMessageDialog(null, "Você excedeu o número de caracteres");
-                        } else if (bio == "00") {
-                        } else {
-                            contas.get(index_user).defBios(bio);
+                            if (bio.length() > 50) {
+                                JOptionPane.showMessageDialog(null, "Você excedeu o número de caracteres");
+                            } else if (bio == "00") {
+                            } else {
+                                contas.get(index_user).defBios(bio);
+                            }
+                            contas.set(index_user,
+                                    new comum(email, contas.get(index_user).getSenha(), nome, index_user)); // antes
+                            // era
+                            // id
+                            contas.get(index_user).defPlano("a");
+                            JOptionPane.showMessageDialog(null, "Nome e email alterados com sucesso!");
+                        } else if (contas.get(index_user).getPlano().equalsIgnoreCase("premium")) {
+
+                            if (bio.length() > 200) {
+                                JOptionPane.showMessageDialog(null, "Você excedeu o número de caracteres");
+                            } else if (bio == "00") {
+                            } else {
+                                contas.get(index_user).defBios(bio);
+                            }
+                            contas.set(index_user,
+                                    new premium(email, contas.get(index_user).getSenha(), nome, index_user)); // antes
+                            // era
+                            // id
+                            contas.get(index_user).defPlano("premium");
+                            JOptionPane.showMessageDialog(null, "Nome e email alterados com sucesso!");
                         }
-                        contas.set(index_user, new comum(email, contas.get(index_user).getSenha(), nome, index_user)); // antes
-                        // era
-                        // id
-                        contas.get(index_user).defPlano("a");
-                        JOptionPane.showMessageDialog(null, "Nome e email alterados com sucesso!");
-                    } else if (contas.get(index_user).getPlano().equalsIgnoreCase("premium")) {
-
-                        if (bio.length() > 200) {
-                            JOptionPane.showMessageDialog(null, "Você excedeu o número de caracteres");
-                        } else if (bio == "00") {
-                        } else {
-                            contas.get(index_user).defBios(bio);
-                        }
-                        contas.set(index_user, new premium(email, contas.get(index_user).getSenha(), nome, index_user)); // antes
-                        // era
-                        // id
-                        contas.get(index_user).defPlano("premium");
-                        JOptionPane.showMessageDialog(null, "Nome e email alterados com sucesso!");
                     }
                 }
             } else if (e.getSource() == verutensilios) {
