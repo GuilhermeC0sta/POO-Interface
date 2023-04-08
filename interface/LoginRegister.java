@@ -208,7 +208,7 @@ public class LoginRegister extends JFrame implements ActionListener {
     class TelaInicial extends JFrame implements ActionListener {
 
         private JButton audios, books, locar, editar, mostrar, devolver, verificar, pagarmultas, vermultas,
-                verutensilios, mostrarTudo, postitbutton, marca_textobutton, apoio_livrosbutton;
+                verutensilios, mostrarTudo, marca_textobutton;
         private JButton add_itens, remover_itens, livros_devolvidos, cadastros, buttonPGM, buttonconfirmar, buttonCP;
         private JLabel titleLabel;
         public int isbn;
@@ -271,7 +271,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                 buttonPGM.addActionListener(this);
                 buttonPGM.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-                marca_textobutton = new JButton("Mostrar todos os marca-textos");
+                marca_textobutton = new JButton("Mostrar os utensilios em geral");
                 marca_textobutton.setPreferredSize(botaoDimensao);
                 marca_textobutton.setMaximumSize(botaoDimensao);
                 marca_textobutton.setMinimumSize(botaoDimensao);
@@ -863,14 +863,8 @@ public class LoginRegister extends JFrame implements ActionListener {
                 frameUtensilio.setSize(400, 400);
                 frameUtensilio.add(panel6);
                 panel6.add(marca_textobutton);
-                panel6.add(Box.createRigidArea(new Dimension(0, 50)));
-                panel6.add(postitbutton);
-                panel6.add(Box.createRigidArea(new Dimension(0, 50)));
-                panel6.add(apoio_livrosbutton);
 
                 marca_textobutton.setAlignmentX(Component.CENTER_ALIGNMENT);
-                postitbutton.setAlignmentX(Component.CENTER_ALIGNMENT);
-                apoio_livrosbutton.setAlignmentX(Component.CENTER_ALIGNMENT);
                 frameUtensilio.setVisible(true);
                 frameUtensilio.setLocationRelativeTo(null);
 
@@ -908,44 +902,6 @@ public class LoginRegister extends JFrame implements ActionListener {
                     }
                 });
 
-                apoio_livrosbutton.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        if (auxteste2 == 0) {
-                            auxteste2 = 1;
-                            JPanel panelUten = new JPanel(new GridLayout(0, 4));
-                            JFrame frameUten = new JFrame();
-                            frameUten.setSize(400, 400);
-                            frameUten.add(panelUten);
-                            frameUten.setVisible(true);
-                            frameUten.setLocationRelativeTo(null);
-                            panelUten.removeAll(); // remove todos os componentes do painel
-
-                            for (utensilios utensi : utensilios) {
-                                JLabel slotslabel = new JLabel("Cor: " + ((apoio_livros) utensi).getSlots());
-                                JLabel marcalabel = new JLabel("Marca: " + utensi.getMarca());
-                                JLabel qntdLabel = new JLabel("Quantidade: \n" + utensi.getQuantidade());
-                                // adicionar componentes ao painel central
-                                panelUten.add(slotslabel);
-                                panelUten.add(marcalabel);
-                                panelUten.add(qntdLabel);
-                            }
-
-                            panelUten.revalidate();
-                            panelUten.repaint();
-                            frameUten.revalidate(); // Atualiza o layout da janela
-
-                            // adiciona o WindowListener para a janela
-                            frameUten.addWindowListener(new WindowAdapter() {
-                                public void windowClosing(WindowEvent e) {
-                                    frameUten.dispose(); // apaga a janela
-                                }
-                            });
-                        }
-                        auxteste3 = 0;
-                        auxteste2 = 0;
-                        auxteste = 0;
-                    }
-                });
             } else if (e.getSource() == vermultas) {
                 auxteste3 = 0;
                 if (auxteste3 == 0) {
