@@ -525,7 +525,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                 });
             } else if (e.getSource() == locar) {
                 // Cria caixas de texto para nome, email e bio
-                JTextField itemField = new JTextField(20);
+                JComboBox<String> itemField;
                 JTextField codigoField = new JTextField(20);
 
                 // Cria um painel para as caixas de texto
@@ -533,6 +533,10 @@ public class LoginRegister extends JFrame implements ActionListener {
                 setLocationRelativeTo(null);
                 panelLocar.setLayout(new GridLayout(3, 2)); // GridLayout com 3 linhas e 2 colunas
                 panelLocar.add(new JLabel("Digite se quer um livro/audiobook:"));
+                DefaultComboBoxModel<String> planoModel = new DefaultComboBoxModel<>();
+                planoModel.addElement("livro");
+                planoModel.addElement("audiobook");
+                itemField = new JComboBox<>(planoModel);
                 panelLocar.add(itemField);
                 panelLocar.add(new JLabel("Digite o codigo do livro/audiobook:"));
                 panelLocar.add(codigoField);
@@ -554,7 +558,7 @@ public class LoginRegister extends JFrame implements ActionListener {
 
                     if (contas.get(index_user).getPlano().equalsIgnoreCase("comum")) {
                         if (contalocados < 1) {
-                            if (itemField.getText().equalsIgnoreCase("livro")) {
+                            if (itemField.getSelectedItem().toString().equalsIgnoreCase("livro")) {
                                 try {
                                     isbn = Integer.parseInt(codigoField.getText());
                                     for (int k = 0; k < livros.size(); k++) {
@@ -574,7 +578,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                                                 isbn_locado.add(isbn);
                                                 break;
                                             }
-                                        } else {
+                                        } else if (k==livros.size()-1){
                                             JOptionPane.showMessageDialog(null, "Código ISBN não encontrado.");
                                             break;
                                         }
@@ -582,7 +586,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                                 } catch (NumberFormatException ex) {
                                     JOptionPane.showMessageDialog(null, "Código ISBN inválido.");
                                 }
-                            } else if (itemField.getText().equalsIgnoreCase("audiobook")) {
+                            } else if (itemField.getSelectedItem().toString().equalsIgnoreCase("audiobook")) {
                                 try {
                                     codigoAudio = Integer.parseInt(codigoField.getText());
                                     for (int k = 0; k < audiobook2.size(); k++) {
@@ -604,8 +608,8 @@ public class LoginRegister extends JFrame implements ActionListener {
                                                 audio_locado.add(codigoAudio);
                                                 break;
                                             }
-                                        } else {
-                                            JOptionPane.showMessageDialog(null, "Código do audiobook não encontrado.");
+                                        }  else if (k==audiobook2.size()-1){
+                                            JOptionPane.showMessageDialog(null, "Código ISBN não encontrado.");
                                             break;
                                         }
                                     }
@@ -622,7 +626,7 @@ public class LoginRegister extends JFrame implements ActionListener {
 
                     if (contas.get(index_user).getPlano().equalsIgnoreCase("premium")) {
                         if (contalocados < 15) {
-                            if (itemField.getText().equalsIgnoreCase("livro")) {
+                            if (itemField.getSelectedItem().toString().equalsIgnoreCase("livro")) {
                                 try {
                                     isbn = Integer.parseInt(codigoField.getText());
                                     for (int k = 0; k < livros.size(); k++) {
@@ -642,12 +646,15 @@ public class LoginRegister extends JFrame implements ActionListener {
                                                 isbn_locado.add(isbn);
                                                 break;
                                             }
+                                        } else if (k==livros.size()-1){
+                                            JOptionPane.showMessageDialog(null, "Código ISBN não encontrado.");
+                                            break;
                                         }
                                     }
                                 } catch (NumberFormatException ex) {
                                     JOptionPane.showMessageDialog(null, "Código ISBN inválido.");
                                 }
-                            } else if (itemField.getText().equalsIgnoreCase("audiobook")) {
+                            } else if (itemField.getSelectedItem().toString().equalsIgnoreCase("audiobook")) {
                                 try {
                                     codigoAudio = Integer.parseInt(codigoField.getText());
                                     for (int k = 0; k < audiobook2.size(); k++) {
@@ -667,7 +674,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                                                 audio_locado.add(codigoAudio);
                                                 break;
                                             }
-                                        } else {
+                                        } else if (k==audiobook2.size()-1){
                                             JOptionPane.showMessageDialog(null, "Código de audiobook não encontrado.");
                                             break;
                                         }
