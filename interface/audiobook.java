@@ -15,6 +15,7 @@ public class audiobook extends ItemsBiblioteca {
         this.autor = autor;
         this.genero = genero;
         this.id_audio = id_audio;
+        this.qntd_disp = qnt_disp;
     }
 
     @Override
