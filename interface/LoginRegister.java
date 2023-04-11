@@ -802,27 +802,30 @@ public class LoginRegister extends JFrame implements ActionListener {
                 }
             } else if (e.getSource() == editar) {
                 // Cria caixas de texto para nome, email e bio
-                JTextField nomeField = new JTextField(contas.get(index_user).getNome());
+                JTextField nomeField = new JTextField(20);
+                JTextField emailField = new JTextField(20);
                 JTextField bioField = new JTextField(20);
                 JLabel bioMsg = new JLabel("BIO - Comum = 50 caracteres; Premium = 200 caracteres");
-
+                
                 // Cria um painel para as caixas de texto
                 JPanel panelEditar = new JPanel();
                 panelEditar.setLayout(new GridLayout(4, 2)); // GridLayout com 3 linhas e 2 colunas
                 panelEditar.add(new JLabel("Nome:"));
                 panelEditar.add(nomeField);
+                panelEditar.add(new JLabel("E-mail:"));
+                panelEditar.add(emailField);
                 panelEditar.add(new JLabel("Bio:"));
                 panelEditar.add(bioField);
                 panelEditar.add(bioMsg);
-
+            
                 // Exibe um JOptionPane com as caixas de texto e espera o usuário clicar em OK
-                int result = JOptionPane.showConfirmDialog(null, panelEditar, "Editar perfil",
-                        JOptionPane.OK_CANCEL_OPTION);
-                if (result == JOptionPane.OK_OPTION) {
+                int result = JOptionPane.showConfirmDialog(null, panelEditar, "Editar perfil", JOptionPane.OK_CANCEL_OPTION);
+                if (result == JOptionPane.OK_OPTION){
                     // Obtém o texto digitado nas caixas de texto
                     String nome = nomeField.getText();
+                    String email = emailField.getText();
                     String bio = bioField.getText();
-
+                    
                     if (contas.get(index_user).getPlano().equalsIgnoreCase("comum")) {
 
                         if (bio.length() > 50) {
@@ -831,14 +834,12 @@ public class LoginRegister extends JFrame implements ActionListener {
                         } else {
                             contas.get(index_user).defBios(bio);
                         }
-                        contas.set(index_user,
-                                new comum(contas.get(index_user).getEmail(), contas.get(index_user).getSenha(), nome,
-                                        index_user)); // antes
-                        // era
-                        // id
-                        contas.get(index_user).defPlano("a");
-                        JOptionPane.showMessageDialog(null, "Nome alterado com sucesso!");
-                    } else if (contas.get(index_user).getPlano().equalsIgnoreCase("premium")) {
+                        contas.set(index_user, new comum(email, contas.get(index_user).getSenha(), nome, index_user)); //antes era id
+                        contas.get(index_user).defPlano("comum");
+                        JOptionPane.showMessageDialog(null, "Nome e email alterados com sucesso!");
+                    }
+
+                    else if (contas.get(index_user).getPlano().equalsIgnoreCase("premium")) {
 
                         if (bio.length() > 200) {
                             JOptionPane.showMessageDialog(null, "Você excedeu o número de caracteres");
@@ -846,17 +847,13 @@ public class LoginRegister extends JFrame implements ActionListener {
                         } else {
                             contas.get(index_user).defBios(bio);
                         }
-                        contas.set(index_user,
-                                new premium(contas.get(index_user).getEmail(), contas.get(index_user).getSenha(), nome,
-                                        index_user)); // antes
-                        // era
-                        // id
+                        contas.set(index_user, new premium(email, contas.get(index_user).getSenha(), nome, index_user)); //antes era id
                         contas.get(index_user).defPlano("premium");
-                        JOptionPane.showMessageDialog(null, "Nome alterado com sucesso!");
-
+                        JOptionPane.showMessageDialog(null, "Nome e email alterados com sucesso!");
                     }
                 }
-            } else if (e.getSource() == verutensilios) {
+            } 
+            else if (e.getSource() == verutensilios) {
                 auxteste3 = 0;
                 auxteste2 = 0;
                 auxteste = 0;
