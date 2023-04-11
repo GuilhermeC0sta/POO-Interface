@@ -195,10 +195,20 @@ public class LoginRegister extends JFrame implements ActionListener {
     }
 
     public static boolean isEmailValid(String email) {
-        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        String regex = "^[A-Za-z0-9+_.-]+@[gmail]+[.com]+$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
+        String outlook = "^[A-Za-z0-9+_.-]+@[outlook]+[.com]+$";
+        Pattern patternoutlook = Pattern.compile(outlook);
+        Matcher matcheroutlook = patternoutlook.matcher(email);
+        String hotmail = "^[A-Za-z0-9+_.-]+@[hotmail]+[.com]+$";
+        Pattern patternhotmail = Pattern.compile(hotmail);
+        Matcher matcherhotmail = patternhotmail.matcher(email);
+        String ic = "^[A-Za-z0-9+_.-]+@[ic.ufal.br]+$";
+        Pattern patternic = Pattern.compile(ic);
+        Matcher matcheric = patternic.matcher(email);
+        
+        return matcher.matches() || matcheroutlook.matches() || matcherhotmail.matches() || matcheric.matches();
     }
 
     public static void main(String[] args) {
