@@ -1,4 +1,3 @@
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -152,6 +151,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                 String plano2 = plano.getSelectedItem().toString();
                 String senha2 = senha.getText();
                 conta contas2 = checkEmail(email2);
+
                 if (isEmailValid(email2)) {
 
                     if (contas2 != null) {
@@ -202,6 +202,13 @@ public class LoginRegister extends JFrame implements ActionListener {
         }
         return null;
     }
+
+    public class IOException extends Exception {
+        public IOException(String message) {
+            super(message);
+        }
+    }
+
 
     public static boolean isEmailValid(String email) {
         String regex = "^[A-Za-z0-9+_.-]+@[gmail]+[.com]+$";
@@ -1054,6 +1061,11 @@ public class LoginRegister extends JFrame implements ActionListener {
                                 return;
                             }
                         }
+
+                        if (!autorAdd.getText().matches("[a-zA-Z]+") || !generoAdd.getText().matches("[a-zA-Z]+")) {
+                            throw new IOException("O campo autor/gênero deve conter somente letras.");
+                        }
+
                         if (result == JOptionPane.OK_OPTION) {
                             livros.add(
                                     new Livro(tituloAdd.getText(), autorAdd.getText(), isbnAddItem, quantidadeAddItem,
@@ -1062,7 +1074,11 @@ public class LoginRegister extends JFrame implements ActionListener {
                         }
                     } catch (NumberFormatException ex) {
                         JOptionPane.showMessageDialog(null, "ISBN e Quantidade devem ser números inteiros!");
+                    } catch (IOException ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage());
                     }
+
+
                 } else if (opcaoSelecionada == 1) { // Clicou em "Audiobook"
                     JTextField tituloAdd = new JTextField();
                     JTextField autorAdd = new JTextField();
@@ -1134,6 +1150,11 @@ public class LoginRegister extends JFrame implements ActionListener {
                             panelP.add(quantidadeField);
                             int result = JOptionPane.showConfirmDialog(null, panelP, "Adicionar Postit",
                                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+                            if (!corField.getText().matches("[a-zA-Z]+")) {
+                                throw new IOException("O campo cor deve conter somente letras.");
+                            }
+
                             if (result == JOptionPane.OK_OPTION) {
                                 // Adicionar postit ao inventário com os dados preenchidos
                                 String corP = corField.getText();
@@ -1146,6 +1167,8 @@ public class LoginRegister extends JFrame implements ActionListener {
                         } catch (NumberFormatException ex) {
                             JOptionPane.showMessageDialog(null, "Quantidade deve ser um número inteiro!");
                             return;
+                        } catch (IOException ex) {
+                            JOptionPane.showMessageDialog(null, ex.getMessage());
                         }
 
                     } else if (utensilioOption == 1) { // Adicionar Marca Texto
@@ -1167,6 +1190,10 @@ public class LoginRegister extends JFrame implements ActionListener {
                             int result = JOptionPane.showConfirmDialog(null, panelM, "Adicionar Marca Texto",
                                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
+                            if (!corField.getText().matches("[a-zA-Z]+") || !brilhoField.getText().matches("[a-zA-Z]+")) {
+                                        throw new IOException("O campo cor/brilho deve conter somente letras.");
+                            }
+
                             if (result == JOptionPane.OK_OPTION) {
                                 // Adicionar marca texto ao inventário com os dados preenchidos
                                 String marcaM = marcaField.getText();
@@ -1179,6 +1206,8 @@ public class LoginRegister extends JFrame implements ActionListener {
                         } catch (NumberFormatException ex) {
                             JOptionPane.showMessageDialog(null, "Quantidade deve ser um número inteiro!");
                             return;
+                        } catch (IOException ex) {
+                            JOptionPane.showMessageDialog(null, ex.getMessage());
                         }
 
                     } else if (utensilioOption == 2) { // Adicionar Apoio de Livros
