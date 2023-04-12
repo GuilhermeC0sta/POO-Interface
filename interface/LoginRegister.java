@@ -156,27 +156,36 @@ public class LoginRegister extends JFrame implements ActionListener {
 
                     if (contas2 != null) {
                         JOptionPane.showMessageDialog(null, "Esse usuário já existe!");
-                    } else {
+                    }
+                    else if(senha2.length() < 8){
+                        JOptionPane.showMessageDialog(null, "A senha deve possuir pelo menos 8 caracteres!");
+                    }
+                    else if(usuario.length() < 5){
+                        JOptionPane.showMessageDialog(null, "O usuário precisa ter um username maior que 5 caracteres!");
+                    } 
+                    else {
                         if (plano2.equals("premium")) {
                             contas.add(new premium(email2, senha2, usuario, id));
                             contas.get(id).defPlano("premium");
                             id += 1;
                             JOptionPane.showMessageDialog(null, "Conta premium registrada com sucesso!");
+                            dispose();
                         }
                         if (plano2.equals("comum")) {
                             contas.add(new comum(email2, senha2, usuario, id));
                             contas.get(id).defPlano("comum");
                             id += 1;
                             JOptionPane.showMessageDialog(null, "Conta comum registrada com sucesso!");
+                            dispose();
                         }
                         if (plano2.equals("administrador")) {
                             contas.add(new admin(email2, senha2, usuario, id));
                             contas.get(id).defPlano("administrador");
                             id += 1;
                             JOptionPane.showMessageDialog(null, "Conta administador registrada com sucesso!");
+                            dispose();
                         }
                     }
-                    dispose();
                 } else {
                     JOptionPane.showMessageDialog(null, "Esse email é inválido!");
                 }
