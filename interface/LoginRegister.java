@@ -150,20 +150,18 @@ public class LoginRegister extends JFrame implements ActionListener {
                 String email2 = email.getText();
                 String plano2 = plano.getSelectedItem().toString();
                 String senha2 = senha.getText();
-                conta contas2 = checkEmail(email2);
 
+                conta contas2 = checkEmail(email2);
                 if (isEmailValid(email2)) {
 
                     if (contas2 != null) {
                         JOptionPane.showMessageDialog(null, "Esse usuário já existe!");
-                    }
-                    else if(senha2.length() < 8){
+                    } else if (senha2.length() < 8) {
                         JOptionPane.showMessageDialog(null, "A senha deve possuir pelo menos 8 caracteres!");
-                    }
-                    else if(usuario.length() < 5){
-                        JOptionPane.showMessageDialog(null, "O usuário precisa ter um username maior que 5 caracteres!");
-                    } 
-                    else {
+                    } else if (usuario.length() < 5) {
+                        JOptionPane.showMessageDialog(null,
+                                "O usuário precisa ter um username maior que 5 caracteres!");
+                    } else {
                         if (plano2.equals("premium")) {
                             contas.add(new premium(email2, senha2, usuario, id));
                             contas.get(id).defPlano("premium");
@@ -218,7 +216,6 @@ public class LoginRegister extends JFrame implements ActionListener {
         }
     }
 
-
     public static boolean isEmailValid(String email) {
         String regex = "^[A-Za-z0-9+_.-]+@[gmail]+[.com]+$";
         Pattern pattern = Pattern.compile(regex);
@@ -232,7 +229,7 @@ public class LoginRegister extends JFrame implements ActionListener {
         String ic = "^[A-Za-z0-9+_.-]+@[ic.ufal.br]+$";
         Pattern patternic = Pattern.compile(ic);
         Matcher matcheric = patternic.matcher(email);
-        
+
         return matcher.matches() || matcheroutlook.matches() || matcherhotmail.matches() || matcheric.matches();
     }
 
@@ -841,7 +838,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                 JTextField emailField = new JTextField(20);
                 JTextField bioField = new JTextField(20);
                 JLabel bioMsg = new JLabel("BIO - Comum = 50 caracteres; Premium = 200 caracteres");
-                
+
                 // Cria um painel para as caixas de texto
                 JPanel panelEditar = new JPanel();
                 panelEditar.setLayout(new GridLayout(4, 2)); // GridLayout com 3 linhas e 2 colunas
@@ -852,16 +849,27 @@ public class LoginRegister extends JFrame implements ActionListener {
                 panelEditar.add(new JLabel("Bio:"));
                 panelEditar.add(bioField);
                 panelEditar.add(bioMsg);
-            
+
                 // Exibe um JOptionPane com as caixas de texto e espera o usuário clicar em OK
-                int result = JOptionPane.showConfirmDialog(null, panelEditar, "Editar perfil", JOptionPane.OK_CANCEL_OPTION);
-                if (result == JOptionPane.OK_OPTION){
+                int result = JOptionPane.showConfirmDialog(null, panelEditar, "Editar perfil",
+                        JOptionPane.OK_CANCEL_OPTION);
+                if (result == JOptionPane.OK_OPTION) {
                     // Obtém o texto digitado nas caixas de texto
                     String nome = nomeField.getText();
                     String email = emailField.getText();
                     String bio = bioField.getText();
-                    
-                    if (contas.get(index_user).getPlano().equalsIgnoreCase("comum")) {
+
+
+                    if (nome.length() < 5) {
+                        JOptionPane.showMessageDialog(null,
+                                "O usuário precisa ter um username maior que 5 caracteres!");
+                    }
+
+                    else if (checkEmail(email) !=null || isEmailValid(email) == false) {
+                        JOptionPane.showMessageDialog(null,
+                                "E-mail inválido ou já cadastrado!");
+                    }
+                    else if (contas.get(index_user).getPlano().equalsIgnoreCase("comum")) {
 
                         if (bio.length() > 50) {
                             JOptionPane.showMessageDialog(null, "Você excedeu o número de caracteres");
@@ -869,7 +877,9 @@ public class LoginRegister extends JFrame implements ActionListener {
                         } else {
                             contas.get(index_user).defBios(bio);
                         }
-                        contas.set(index_user, new comum(email, contas.get(index_user).getSenha(), nome, index_user)); //antes era id
+                        contas.set(index_user, new comum(email, contas.get(index_user).getSenha(), nome, index_user)); // antes
+                                                                                                                       // era
+                                                                                                                       // id
                         contas.get(index_user).defPlano("comum");
                         JOptionPane.showMessageDialog(null, "Nome e email alterados com sucesso!");
                     }
@@ -882,13 +892,14 @@ public class LoginRegister extends JFrame implements ActionListener {
                         } else {
                             contas.get(index_user).defBios(bio);
                         }
-                        contas.set(index_user, new premium(email, contas.get(index_user).getSenha(), nome, index_user)); //antes era id
+                        contas.set(index_user, new premium(email, contas.get(index_user).getSenha(), nome, index_user)); // antes
+                                                                                                                         // era
+                                                                                                                         // id
                         contas.get(index_user).defPlano("premium");
                         JOptionPane.showMessageDialog(null, "Nome e email alterados com sucesso!");
                     }
                 }
-            } 
-            else if (e.getSource() == verutensilios) {
+            } else if (e.getSource() == verutensilios) {
                 auxteste3 = 0;
                 auxteste2 = 0;
                 auxteste = 0;
@@ -1087,7 +1098,6 @@ public class LoginRegister extends JFrame implements ActionListener {
                         JOptionPane.showMessageDialog(null, ex.getMessage());
                     }
 
-
                 } else if (opcaoSelecionada == 1) { // Clicou em "Audiobook"
                     JTextField tituloAdd = new JTextField();
                     JTextField autorAdd = new JTextField();
@@ -1199,8 +1209,9 @@ public class LoginRegister extends JFrame implements ActionListener {
                             int result = JOptionPane.showConfirmDialog(null, panelM, "Adicionar Marca Texto",
                                     JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
-                            if (!corField.getText().matches("[a-zA-Z]+") || !brilhoField.getText().matches("[a-zA-Z]+")) {
-                                        throw new IOException("O campo cor/brilho deve conter somente letras.");
+                            if (!corField.getText().matches("[a-zA-Z]+")
+                                    || !brilhoField.getText().matches("[a-zA-Z]+")) {
+                                throw new IOException("O campo cor/brilho deve conter somente letras.");
                             }
 
                             if (result == JOptionPane.OK_OPTION) {
