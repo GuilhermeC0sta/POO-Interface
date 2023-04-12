@@ -44,7 +44,7 @@ public class LoginRegister extends JFrame implements ActionListener {
         imageLabel.setPreferredSize(new Dimension(350, 250));
         imagePanel.add(imageLabel);
 
-        panel.add(new JLabel("Usuario:"));
+        panel.add(new JLabel("E-mail:"));
         usuario = new JTextField();
         panel.add(usuario);
         panel.add(new JLabel("Senha:"));
@@ -151,7 +151,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                 String email2 = email.getText();
                 String plano2 = plano.getSelectedItem().toString();
                 String senha2 = senha.getText();
-                conta contas2 = findUser(email2, senha2);
+                conta contas2 = checkEmail(email2);
                 if (isEmailValid(email2)) {
 
                     if (contas2 != null) {
@@ -188,6 +188,15 @@ public class LoginRegister extends JFrame implements ActionListener {
     private conta findUser(String usuario, String senha) {
         for (conta contas : contas) {
             if (contas.getEmail().equals(usuario) && contas.getSenha().equals(senha)) {
+                return contas;
+            }
+        }
+        return null;
+    }
+
+    private conta checkEmail(String usuario) {
+        for (conta contas : contas) {
+            if (contas.getEmail().equals(usuario)) {
                 return contas;
             }
         }
@@ -1116,71 +1125,89 @@ public class LoginRegister extends JFrame implements ActionListener {
                         JTextField marcaField = new JTextField();
                         JTextField quantidadeField = new JTextField();
                         JPanel panelP = new JPanel(new GridLayout(0, 1));
-                        panelP.add(new JLabel("Cor:"));
-                        panelP.add(corField);
-                        panelP.add(new JLabel("Marca:"));
-                        panelP.add(marcaField);
-                        panelP.add(new JLabel("Quantidade:"));
-                        panelP.add(quantidadeField);
-                        int result = JOptionPane.showConfirmDialog(null, panelP, "Adicionar Postit",
-                                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                        try {
+                            panelP.add(new JLabel("Cor:"));
+                            panelP.add(corField);
+                            panelP.add(new JLabel("Marca:"));
+                            panelP.add(marcaField);
+                            panelP.add(new JLabel("Quantidade:"));
+                            panelP.add(quantidadeField);
+                            int result = JOptionPane.showConfirmDialog(null, panelP, "Adicionar Postit",
+                                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                            if (result == JOptionPane.OK_OPTION) {
+                                // Adicionar postit ao inventário com os dados preenchidos
+                                String corP = corField.getText();
+                                String marcaP = marcaField.getText();
+                                int quantidadeP = Integer.parseInt(quantidadeField.getText());
+                                utensilios.add(new postit(marcaP, corP, quantidadeP));
+                                JOptionPane.showMessageDialog(null, "Postit adicionado!");
+                            }
 
-                        if (result == JOptionPane.OK_OPTION) {
-                            // Adicionar postit ao inventário com os dados preenchidos
-                            String corP = corField.getText();
-                            String marcaP = marcaField.getText();
-                            int quantidadeP = Integer.parseInt(quantidadeField.getText());
-                            utensilios.add(new postit(marcaP, corP, quantidadeP));
-                            JOptionPane.showMessageDialog(null, "Postit adiconado!");
+                        } catch (NumberFormatException ex) {
+                            JOptionPane.showMessageDialog(null, "Quantidade deve ser um número inteiro!");
+                            return;
                         }
+
                     } else if (utensilioOption == 1) { // Adicionar Marca Texto
                         JTextField marcaField = new JTextField();
                         JTextField corField = new JTextField();
                         JTextField brilhoField = new JTextField();
                         JTextField quantidadeField = new JTextField();
                         JPanel panelM = new JPanel(new GridLayout(0, 1));
+                        try {
 
-                        panelM.add(new JLabel("Marca:"));
-                        panelM.add(marcaField);
-                        panelM.add(new JLabel("Cor:"));
-                        panelM.add(corField);
-                        panelM.add(new JLabel("Brilho:"));
-                        panelM.add(brilhoField);
-                        panelM.add(new JLabel("Quantidade:"));
-                        panelM.add(quantidadeField);
-                        int result = JOptionPane.showConfirmDialog(null, panelM, "Adicionar Marca Texto",
-                                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                            panelM.add(new JLabel("Marca:"));
+                            panelM.add(marcaField);
+                            panelM.add(new JLabel("Cor:"));
+                            panelM.add(corField);
+                            panelM.add(new JLabel("Brilho:"));
+                            panelM.add(brilhoField);
+                            panelM.add(new JLabel("Quantidade:"));
+                            panelM.add(quantidadeField);
+                            int result = JOptionPane.showConfirmDialog(null, panelM, "Adicionar Marca Texto",
+                                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
-                        if (result == JOptionPane.OK_OPTION) {
-                            // Adicionar marca texto ao inventário com os dados preenchidos
-                            String marcaM = marcaField.getText();
-                            String corM = corField.getText();
-                            String brilhoM = brilhoField.getText();
-                            int quantidadeM = Integer.parseInt(quantidadeField.getText());
-                            utensilios.add(new marca_texto(marcaM, corM, brilhoM, quantidadeM));
-                            JOptionPane.showMessageDialog(null, "Marca texto adicionado!");
+                            if (result == JOptionPane.OK_OPTION) {
+                                // Adicionar marca texto ao inventário com os dados preenchidos
+                                String marcaM = marcaField.getText();
+                                String corM = corField.getText();
+                                String brilhoM = brilhoField.getText();
+                                int quantidadeM = Integer.parseInt(quantidadeField.getText());
+                                utensilios.add(new marca_texto(marcaM, corM, brilhoM, quantidadeM));
+                                JOptionPane.showMessageDialog(null, "Marca texto adicionado!");
+                            }
+                        } catch (NumberFormatException ex) {
+                            JOptionPane.showMessageDialog(null, "Quantidade deve ser um número inteiro!");
+                            return;
                         }
+
                     } else if (utensilioOption == 2) { // Adicionar Apoio de Livros
                         JTextField marcaField = new JTextField();
                         JTextField slotsField = new JTextField();
                         JTextField quantidadeField = new JTextField();
                         JPanel panel = new JPanel(new GridLayout(0, 1));
-                        panel.add(new JLabel("Marca:"));
-                        panel.add(marcaField);
-                        panel.add(new JLabel("Slots:"));
-                        panel.add(slotsField);
-                        panel.add(new JLabel("Quantidade:"));
-                        panel.add(quantidadeField);
-                        int result = JOptionPane.showConfirmDialog(null, panel, "Adicionar Apoio de Livros",
-                                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                        try {
 
-                        if (result == JOptionPane.OK_OPTION) {
-                            // Adicionar apoio de livros ao inventário com os dados preenchidos
-                            String marcaA = marcaField.getText();
-                            int slotsA = Integer.parseInt(slotsField.getText());
-                            int quantidadeA = Integer.parseInt(quantidadeField.getText());
-                            utensilios.add(new apoio_livros(marcaA, slotsA, quantidadeA));
-                            JOptionPane.showMessageDialog(null, "Apoio para Livros adicionado!");
+                            panel.add(new JLabel("Marca:"));
+                            panel.add(marcaField);
+                            panel.add(new JLabel("Slots:"));
+                            panel.add(slotsField);
+                            panel.add(new JLabel("Quantidade:"));
+                            panel.add(quantidadeField);
+                            int result = JOptionPane.showConfirmDialog(null, panel, "Adicionar Apoio de Livros",
+                                    JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+                            if (result == JOptionPane.OK_OPTION) {
+                                // Adicionar apoio de livros ao inventário com os dados preenchidos
+                                String marcaA = marcaField.getText();
+                                int slotsA = Integer.parseInt(slotsField.getText());
+                                int quantidadeA = Integer.parseInt(quantidadeField.getText());
+                                utensilios.add(new apoio_livros(marcaA, slotsA, quantidadeA));
+                                JOptionPane.showMessageDialog(null, "Apoio para Livros adicionado!");
+                            }
+                        } catch (NumberFormatException ex) {
+                            JOptionPane.showMessageDialog(null, "Slots e Quantidade devem ser números inteiros!");
+                            return;
                         }
                     }
                 }
