@@ -210,23 +210,23 @@ public class LoginRegister extends JFrame implements ActionListener {
         return null;
     }
 
-    public class IOException extends Exception {
+    public class IOException extends RuntimeException {
         public IOException(String message) {
             super(message);
         }
     }
 
     public static boolean isEmailValid(String email) {
-        String regex = "^[A-Za-z0-9+_.-]+@[gmail]+[.com]+$";
+        String regex = "^[A-Za-z0-9+_.-]+@gmail+.com+$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(email);
-        String outlook = "^[A-Za-z0-9+_.-]+@[outlook]+[.com]+$";
+        String outlook = "^[A-Za-z0-9+_.-]+@outlook+.com+$";
         Pattern patternoutlook = Pattern.compile(outlook);
         Matcher matcheroutlook = patternoutlook.matcher(email);
-        String hotmail = "^[A-Za-z0-9+_.-]+@[hotmail]+[.com]+$";
+        String hotmail = "^[A-Za-z0-9+_.-]+@hotmail+.com+$";
         Pattern patternhotmail = Pattern.compile(hotmail);
         Matcher matcherhotmail = patternhotmail.matcher(email);
-        String ic = "^[A-Za-z0-9+_.-]+@[ic.ufal.br]+$";
+        String ic = "^[A-Za-z0-9+_.-]+@ic.ufal.br+$";
         Pattern patternic = Pattern.compile(ic);
         Matcher matcheric = patternic.matcher(email);
 
@@ -786,7 +786,6 @@ public class LoginRegister extends JFrame implements ActionListener {
                 });
             } else if (e.getSource() == devolver) {
                 // Cria caixas de texto para nome, email e bio
-                JTextField itemField2 = new JTextField("livro");
                 JTextField codigoField2 = new JTextField();
 
                 // Cria um painel para as caixas de texto
@@ -799,13 +798,9 @@ public class LoginRegister extends JFrame implements ActionListener {
                 int resultDevolver = JOptionPane.showConfirmDialog(null, panelDevolver, "Devolver",
                         JOptionPane.OK_CANCEL_OPTION);
                 if (resultDevolver == JOptionPane.OK_OPTION) {
-                    if (itemField2.getText().equalsIgnoreCase("livro")) {
-                        try {
-                            isbn = Integer.parseInt(codigoField2.getText());
-                        } catch (NumberFormatException ex) {
-                            JOptionPane.showMessageDialog(null, "Digite um ISBN válido no campo de código");
-                            return;
-                        }
+                    try {
+                        isbn = Integer.parseInt(codigoField2.getText());
+                        System.out.println(id_user.size());
                         for (int j = 0; j < id_user.size(); j++) {
                             if (id_user.get(j) == index_user) {
                                 if (isbn == isbn_locado.get(j)) {
@@ -818,24 +813,32 @@ public class LoginRegister extends JFrame implements ActionListener {
                                         if (isbn == livros.get(k).getIsbn()) {
                                             int devolu = livros.get(k).getQnt_disp() + 1;
                                             livros.set(k,
-                                                    new Livro(livros.get(k).getTitulo(), livros.get(k).getAutor(), isbn,
+                                                    new Livro(livros.get(k).getTitulo(), livros.get(k).getAutor(),
+                                                            isbn,
                                                             devolu, livros.get(k).getGenero()));
                                             break;
                                         }
                                     }
-                                } else if (j == id_user.size() - 1) {
+                                } else
                                     JOptionPane.showMessageDialog(null, "Código ISBN não encontrado");
-                                }
-                            } else if (j == id_user.size() - 1) {
+                            }
+                            else if (j == id_user.size() - 1) {
                                 JOptionPane.showMessageDialog(null, "Este livro não foi locado por você");
                             }
                         }
+                        if (id_user.size() == 0) {
+                            JOptionPane.showMessageDialog(null, "Não há livros locados");
+                        }
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(null, "Digite um ISBN válido no campo de código");
+                        return;
                     }
+
                 }
             } else if (e.getSource() == editar) {
                 // Cria caixas de texto para nome, email e bio
-                JTextField nomeField = new JTextField(20);
-                JTextField emailField = new JTextField(20);
+                JTextField nomeField = new JTextField(contas.get(index_user).getNome());
+                JTextField emailField = new JTextField(contas.get(index_user).getEmail());
                 JTextField bioField = new JTextField(20);
                 JLabel bioMsg = new JLabel("BIO - Comum = 50 caracteres; Premium = 200 caracteres");
 
@@ -859,17 +862,16 @@ public class LoginRegister extends JFrame implements ActionListener {
                     String email = emailField.getText();
                     String bio = bioField.getText();
 
-
                     if (nome.length() < 5) {
                         JOptionPane.showMessageDialog(null,
                                 "O usuário precisa ter um username maior que 5 caracteres!");
                     }
 
-                    else if (checkEmail(email) !=null || isEmailValid(email) == false) {
+                    else if ((checkEmail(email) != null || isEmailValid(email) == false)
+                            && !email.equalsIgnoreCase(contas.get(index_user).getEmail())) {
                         JOptionPane.showMessageDialog(null,
                                 "E-mail inválido ou já cadastrado!");
-                    }
-                    else if (contas.get(index_user).getPlano().equalsIgnoreCase("comum")) {
+                    } else if (contas.get(index_user).getPlano().equalsIgnoreCase("comum")) {
 
                         if (bio.length() > 50) {
                             JOptionPane.showMessageDialog(null, "Você excedeu o número de caracteres");
