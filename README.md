@@ -9,7 +9,7 @@ Duplicação de código
 Falta de tratamento de exceções
 Nomes de variáveis inconsistentes
 Falta de separação de responsabilidades
-Muitas responsabilidades em um único método
+Muitas responsabilidades em um único método;
 
   - isEmailValid:
 Complexidade Ciclomática
