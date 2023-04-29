@@ -82,8 +82,22 @@ public class LoginRegister extends JFrame implements ActionListener {
                         setExtendedState(JFrame.ICONIFIED);
                     }
                 }
-                TelaInicial home = new TelaInicial();
+                TelaInicial home = new TelaInicial(this);
                 home.setVisible(true);
+
+                // Verificar estado da conta e instanciar classe de estado apropriada
+                String tipoConta = contas.get(index_user).getPlano();
+                EstadoConta estadoConta;
+                if (tipoConta.equalsIgnoreCase("administrador")) {
+                    estadoConta = new EstadoContaAdministrador(home);
+                } else {
+                    estadoConta = new EstadoContaComum(home);
+                }
+    
+                // Executar ações correspondentes ao estado atual do sistema
+                estadoConta.executarAcoes();
+
+
             } else {
                 JOptionPane.showMessageDialog(null, "Usuario/senha inválidos!");
             }
@@ -266,7 +280,7 @@ public class LoginRegister extends JFrame implements ActionListener {
         JFrame frameUtensilio = new JFrame();
         JFrame frameMultaPendente = new JFrame();
 
-        public TelaInicial() {
+        public TelaInicial(LoginRegister loginRegister) {
             super("Tela inicial");
             setLayout(new BorderLayout());
             setSize(400, 400);
