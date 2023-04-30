@@ -8,5 +8,5 @@ public abstract class EstadoConta {
     }
     
 
-    public abstract void executarAcoes();
+    public abstract void mostrarTela();
 }
