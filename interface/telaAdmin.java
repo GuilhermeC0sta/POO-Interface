@@ -3,7 +3,6 @@ import java.awt.*;
 import java.util.List;
 import java.awt.event.*;
 import java.util.ArrayList;
-import LoginRegister.*;
 
 public class telaAdmin extends JFrame implements ActionListener {
 
@@ -42,10 +41,6 @@ public class telaAdmin extends JFrame implements ActionListener {
         
         this.dados = dados;
         this.contas = contas;
-
-        for (conta user : dados.contas) {
-            System.out.println(user.getNome());
-        }
 
         JPanel panel6 = new JPanel();
         panelAdmin.setLayout(new BoxLayout(panelAdmin, BoxLayout.Y_AXIS));
@@ -142,8 +137,8 @@ public class telaAdmin extends JFrame implements ActionListener {
                 try {
                     int isbnAddItem = Integer.parseInt(isbnAdd.getText());
                     int quantidadeAddItem = Integer.parseInt(quantidadeAdd.getText());
-                    for (int i = 0; i < dados.livros.size(); i++) {
-                        if (dados.livros.get(i).getIsbn() == isbnAddItem) {
+                    for (int i = 0; i < LoginRegister.livros.size(); i++) {
+                        if (LoginRegister.livros.get(i).getIsbn() == isbnAddItem) {
                             JOptionPane.showMessageDialog(null, "ISBN já cadastrado!");
                             return;
                         }
@@ -154,7 +149,7 @@ public class telaAdmin extends JFrame implements ActionListener {
                     }
 
                     if (result == JOptionPane.OK_OPTION) {
-                        dados.livros.add(
+                        LoginRegister.livros.add(
                                 new Livro(tituloAdd.getText(), autorAdd.getText(), isbnAddItem, quantidadeAddItem,
                                         generoAdd.getText()));
                         JOptionPane.showMessageDialog(null, "Livro adicionado!");
@@ -205,13 +200,13 @@ public class telaAdmin extends JFrame implements ActionListener {
                 }
 
                 if (result == JOptionPane.OK_OPTION) {
-                    for (int i = 0; i < dados.audiobook2.size(); i++) {
-                        if (dados.audiobook2.get(i).getAudio() == idAudioAddItem) {
+                    for (int i = 0; i < LoginRegister.audiobook2.size(); i++) {
+                        if (LoginRegister.audiobook2.get(i).getAudio() == idAudioAddItem) {
                             JOptionPane.showMessageDialog(null, "ID do áudio já cadastrado!");
                             return;
                         }
                     }
-                    dados.audiobook2.add(new audiobook(tituloAdd.getText(), autorAdd.getText(), duracaoAddItem,
+                    LoginRegister.audiobook2.add(new audiobook(tituloAdd.getText(), autorAdd.getText(), duracaoAddItem,
                             quantidadeAddItem,
                             generoAdd.getText(), idAudioAddItem));
                     JOptionPane.showMessageDialog(null, "Audio adicionado!");
@@ -246,7 +241,7 @@ public class telaAdmin extends JFrame implements ActionListener {
                             String corP = corField.getText();
                             String marcaP = marcaField.getText();
                             int quantidadeP = Integer.parseInt(quantidadeField.getText());
-                            dados.utensilios.add(new postit(marcaP, corP, quantidadeP));
+                            LoginRegister.utensilios.add(new postit(marcaP, corP, quantidadeP));
                             JOptionPane.showMessageDialog(null, "Postit adicionado!");
                         }
 
@@ -287,7 +282,7 @@ public class telaAdmin extends JFrame implements ActionListener {
                             String corM = corField.getText();
                             String brilhoM = brilhoField.getText();
                             int quantidadeM = Integer.parseInt(quantidadeField.getText());
-                            dados.utensilios.add(new marca_texto(marcaM, corM, brilhoM, quantidadeM));
+                            LoginRegister.utensilios.add(new marca_texto(marcaM, corM, brilhoM, quantidadeM));
                             JOptionPane.showMessageDialog(null, "Marca texto adicionado!");
                         }
                     } catch (NumberFormatException ex) {
@@ -318,7 +313,7 @@ public class telaAdmin extends JFrame implements ActionListener {
                             String marcaA = marcaField.getText();
                             int slotsA = Integer.parseInt(slotsField.getText());
                             int quantidadeA = Integer.parseInt(quantidadeField.getText());
-                            dados.utensilios.add(new apoio_livros(marcaA, slotsA, quantidadeA));
+                            LoginRegister.utensilios.add(new apoio_livros(marcaA, slotsA, quantidadeA));
                             JOptionPane.showMessageDialog(null, "Apoio para Livros adicionado!");
                         }
                     } catch (NumberFormatException ex) {
@@ -332,9 +327,10 @@ public class telaAdmin extends JFrame implements ActionListener {
 
             ArrayList<conta> teste = new ArrayList();
 
-            teste = dados.getContas();
+            //teste = LoginRegister.getContas();
 
-            for (conta user : dados.contas) {
+            for (conta user : LoginRegister.contas) {
+                System.out.println("TESTEEUMICAEL");
                 System.out.println(user.getNome());
             }
 
@@ -349,7 +345,6 @@ public class telaAdmin extends JFrame implements ActionListener {
                 panelCadastros.removeAll(); // remove todos os componentes do painel
 
                 for (conta user : contas) {
-                    System.out.println("TASTE1244");
                     JLabel NomeLabel = new JLabel("Nome: " + user.getNome());
                     JLabel EmailLabel = new JLabel("Email: " + user.getEmail());
                     JLabel planoLabel = new JLabel("Plano: \n" + user.getPlano());
@@ -382,9 +377,9 @@ public class telaAdmin extends JFrame implements ActionListener {
                 buttonCP.setSize(10, 10);
                 multaalarme = 0; // redefine a variável multaalarme para 0
 
-                for (int j = 0; j < dados.id_multapaga.size(); j++) {
+                for (int j = 0; j < LoginRegister.id_multapaga.size(); j++) {
                     multaalarme = 1;
-                    JLabel multalabel = new JLabel("O Usuario: " + dados.id_multapaga.get(j) + " pagou uma multa");
+                    JLabel multalabel = new JLabel("O Usuario: " + LoginRegister.id_multapaga.get(j) + " pagou uma multa");
                     panelCP.add(multalabel);
                 }
                 if (multaalarme == 0) {
@@ -397,7 +392,7 @@ public class telaAdmin extends JFrame implements ActionListener {
                         frameCP.dispose();
                     }
                 });
-                if (dados.id_multapaga.size() != 0) {
+                if (LoginRegister.id_multapaga.size() != 0) {
                     panelCP.add(buttonCP);
                 } else {
                     JLabel multalabel2 = new JLabel("Não há multas a serem confirmadas");
@@ -405,8 +400,8 @@ public class telaAdmin extends JFrame implements ActionListener {
                 }
                 buttonCP.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
-                        for (int j = 0; j < dados.id_multapaga.size(); j++) {
-                            dados.id_multapaga.remove(j);
+                        for (int j = 0; j < LoginRegister.id_multapaga.size(); j++) {
+                            LoginRegister.id_multapaga.remove(j);
                             JOptionPane.showMessageDialog(null, "voce confirmou o pagamento de uma das multas");
                         }
                         frameCP.dispose();
@@ -439,11 +434,11 @@ public class telaAdmin extends JFrame implements ActionListener {
                     if (itemFieldR.getSelectedItem().equals("Livro")) {
                         isbn = Integer.parseInt(codigoFieldR.getText());
 
-                        for (int k = 0; k < dados.livros.size(); k++) {
-                            if (isbn == dados.livros.get(k).getIsbn()) {
-                                dados.livros.remove(k);
+                        for (int k = 0; k < LoginRegister.livros.size(); k++) {
+                            if (isbn == LoginRegister.livros.get(k).getIsbn()) {
+                                LoginRegister.livros.remove(k);
                                 JOptionPane.showMessageDialog(null, "Livro " + isbn + " removido!");
-                            } else if (k == dados.livros.size() - 1) {
+                            } else if (k == LoginRegister.livros.size() - 1) {
                                 JOptionPane.showMessageDialog(null, "Livro não encontrado!");
                             }
                         }
@@ -451,11 +446,11 @@ public class telaAdmin extends JFrame implements ActionListener {
                     } else if (itemFieldR.getSelectedItem().equals("Audiobook")) {
                         codigoR = Integer.parseInt(codigoFieldR.getText());
 
-                        for (int k = 0; k < dados.audiobook2.size(); k++) {
-                            if (codigoR == dados.audiobook2.get(k).getAudio()) {
-                                dados.audiobook2.remove(k);
+                        for (int k = 0; k < LoginRegister.audiobook2.size(); k++) {
+                            if (codigoR == LoginRegister.audiobook2.get(k).getAudio()) {
+                                LoginRegister.audiobook2.remove(k);
                                 JOptionPane.showMessageDialog(null, "Audiobook " + codigoR + " removido!");
-                            } else if (k == dados.audiobook2.size() - 1) {
+                            } else if (k == LoginRegister.audiobook2.size() - 1) {
                                 JOptionPane.showMessageDialog(null, "Audiobook não encontrado!");
                             }
                         }
@@ -467,25 +462,25 @@ public class telaAdmin extends JFrame implements ActionListener {
 
         } else if (e.getSource() == livros_devolvidos) {
             List<Integer> ids_a_remover = new ArrayList<Integer>();
-            for (int j = 0; j < dados.id_devolvido.size(); j++) {
-                String mensagem = "O usuário de id " + dados.id_devolvido.get(j) + " devolveu o livro "
-                        + dados.isbn_devolvido.get(j)
+            for (int j = 0; j < LoginRegister.id_devolvido.size(); j++) {
+                String mensagem = "O usuário de id " + LoginRegister.id_devolvido.get(j) + " devolveu o livro "
+                        + LoginRegister.isbn_devolvido.get(j)
                         + ".\nSe este livro foi devolvido, clique em OK.\nCaso contrário, clique em CANCELAR.";
                 int resultado = JOptionPane.showConfirmDialog(null, mensagem, "Livro devolvido",
                         JOptionPane.OK_CANCEL_OPTION);
                 if (resultado == JOptionPane.OK_OPTION) {
-                    dados.id_devolvido.remove(j);
-                    dados.isbn_devolvido.remove(j);
+                    LoginRegister.id_devolvido.remove(j);
+                    LoginRegister.isbn_devolvido.remove(j);
                     JOptionPane.showMessageDialog(null, "Confirmado que o livro foi devolvido!");
                 } else if (resultado == JOptionPane.CANCEL_OPTION) {
-                    if (!dados.id_multa.contains(dados.id_devolvido.get(j))) {
+                    if (!LoginRegister.id_multa.contains(LoginRegister.id_devolvido.get(j))) {
                         String mensagemMulta = "Aplicar multa? Digite S para aplicar multa caso tenha passado o prazo, ou N caso contrário.";
                         String resposta = JOptionPane.showInputDialog(null, mensagemMulta, "Multa",
                                 JOptionPane.QUESTION_MESSAGE);
                         boolean multado = false;
                         if (resposta != null && resposta.equalsIgnoreCase("S")) {
                             JOptionPane.showMessageDialog(null, "Multa aplicada!");
-                            dados.id_multa.add(dados.id_devolvido.get(j));
+                            LoginRegister.id_multa.add(LoginRegister.id_devolvido.get(j));
                             multado = true;
                         } else if (resposta != null && resposta.equalsIgnoreCase("N")) {
                             JOptionPane.showMessageDialog(null, "Multa não aplicada!");
@@ -494,7 +489,7 @@ public class telaAdmin extends JFrame implements ActionListener {
                         if (multado) {
                             for (int k = 0; k < ids_a_remover.size(); k++) {
                                 int id = ids_a_remover.get(k);
-                                if (id == dados.id_devolvido.get(j)) {
+                                if (id == LoginRegister.id_devolvido.get(j)) {
                                     ids_a_remover.remove(k);
                                     break;
                                 }
