@@ -7,19 +7,19 @@ import java.util.ArrayList;
 
 public class LoginRegister extends JFrame implements ActionListener {
 
-    public ArrayList<conta> contas = new ArrayList<conta>();
-    public ArrayList<Livro> livros = new ArrayList<Livro>();
-    public ArrayList<audiobook> audiobook2 = new ArrayList<audiobook>();
-    public ArrayList<utensilios> utensilios = new ArrayList<utensilios>();
-    public ArrayList<Integer> id_user = new ArrayList<>();
-    public ArrayList<Integer> id_userAudio = new ArrayList<>();
-    public ArrayList<Integer> isbn_locado = new ArrayList<>();
-    public ArrayList<Integer> isbn_devolvido = new ArrayList<>();
-    public ArrayList<Integer> audio_locado = new ArrayList<>();
-    public ArrayList<Integer> id_devolvido = new ArrayList<>();
-    public ArrayList<Integer> id_multapendente = new ArrayList<>();
-    public ArrayList<Integer> id_multapaga = new ArrayList<>();
-    public ArrayList<Integer> id_multa = new ArrayList<>();
+    public static ArrayList<conta> contas = new ArrayList<conta>();
+    public static ArrayList<Livro> livros = new ArrayList<Livro>();
+    public static ArrayList<audiobook> audiobook2 = new ArrayList<audiobook>();
+    public static ArrayList<utensilios> utensilios = new ArrayList<utensilios>();
+    public static ArrayList<Integer> id_user = new ArrayList<>();
+    public static ArrayList<Integer> id_userAudio = new ArrayList<>();
+    public static ArrayList<Integer> isbn_locado = new ArrayList<>();
+    public static ArrayList<Integer> isbn_devolvido = new ArrayList<>();
+    public static ArrayList<Integer> audio_locado = new ArrayList<>();
+    public static ArrayList<Integer> id_devolvido = new ArrayList<>();
+    public static ArrayList<Integer> id_multapendente = new ArrayList<>();
+    public static ArrayList<Integer> id_multapaga = new ArrayList<>();
+    public static ArrayList<Integer> id_multa = new ArrayList<>();
 
     public int sinal = 0;
     public int id = 0;
@@ -1016,6 +1016,9 @@ public class LoginRegister extends JFrame implements ActionListener {
             } 
             
         }
+    }
+
+    public class contas {
     }
 
 }
