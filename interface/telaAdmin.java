@@ -11,9 +11,6 @@ public class telaAdmin extends JFrame implements ActionListener {
     JPanel panelAdmin = new JPanel();
     JFrame frameMultaPendente = new JFrame();
 
-    public LoginRegister dados;
-
-
     public int auxteste = 0;
     public int id = 0;
     public int index_user;
@@ -25,28 +22,16 @@ public class telaAdmin extends JFrame implements ActionListener {
     public int isbn;
     public int codigoR;
 
-    public ArrayList<conta> contas;
-
     JPanel panel6 = new JPanel();
-
+    
     public class IOException extends RuntimeException {
         public IOException(String message) {
             super(message);
         }
     }
 
-    
-    public telaAdmin(ArrayList<conta> contas, LoginRegister dados){
-        
-        
-        this.dados = dados;
-        this.contas = contas;
-
-        JPanel panel6 = new JPanel();
-        panelAdmin.setLayout(new BoxLayout(panelAdmin, BoxLayout.Y_AXIS));
-        // add_itens, remover_itens, livros_devolvidos, multas, cadastros;
-        panelAdmin.add(Box.createRigidArea(new Dimension(0, 50)));
-
+    public telaAdmin(){
+        panelAdmin.add(Box.createRigidArea(new Dimension(0, 10)));
         add_itens = new JButton("Adicionar livro/audiobook/utensilio");
         add_itens.setPreferredSize(botaoDimensao);
         add_itens.setMaximumSize(botaoDimensao);
@@ -96,17 +81,19 @@ public class telaAdmin extends JFrame implements ActionListener {
         buttonconfirmar.setMinimumSize(botaoDimensao);
         buttonconfirmar.addActionListener(this);
         panelAdmin.add(buttonconfirmar);
+        buttonconfirmar.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panelAdmin.add(Box.createRigidArea(new Dimension(0, 10)));
 
+        panelAdmin.setSize(new Dimension(550,400));
+        panelAdmin.setLayout(new BoxLayout(panelAdmin, BoxLayout.Y_AXIS));
+        panelAdmin.add(Box.createRigidArea(new Dimension(400, 400)));
+        setSize(400,400);
         add(panelAdmin);
         setVisible(true);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
-
-        // TODO Auto-generated method stub
-        //throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
         if (e.getSource() == add_itens) {
             String[] opcoes = { "Livro", "Audiobook", "Utensilio" };
             int opcaoSelecionada = JOptionPane.showOptionDialog(null, "Selecione o tipo de item a adicionar:",
@@ -325,15 +312,6 @@ public class telaAdmin extends JFrame implements ActionListener {
         } else if (e.getSource() == cadastros) {
             auxteste2 = 0;
 
-            ArrayList<conta> teste = new ArrayList();
-
-            //teste = LoginRegister.getContas();
-
-            for (conta user : LoginRegister.contas) {
-                System.out.println("TESTEEUMICAEL");
-                System.out.println(user.getNome());
-            }
-
             if (auxteste2 == 0) {
                 auxteste2 = 1;
                 JPanel panelCadastros = new JPanel(new GridLayout(0, 4));
@@ -344,7 +322,7 @@ public class telaAdmin extends JFrame implements ActionListener {
                 frameCadastros.setLocationRelativeTo(null);
                 panelCadastros.removeAll(); // remove todos os componentes do painel
 
-                for (conta user : contas) {
+                for (conta user : LoginRegister.contas) {
                     JLabel NomeLabel = new JLabel("Nome: " + user.getNome());
                     JLabel EmailLabel = new JLabel("Email: " + user.getEmail());
                     JLabel planoLabel = new JLabel("Plano: \n" + user.getPlano());
