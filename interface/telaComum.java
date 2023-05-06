@@ -272,15 +272,12 @@ public class telaComum extends JFrame implements ActionListener {
                                 isbn = Integer.parseInt(codigoField.getText());
                                 for (int k = 0; k < LoginRegister.livros.size(); k++) {
                                     if (isbn == LoginRegister.livros.get(k).getIsbn()) {
-                                        if (LoginRegister.livros.get(k).getQnt_disp() == 0) {
+                                        if (LoginRegister.livros.get(k).isAvailable() == false) {
                                             JOptionPane.showMessageDialog(null,
                                                     "Livro indisponível, tente novamente em outro momento.");
                                             break;
-                                        } else if (LoginRegister.livros.get(k).getQnt_disp() > 0) {
-                                            int quantidadeL = LoginRegister.livros.get(k).getQnt_disp() - 1;
-                                            LoginRegister.livros.set(k,
-                                                    new Livro(LoginRegister.livros.get(k).getTitulo(), LoginRegister.livros.get(k).getAutor(),
-                                                            isbn, quantidadeL, LoginRegister.livros.get(k).getGenero()));
+                                        } else if (LoginRegister.livros.get(k).isAvailable()) {
+                                            LoginRegister.livros.get(k).rent();
                                             JOptionPane.showMessageDialog(null,
                                                     "Parabéns, você conseguiu locar um livro!");
                                                     LoginRegister.id_user.add(LoginRegister.contas.get(index_user).getId());
