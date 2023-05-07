@@ -484,11 +484,7 @@ public class telaComum extends JFrame implements ActionListener {
                                 JOptionPane.showMessageDialog(null, "Livro " + isbn + " devolvido!");
                                 for (int k = 0; k < LoginRegister.livros.size(); k++) {
                                     if (isbn == LoginRegister.livros.get(k).getIsbn()) {
-                                        int devolu = LoginRegister.livros.get(k).getQnt_disp() + 1;
-                                        LoginRegister.livros.set(k,
-                                                new Livro(LoginRegister.livros.get(k).getTitulo(), LoginRegister.livros.get(k).getAutor(),
-                                                        isbn,
-                                                        devolu, LoginRegister.livros.get(k).getGenero()));
+                                        LoginRegister.livros.get(k).returnbook();
                                         break;
                                     }
                                 }
