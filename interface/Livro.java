@@ -73,6 +73,11 @@ public class Livro extends ItemsBiblioteca {
         }
     }
 
+    public void returnbook() {
+        this.qntd_disp++;
+        updateState();
+    }
+
     public boolean isAvailable() {
         return state.isAvailable();
     }
