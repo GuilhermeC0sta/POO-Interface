@@ -297,17 +297,12 @@ public class telaComum extends JFrame implements ActionListener {
                                 codigoAudio = Integer.parseInt(codigoField.getText());
                                 for (int k = 0; k < LoginRegister.audiobook2.size(); k++) {
                                     if (codigoAudio == LoginRegister.audiobook2.get(k).getAudio()) {
-                                        if (LoginRegister.audiobook2.get(k).getQnt_disp() == 0) {
+                                        if (LoginRegister.audiobook2.get(k).isAvailable() == false) {
                                             JOptionPane.showMessageDialog(null,
                                                     "Audiobook indisponível, tente novamente em outro momento.");
                                             break;
-                                        } else if (LoginRegister.audiobook2.get(k).getQnt_disp() > 0) {
-                                            int quantidadeA = LoginRegister.audiobook2.get(k).getQnt_disp() - 1;
-                                            LoginRegister.audiobook2.set(k,
-                                                    new audiobook(LoginRegister.audiobook2.get(k).getTitulo(),
-                                                    LoginRegister.audiobook2.get(k).getAutor(),
-                                                    LoginRegister.audiobook2.get(k).getDuracao(), quantidadeA,
-                                                    LoginRegister.audiobook2.get(k).getGenero(), codigoAudio));
+                                        } else if (LoginRegister.audiobook2.get(k).isAvailable()) {
+                                            LoginRegister.audiobook2.get(k).rent();
                                             JOptionPane.showMessageDialog(null,
                                                     "Parabéns, você conseguiu locar um audiobook!");
                                                     LoginRegister.id_userAudio.add(LoginRegister.contas.get(index_user).getId());
