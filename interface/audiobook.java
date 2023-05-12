@@ -1,5 +1,5 @@
 public class audiobook extends ItemsBiblioteca {
-
+    private LivroEstado state;
     private String autor;
     private int duracao;
     private String genero;
@@ -9,13 +9,18 @@ public class audiobook extends ItemsBiblioteca {
 
     public audiobook(String titulo, String autor, int duracao, int qnt_disp, String genero, int id_audio) {
         super(titulo, qnt_disp);
-
         this.titulo = titulo;
         this.duracao = duracao;
         this.autor = autor;
         this.genero = genero;
         this.id_audio = id_audio;
         this.qntd_disp = qnt_disp;
+        if(qntd_disp > 0){
+            state = new AvailableState();
+        }
+        else{
+            state = new OutOfStockState();
+        }
     }
 
     @Override
@@ -34,19 +39,6 @@ public class audiobook extends ItemsBiblioteca {
 
     public int getDuracao() {
         return duracao;
-    }
-
-    public void setAutor(String autor) {
-        this.autor = autor;
-    }
-
-
-    public void setDuracao(int duracao) {
-        this.duracao = duracao;
-    }
-
-    public void setGenero(String genero) {
-        this.genero = genero;
     }
 
     public String getGenero() {
@@ -69,4 +61,29 @@ public class audiobook extends ItemsBiblioteca {
         System.out.println(" Quantidade disponível: " + getQnt_disp() + "\n");
     }
 
+    private void updateState() {
+        if (qntd_disp == 0) {
+            state = new OutOfStockState();
+        } else {
+            state = new AvailableState();
+        }
+    }
+
+    public void rent() {
+        if (state.isAvailable()) {
+            this.qntd_disp--;
+            updateState();
+        } else {
+            throw new IllegalStateException("Livro não disponível para aluguel.");
+        }
+    }
+
+    public void returnbook() {
+        this.qntd_disp++;
+        updateState();
+    }
+
+    public boolean isAvailable() {
+        return state.isAvailable();
+    }
 }
