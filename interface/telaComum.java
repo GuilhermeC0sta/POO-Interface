@@ -321,7 +321,7 @@ public class telaComum extends JFrame implements ActionListener {
                         contalocados += 1;
                     } else {
                         JOptionPane.showMessageDialog(null,
-                                "Você não pode locar mais de um item pois a sua conta é comum");
+                            "Você não pode locar mais de um item pois a sua conta é comum");
                     }
                 }
 
@@ -332,19 +332,16 @@ public class telaComum extends JFrame implements ActionListener {
                                 isbn = Integer.parseInt(codigoField.getText());
                                 for (int k = 0; k < LoginRegister.livros.size(); k++) {
                                     if (isbn == LoginRegister.livros.get(k).getIsbn()) {
-                                        if (LoginRegister.livros.get(k).getQnt_disp() == 0) {
+                                        if (LoginRegister.audiobook2.get(k).isAvailable() == false) {
                                             JOptionPane.showMessageDialog(null,
-                                                    "Livro indisponível, tente novamente em outro momento.");
+                                                    "Audiobook indisponível, tente novamente em outro momento.");
                                             break;
-                                        } else if (LoginRegister.livros.get(k).getQnt_disp() > 0) {
-                                            int quantidadeL = LoginRegister.livros.get(k).getQnt_disp() - 1;
-                                            LoginRegister.livros.set(k,
-                                                    new Livro(LoginRegister.livros.get(k).getTitulo(), LoginRegister.livros.get(k).getAutor(),
-                                                            isbn, quantidadeL, LoginRegister.livros.get(k).getGenero()));
+                                        } else if (LoginRegister.audiobook2.get(k).isAvailable()) {
+                                            LoginRegister.audiobook2.get(k).rent();
                                             JOptionPane.showMessageDialog(null,
-                                                    "Parabéns, você conseguiu locar um livro!");
-                                                    LoginRegister.id_user.add(LoginRegister.contas.get(index_user).getId());
-                                                    LoginRegister.isbn_locado.add(isbn);
+                                                    "Parabéns, você conseguiu locar um audiobook!");
+                                                    LoginRegister.id_userAudio.add(LoginRegister.contas.get(index_user).getId());
+                                                    LoginRegister.audio_locado.add(codigoAudio);
                                             break;
                                         }
                                     } else if (k == LoginRegister.livros.size() - 1) {
@@ -360,18 +357,15 @@ public class telaComum extends JFrame implements ActionListener {
                                 codigoAudio = Integer.parseInt(codigoField.getText());
                                 for (int k = 0; k < LoginRegister.audiobook2.size(); k++) {
                                     if (codigoAudio == LoginRegister.audiobook2.get(k).getAudio()) {
-                                        if (LoginRegister.audiobook2.get(k).getQnt_disp() == 0) {
+                                        if (LoginRegister.audiobook2.get(k).isAvailable() == false) {
                                             JOptionPane.showMessageDialog(null,
                                                     "Audiobook indisponível, tente novamente em outro momento.");
                                             break;
-                                        } else if (LoginRegister.audiobook2.get(k).getQnt_disp() > 0) {
-                                            LoginRegister.audiobook2.set(k, new audiobook(LoginRegister.audiobook2.get(k).getTitulo(),
-                                            LoginRegister.audiobook2.get(k).getAutor(), LoginRegister.audiobook2.get(k).getDuracao(),
-                                            LoginRegister.audiobook2.get(k).getQnt_disp() - 1,
-                                            LoginRegister.audiobook2.get(k).getGenero(), codigoAudio));
+                                        } else if (LoginRegister.audiobook2.get(k).isAvailable()) {
+                                            LoginRegister.audiobook2.get(k).rent();
                                             JOptionPane.showMessageDialog(null,
                                                     "Parabéns, você conseguiu locar um audiobook!");
-                                                    LoginRegister.id_userAudio.add(index_user);
+                                                    LoginRegister.id_userAudio.add(LoginRegister.contas.get(index_user).getId());
                                                     LoginRegister.audio_locado.add(codigoAudio);
                                             break;
                                         }
