@@ -11,7 +11,7 @@ public class telaComum extends JFrame implements ActionListener {
     private JLabel titleLabel;
     public int auxteste = 0;
     public int id = 0;
-    public int index_user = 0;
+    public int index_user = LoginRegister.index_user;
     public int contalocados = 0;
     public int auxteste3 = 0;
     public int auxteste2 = 0;
