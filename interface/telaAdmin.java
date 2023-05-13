@@ -13,7 +13,7 @@ public class telaAdmin extends JFrame implements ActionListener {
 
     public int auxteste = 0;
     public int id = 0;
-    public int index_user;
+    public int index_user = LoginRegister.index_user;
     public int contalocados = 0;
     public int auxteste3 = 0;
     public int auxteste2 = 0;
