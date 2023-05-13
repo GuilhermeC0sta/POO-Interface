@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.List;
 import java.util.regex.*;
 import java.util.ArrayList;
 
@@ -280,8 +279,6 @@ public class LoginRegister extends JFrame implements ActionListener {
             titlePanel.add(titleLabel);
             add(titlePanel, BorderLayout.NORTH);
             setLocationRelativeTo(null);
-
-            Dimension botaoDimensao = new Dimension(250, 30);
 
             if (sinal == 0) { // criando informações
                 livros.add(new Livro("LivroExemplo", "Guilherme", 10, 0, "luta"));
