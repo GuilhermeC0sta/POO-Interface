@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.regex.*;
 
-public class telaComum extends JFrame implements ActionListener {
+public class telaComum extends JFrame implements ActionListener { //fix
     private JButton audios, books, locar, editar, mostrar, devolver, verificar, pagarmultas, vermultas,
             verutensilios, mostrarTudo, buttonPGM, marca_textobutton;
     public int auxteste = 0;
