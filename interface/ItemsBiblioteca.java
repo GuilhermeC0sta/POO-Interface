@@ -3,7 +3,7 @@ public abstract class ItemsBiblioteca {
     private String titulo;
     private String autor;
     private String genero;
-    private int qntd_disp;
+    protected int qntd_disp;
     private int isbn;
 
     public ItemsBiblioteca(String titulo, int qntd_disp) {
