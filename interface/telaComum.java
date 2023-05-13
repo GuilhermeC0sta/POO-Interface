@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.regex.*;
 
-public class teste2525 extends JFrame implements ActionListener {
+public class telaComum extends JFrame implements ActionListener {
     private JButton audios, books, locar, editar, mostrar, devolver, verificar, pagarmultas, vermultas,
             verutensilios, mostrarTudo, buttonPGM, marca_textobutton;
     public int auxteste = 0;
@@ -43,7 +43,7 @@ public class teste2525 extends JFrame implements ActionListener {
         }
     }
 
-    public teste2525() {
+    public telaComum() {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.add(Box.createRigidArea(new Dimension(0, 10)));
