@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.List;
 import java.util.regex.*;
 import java.util.ArrayList;
 
@@ -71,39 +70,55 @@ public class LoginRegister extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == login) {
-            String usuario2 = usuario.getText();
-            String senha2 = senha.getText();
-            conta conta2 = findUser(usuario2, senha2);
-            if (conta2 != null) {
-                JOptionPane.showMessageDialog(null, "Logado com sucesso!");
-                for (int i = 0; i < contas.size(); i++) {
-                    if (contas.get(i).getEmail().equals(usuario2) && contas.get(i).getSenha().equals(senha2)) {
-                        index_user = i;
-                        System.out.println(contas.get(i).getEmail());
-                        System.out.println("Login realizado com sucesso! " + index_user);
-                        setExtendedState(JFrame.ICONIFIED);
-                    }
-                }
-                TelaInicial home = new TelaInicial(this);
-                // Verificar estado da conta e instanciar classe de estado apropriada
-                String tipoConta = contas.get(index_user).getPlano();
-                EstadoConta estadoConta;
-                if (tipoConta.equalsIgnoreCase("administrador")) {
-                    estadoConta = new EstadoContaAdministrador(home);
-                } else {
-                    estadoConta = new EstadoContaComum(home);
-                }
-                System.out.println(estadoConta);
-                // Executar ações correspondentes ao estado atual do sistema
-                estadoConta.mostrarTela();
-            } else {
-                JOptionPane.showMessageDialog(null, "Usuario/senha inválidos!");
-            }
-        } else if (e.getSource() == register) {
-            Reg register = new Reg();
-            register.setVisible(true);
+            fazerLogin();
+        } else {
+            abrirCadastro();
         }
         setLocationRelativeTo(null);
+    }
+
+    public void fazerLogin() {
+        String nomeUsuario = this.usuario.getText();
+        String senha = this.senha.getText();
+
+        conta conta = findUser(nomeUsuario, senha);
+
+        if (conta != null) {
+            JOptionPane.showMessageDialog(null, "Logado com sucesso!");
+            index_user = getIndexConta(nomeUsuario, senha);
+            setExtendedState(JFrame.ICONIFIED);
+            exibirTelaInicial(index_user);
+        } else {
+            JOptionPane.showMessageDialog(null, "Usuario/senha inválidos!");
+        }
+    }
+
+    private void abrirCadastro() {
+        Reg registro = new Reg();
+        registro.setVisible(true);
+    }
+
+    private int getIndexConta(String nomeUsuario, String senha) {
+        for (int i = 0; i < contas.size(); i++) {
+            if (contas.get(i).getEmail().equals(nomeUsuario) && contas.get(i).getSenha().equals(senha)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private void exibirTelaInicial(int indexConta) {
+        TelaInicial telaInicial = new TelaInicial(this);
+
+        String tipoConta = contas.get(indexConta).getPlano();
+        EstadoConta estadoConta;
+        if (tipoConta.equalsIgnoreCase("administrador")) {
+            estadoConta = new EstadoContaAdministrador(telaInicial);
+        } else {
+            estadoConta = new EstadoContaComum(telaInicial);
+        }
+
+        estadoConta.mostrarTela();
     }
 
     class Reg extends JFrame implements ActionListener {
@@ -163,51 +178,51 @@ public class LoginRegister extends JFrame implements ActionListener {
                 String plano2 = plano.getSelectedItem().toString();
                 String senha2 = senha.getText();
 
-                conta contas2 = checkEmail(email2);
-                if (isEmailValid(email2)) {
-
-                    if (contas2 != null) {
-                        JOptionPane.showMessageDialog(null, "Esse usuário já existe!");
-                    } else if (senha2.length() < 8) {
-                        JOptionPane.showMessageDialog(null, "A senha deve possuir pelo menos 8 caracteres!");
-                    } else if (usuario.length() < 5) {
-                        JOptionPane.showMessageDialog(null,
-                                "O usuário precisa ter um username maior que 5 caracteres!");
-                    } else {
-                        if (plano2.equals("premium")) {
-                            contas.add(new premium(email2, senha2, usuario, id));
-                            contas.get(id).defPlano("premium");
-                            id++;
-                            JOptionPane.showMessageDialog(null, "Conta premium registrada com sucesso!");
-                            dispose();
-                        }
-                        if (plano2.equals("comum")) {
-                            contas.add(new comum(email2, senha2, usuario, id));
-                            contas.get(id).defPlano("comum");
-                            id++;
-                            JOptionPane.showMessageDialog(null, "Conta comum registrada com sucesso!");
-                            dispose();
-                        }
-                        if (plano2.equals("administrador")) {
-                            contas.add(new admin(email2, senha2, usuario, id));
-                            contas.get(id).defPlano("administrador");
-                            id++;
-                            JOptionPane.showMessageDialog(null, "Conta administador registrada com sucesso!");
-                            dispose();
-                        }
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(null, "Esse email é inválido!");
+                if (!isEmailValid(email2)) {
+                    showError("Esse email é inválido!");
+                    return;
                 }
 
+                if (checkEmail(email2) != null) {
+                    showError("Esse usuário já existe!");
+                    return;
+                }
+
+                if (senha2.length() < 8) {
+                    showError("A senha deve possuir pelo menos 8 caracteres!");
+                    return;
+                }
+
+                if (usuario.length() < 5) {
+                    showError("O usuário precisa ter um username maior que 5 caracteres!");
+                    return;
+                }
+
+                criarConta(usuario, email2, senha2, plano2);
             }
         }
-    }
 
+        private void criarConta(String usuario, String email, String senha, String plano) {
+            switch (plano) {
+                case "premium":
+                    contas.add(new premium(email, senha, usuario, id));
+                    break;
+                case "comum":
+                    contas.add(new comum(email, senha, usuario, id));
+                    break;
+                case "administrador":
+                    contas.add(new admin(email, senha, usuario, id));
+                    break;
+            }
 
-    public void capa2(ArrayList<conta> teste){
-        for (conta user : teste) {
-            System.out.println(user.getNome());
+            contas.get(id).defPlano(plano);
+            id += 1;
+            JOptionPane.showMessageDialog(null, "Conta " + plano + " registrada com sucesso!");
+            dispose();
+        }
+
+        private void showError(String message) {
+            JOptionPane.showMessageDialog(null, message);
         }
     }
 
@@ -236,20 +251,10 @@ public class LoginRegister extends JFrame implements ActionListener {
     }
 
     public static boolean isEmailValid(String email) {
-        String regex = "^[A-Za-z0-9+_.-]+@gmail+.com+$";
+        String regex = "^[A-Za-z0-9+_.-]+@(gmail|outlook|hotmail|ic\\.ufal\\.br)+\\.com$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(email);
-        String outlook = "^[A-Za-z0-9+_.-]+@outlook+.com+$";
-        Pattern patternoutlook = Pattern.compile(outlook);
-        Matcher matcheroutlook = patternoutlook.matcher(email);
-        String hotmail = "^[A-Za-z0-9+_.-]+@hotmail+.com+$";
-        Pattern patternhotmail = Pattern.compile(hotmail);
-        Matcher matcherhotmail = patternhotmail.matcher(email);
-        String ic = "^[A-Za-z0-9+_.-]+@ic.ufal.br+$";
-        Pattern patternic = Pattern.compile(ic);
-        Matcher matcheric = patternic.matcher(email);
-
-        return matcher.matches() || matcheroutlook.matches() || matcherhotmail.matches() || matcheric.matches();
+        return matcher.matches();
     }
 
     public static void main(String[] args) {
@@ -258,7 +263,7 @@ public class LoginRegister extends JFrame implements ActionListener {
 
     class TelaInicial extends JFrame implements ActionListener {
         private JLabel titleLabel;
-        
+
         public TelaInicial(LoginRegister loginRegister) {
             super("Tela inicial");
             setLayout(new BorderLayout());
@@ -268,8 +273,6 @@ public class LoginRegister extends JFrame implements ActionListener {
             titlePanel.add(titleLabel);
             add(titlePanel, BorderLayout.NORTH);
             setLocationRelativeTo(null);
-
-            Dimension botaoDimensao = new Dimension(250, 30);
 
             if (sinal == 0) { // criando informações
                 livros.add(new Livro("LivroExemplo", "Guilherme", 10, 0, "luta"));
@@ -286,6 +289,6 @@ public class LoginRegister extends JFrame implements ActionListener {
         }
 
         public void actionPerformed(ActionEvent e) {
+        }
     }
-}
 }
