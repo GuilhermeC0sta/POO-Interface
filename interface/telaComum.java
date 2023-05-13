@@ -1,14 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 import java.awt.event.*;
-import java.util.ArrayList;
 import java.util.regex.*;
 
 public class telaComum extends JFrame implements ActionListener {
     private JButton audios, books, locar, editar, mostrar, devolver, verificar, pagarmultas, vermultas,
             verutensilios, mostrarTudo, buttonPGM, marca_textobutton;
-    private JLabel titleLabel;
     public int auxteste = 0;
     public int id = 0;
     public int index_user = LoginRegister.index_user;
@@ -267,50 +264,29 @@ public class telaComum extends JFrame implements ActionListener {
 
                 if (LoginRegister.contas.get(index_user).getPlano().equalsIgnoreCase("comum")) {
                     if (contalocados < 1) {
-                        if (itemField.getSelectedItem().toString().equalsIgnoreCase("livro")) {
-                            try {
-                                isbn = Integer.parseInt(codigoField.getText());
-                                RentBook(isbn);
-                            } catch (NumberFormatException ex) {
-                                JOptionPane.showMessageDialog(null, "Código ISBN inválido.");
-                            }
-                        } else if (itemField.getSelectedItem().toString().equalsIgnoreCase("audiobook")) {
-                            try {
-                                codigoAudio = Integer.parseInt(codigoField.getText());
-                                RentAudio(codigoAudio);
-                            } catch (NumberFormatException ex) {
-                                JOptionPane.showMessageDialog(null, "Código do audiobook inválido.");
-                            }
+                        String itemType = itemField.getSelectedItem().toString();
+                        int codiguin = Integer.parseInt(codigoField.getText());
+                        if (itemType.equalsIgnoreCase("livro") || itemType.equalsIgnoreCase("audiobook")) {
+                            locarItem(itemType, codiguin);
                         }
                         contalocados += 1;
                     } else {
-                        JOptionPane.showMessageDialog(null,
-                            "Você não pode locar mais de um item pois a sua conta é comum");
+                        JOptionPane.showMessageDialog(null, "Você não pode locar mais de um item pois a sua conta é comum");
                     }
                 }
+
                 if (LoginRegister.contas.get(index_user).getPlano().equalsIgnoreCase("premium")) {
                     if (contalocados < 15) {
-                        if (itemField.getSelectedItem().toString().equalsIgnoreCase("livro")) {
-                            try {
-                                isbn = Integer.parseInt(codigoField.getText());
-                                RentBook(isbn);
-                            } catch (NumberFormatException ex) {
-                                JOptionPane.showMessageDialog(null, "Código ISBN inválido.");
-                            }
-                        } else if (itemField.getSelectedItem().toString().equalsIgnoreCase("audiobook")) {
-                            try {
-                                codigoAudio = Integer.parseInt(codigoField.getText());
-                                RentAudio(codigoAudio);
-                            } catch (NumberFormatException ex) {
-                                JOptionPane.showMessageDialog(null, "Código de audiobook inválido.");
-                            }
+                        String itemType = itemField.getSelectedItem().toString();
+                        int codiguin = Integer.parseInt(codigoField.getText());
+                        if (itemType.equalsIgnoreCase("livro") || itemType.equalsIgnoreCase("audiobook")) {
+                            locarItem(itemType, codiguin);
                         }
                         contalocados += 1;
                     } else {
                         JOptionPane.showMessageDialog(null, "Você só pode locar até no máximo 15 itens");
                     }
                 }
-
             }
         } else if (e.getSource() == verificar) {
             auxteste3 = 0;
@@ -634,47 +610,53 @@ public class telaComum extends JFrame implements ActionListener {
         } 
         
     }
-
-    public void RentBook(int isbn){
-        for (int k = 0; k < LoginRegister.livros.size(); k++) {
-            if (isbn == LoginRegister.livros.get(k).getIsbn()) {
-                if (LoginRegister.livros.get(k).isAvailable() == false) {
-                    JOptionPane.showMessageDialog(null,
-                    "Livro indisponível, tente novamente em outro momento.");
-                    break;
-                } else if (LoginRegister.livros.get(k).isAvailable()) {
-                    LoginRegister.livros.get(k).rent();
-                    JOptionPane.showMessageDialog(null,
-                    "Parabéns, você conseguiu locar um livro!");
-                    LoginRegister.id_user.add(index_user);
-                    LoginRegister.isbn_locado.add(isbn);
-                    break;
+    
+    public void locarItem(String item, int codigo) {
+        try {
+            if (item.equalsIgnoreCase("livro")) {
+                for (int k = 0; k < LoginRegister.livros.size(); k++) {
+                    if (codigo == LoginRegister.livros.get(k).getIsbn()) {
+                        if (LoginRegister.livros.get(k).isAvailable() == false) {
+                            JOptionPane.showMessageDialog(null,
+                                    "Livro indisponível, tente novamente em outro momento.");
+                            break;
+                        } else if (LoginRegister.livros.get(k).isAvailable()) {
+                            LoginRegister.livros.get(k).rent();
+                            JOptionPane.showMessageDialog(null, "Parabéns, você conseguiu locar um livro!");
+                            LoginRegister.id_user.add(index_user);
+                            LoginRegister.isbn_locado.add(codigo);
+                            break;
+                        }
+                    } else if (k == LoginRegister.livros.size() - 1) {
+                        JOptionPane.showMessageDialog(null, "Código ISBN não encontrado.");
+                        break;
+                    }
                 }
-            } else if (k == LoginRegister.livros.size() - 1) {
-                JOptionPane.showMessageDialog(null, "Código ISBN não encontrado.");
-                break;
-            }
-        }
-    }
-
-    public void RentAudio(int isbn){
-        for (int k = 0; k < LoginRegister.audiobook2.size(); k++) {
-            if (codigoAudio == LoginRegister.audiobook2.get(k).getAudio()) {
-                if (LoginRegister.audiobook2.get(k).isAvailable() == false) {
-                    JOptionPane.showMessageDialog(null,
-                            "Audiobook indisponível, tente novamente em outro momento.");
-                    break;
-                } else if (LoginRegister.audiobook2.get(k).isAvailable()) {
-                    LoginRegister.audiobook2.get(k).rent();
-                    JOptionPane.showMessageDialog(null,
-                            "Parabéns, você conseguiu locar um audiobook!");
+            } else {
+                for (int k = 0; k < LoginRegister.audiobook2.size(); k++) {
+                    if (codigo == LoginRegister.audiobook2.get(k).getAudio()) {
+                        if (LoginRegister.audiobook2.get(k).isAvailable() == false) {
+                            JOptionPane.showMessageDialog(null,
+                                    "Audiobook indisponível, tente novamente em outro momento.");
+                            break;
+                        } else if (LoginRegister.audiobook2.get(k).isAvailable()) {
+                            LoginRegister.audiobook2.get(k).rent();
+                            JOptionPane.showMessageDialog(null, "Parabéns, você conseguiu locar um audiobook!");
                             LoginRegister.id_userAudio.add(index_user);
-                            LoginRegister.audio_locado.add(codigoAudio);
-                    break;
+                            LoginRegister.audio_locado.add(codigo);
+                            break;
+                        }
+                    } else if (k == LoginRegister.audiobook2.size() - 1) {
+                        JOptionPane.showMessageDialog(null, "Código do audiobook não encontrado.");
+                        break;
+                    }
                 }
-            } else if (k == LoginRegister.audiobook2.size() - 1) {
-                JOptionPane.showMessageDialog(null, "Código ISBN não encontrado.");
-                break;
+            }
+        } catch (NumberFormatException ex) {
+            if (item.equalsIgnoreCase("livro")) {
+                JOptionPane.showMessageDialog(null, "Código ISBN inválido.");
+            } else {
+                JOptionPane.showMessageDialog(null, "Código do audiobook inválido.");
             }
         }
     }
