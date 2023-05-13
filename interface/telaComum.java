@@ -640,14 +640,14 @@ public class telaComum extends JFrame implements ActionListener {
             if (isbn == LoginRegister.livros.get(k).getIsbn()) {
                 if (LoginRegister.livros.get(k).isAvailable() == false) {
                     JOptionPane.showMessageDialog(null,
-                            "Livro indisponível, tente novamente em outro momento.");
+                    "Livro indisponível, tente novamente em outro momento.");
                     break;
                 } else if (LoginRegister.livros.get(k).isAvailable()) {
                     LoginRegister.livros.get(k).rent();
                     JOptionPane.showMessageDialog(null,
-                            "Parabéns, você conseguiu locar um livro!");
-                            LoginRegister.id_user.add(LoginRegister.contas.get(index_user).getId());
-                            LoginRegister.isbn_locado.add(isbn);
+                    "Parabéns, você conseguiu locar um livro!");
+                    LoginRegister.id_user.add(index_user);
+                    LoginRegister.isbn_locado.add(isbn);
                     break;
                 }
             } else if (k == LoginRegister.livros.size() - 1) {
@@ -668,7 +668,7 @@ public class telaComum extends JFrame implements ActionListener {
                     LoginRegister.audiobook2.get(k).rent();
                     JOptionPane.showMessageDialog(null,
                             "Parabéns, você conseguiu locar um audiobook!");
-                            LoginRegister.id_userAudio.add(LoginRegister.contas.get(index_user).getId());
+                            LoginRegister.id_userAudio.add(index_user);
                             LoginRegister.audio_locado.add(codigoAudio);
                     break;
                 }
