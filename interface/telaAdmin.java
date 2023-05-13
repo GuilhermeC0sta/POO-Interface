@@ -1,16 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 import java.awt.event.*;
-import java.util.ArrayList;
+import java.util.regex.*;
 
-public class telaAdmin extends JFrame implements ActionListener {
-
-    JButton add_itens, remover_itens, livros_devolvidos, cadastros, buttonconfirmar, buttonCP;
-    Dimension botaoDimensao = new Dimension(250, 30);
-    JPanel panelAdmin = new JPanel();
-    JFrame frameMultaPendente = new JFrame();
-
+public class telaComum extends JFrame implements ActionListener {
+    private JButton audios, books, locar, editar, mostrar, devolver, verificar, pagarmultas, vermultas,
+            verutensilios, mostrarTudo, buttonPGM, marca_textobutton;
     public int auxteste = 0;
     public int id = 0;
     public int index_user = LoginRegister.index_user;
@@ -21,465 +16,674 @@ public class telaAdmin extends JFrame implements ActionListener {
     public int testemultas = 0;
     public int isbn;
     public int codigoR;
+    public int codigoAudio;
+    Dimension botaoDimensao = new Dimension(250, 30);
+    JFrame frameLocar2 = new JFrame();
+    JFrame frameLocarA = new JFrame();
+    JFrame frameLocar3 = new JFrame();
+    JFrame frameEditar = new JFrame();
 
+    JPanel panel3 = new JPanel();
+    JPanel panelEditar = new JPanel();
     JPanel panel6 = new JPanel();
-    
+    JPanel panelUtensilios = new JPanel();
+    JPanel panel5 = new JPanel();
+    JPanel panelLocadosA = new JPanel();
+
+    JFrame frameMostrar = new JFrame();
+    JFrame frameVerificar = new JFrame();
+    JFrame frameLocar = new JFrame();
+    JFrame frameDevolver = new JFrame();
+    JFrame frameUtensilio = new JFrame();
+    JFrame frameMultaPendente = new JFrame();
+
     public class IOException extends RuntimeException {
         public IOException(String message) {
             super(message);
         }
     }
 
-    public telaAdmin(){
-        panelAdmin.add(Box.createRigidArea(new Dimension(0, 10)));
-        add_itens = new JButton("Adicionar livro/audiobook/utensilio");
-        add_itens.setPreferredSize(botaoDimensao);
-        add_itens.setMaximumSize(botaoDimensao);
-        add_itens.setMinimumSize(botaoDimensao);
-        add_itens.addActionListener(this);
-        panelAdmin.add(add_itens);
-        add_itens.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panelAdmin.add(Box.createRigidArea(new Dimension(0, 10)));
+    public telaComum() {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.add(Box.createRigidArea(new Dimension(0, 10)));
+        audios = new JButton("Mostrar audiobooks");
+        audios.setPreferredSize(botaoDimensao);
+        audios.setMaximumSize(botaoDimensao);
+        audios.setMinimumSize(botaoDimensao);
+        audios.addActionListener(this);
+        audios.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        remover_itens = new JButton("Remover livro/audiobook");
-        remover_itens.setPreferredSize(botaoDimensao);
-        remover_itens.setMaximumSize(botaoDimensao);
-        remover_itens.setMinimumSize(botaoDimensao);
-        remover_itens.addActionListener(this);
-        panelAdmin.add(remover_itens);
-        remover_itens.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panelAdmin.add(Box.createRigidArea(new Dimension(0, 10)));
+        mostrarTudo = new JButton("Mostrar todos os itens locados");
+        mostrarTudo.setPreferredSize(botaoDimensao);
+        mostrarTudo.setMaximumSize(botaoDimensao);
+        mostrarTudo.setMinimumSize(botaoDimensao);
+        mostrarTudo.addActionListener(this);
+        mostrarTudo.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        livros_devolvidos = new JButton("Verificar livros devolvidos");
-        livros_devolvidos.setPreferredSize(botaoDimensao);
-        livros_devolvidos.setMaximumSize(botaoDimensao);
-        livros_devolvidos.setMinimumSize(botaoDimensao);
-        livros_devolvidos.addActionListener(this);
-        panelAdmin.add(livros_devolvidos);
-        livros_devolvidos.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panelAdmin.add(Box.createRigidArea(new Dimension(0, 10)));
+        buttonPGM = new JButton("Pagar multa");
+        buttonPGM.setPreferredSize(botaoDimensao);
+        buttonPGM.setMaximumSize(botaoDimensao);
+        buttonPGM.setMinimumSize(botaoDimensao);
+        buttonPGM.addActionListener(this);
+        buttonPGM.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        buttonCP = new JButton("Pagar multa");
-        buttonCP.setPreferredSize(botaoDimensao);
-        buttonCP.setMaximumSize(botaoDimensao);
-        buttonCP.setMinimumSize(botaoDimensao);
-        buttonCP.addActionListener(this);
-        buttonCP.setAlignmentX(Component.CENTER_ALIGNMENT);
+        marca_textobutton = new JButton("Mostrar os utensilios em geral");
+        marca_textobutton.setPreferredSize(botaoDimensao);
+        marca_textobutton.setMaximumSize(botaoDimensao);
+        marca_textobutton.setMinimumSize(botaoDimensao);
+        marca_textobutton.addActionListener(this);
+        marca_textobutton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        cadastros = new JButton("Verificar contas cadastradas");
-        cadastros.setPreferredSize(botaoDimensao);
-        cadastros.setMaximumSize(botaoDimensao);
-        cadastros.setMinimumSize(botaoDimensao);
-        cadastros.addActionListener(this);
-        panelAdmin.add(cadastros);
-        cadastros.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panelAdmin.add(Box.createRigidArea(new Dimension(0, 10)));
+        books = new JButton("Mostrar livros");
+        books.setPreferredSize(botaoDimensao);
+        books.setMaximumSize(botaoDimensao);
+        books.setMinimumSize(botaoDimensao);
+        books.addActionListener(this);
+        books.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        buttonconfirmar = new JButton("Confirmar pagamento de multas");
-        buttonconfirmar.setPreferredSize(botaoDimensao);
-        buttonconfirmar.setMaximumSize(botaoDimensao);
-        buttonconfirmar.setMinimumSize(botaoDimensao);
-        buttonconfirmar.addActionListener(this);
-        panelAdmin.add(buttonconfirmar);
-        buttonconfirmar.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panelAdmin.add(Box.createRigidArea(new Dimension(0, 10)));
+        locar = new JButton("Locar livro/audiobook");
+        locar.setPreferredSize(botaoDimensao);
+        locar.setMaximumSize(botaoDimensao);
+        locar.setMinimumSize(botaoDimensao);
+        locar.addActionListener(this);
+        locar.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(locar);
+        panel.add(Box.createRigidArea(new Dimension(0, 10)));
 
-        panelAdmin.setSize(new Dimension(550,400));
-        panelAdmin.setLayout(new BoxLayout(panelAdmin, BoxLayout.Y_AXIS));
-        panelAdmin.add(Box.createRigidArea(new Dimension(400, 400)));
-        setSize(400,400);
-        add(panelAdmin);
+        editar = new JButton("Editar perfil");
+        editar.setPreferredSize(botaoDimensao);
+        editar.setMaximumSize(botaoDimensao);
+        editar.setMinimumSize(botaoDimensao);
+        editar.addActionListener(this);
+        panel.add(editar);
+        editar.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(Box.createRigidArea(new Dimension(0, 10)));
+
+        mostrar = new JButton("Mostrar livros/audiobooks disponíveis");
+        mostrar.setPreferredSize(botaoDimensao);
+        mostrar.setMaximumSize(botaoDimensao);
+        mostrar.setMinimumSize(botaoDimensao);
+        mostrar.addActionListener(this);
+        panel.add(mostrar);
+        mostrar.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(Box.createRigidArea(new Dimension(0, 10)));
+
+        devolver = new JButton("Devolver livros/audiobooks locados");
+        devolver.setPreferredSize(botaoDimensao);
+        devolver.setMaximumSize(botaoDimensao);
+        devolver.setMinimumSize(botaoDimensao);
+        devolver.addActionListener(this);
+        panel.add(devolver);
+        devolver.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(Box.createRigidArea(new Dimension(0, 10)));
+
+        verificar = new JButton("Verificar livros/audiobooks locados");
+        verificar.setPreferredSize(botaoDimensao);
+        verificar.setMaximumSize(botaoDimensao);
+        verificar.setMinimumSize(botaoDimensao);
+        verificar.addActionListener(this);
+        panel.add(verificar);
+        verificar.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(Box.createRigidArea(new Dimension(0, 10)));
+
+        vermultas = new JButton("Ver multas pendentes");
+        vermultas.setPreferredSize(botaoDimensao);
+        vermultas.setMaximumSize(botaoDimensao);
+        vermultas.setMinimumSize(botaoDimensao);
+        vermultas.addActionListener(this);
+        panel.add(vermultas);
+        vermultas.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(Box.createRigidArea(new Dimension(0, 10)));
+
+        pagarmultas = new JButton("Pagar multas");
+        pagarmultas.setPreferredSize(botaoDimensao);
+        pagarmultas.setMaximumSize(botaoDimensao);
+        pagarmultas.setMinimumSize(botaoDimensao);
+        pagarmultas.addActionListener(this);
+        panel.add(pagarmultas);
+        pagarmultas.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(Box.createRigidArea(new Dimension(0, 10)));
+
+        verutensilios = new JButton("Ver utensilios disponíveis");
+        verutensilios.setPreferredSize(botaoDimensao);
+        verutensilios.setMaximumSize(botaoDimensao);
+        verutensilios.setMinimumSize(botaoDimensao);
+        verutensilios.addActionListener(this);
+        panel.add(verutensilios);
+        verutensilios.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(Box.createRigidArea(new Dimension(0, 10)));
+
+        panel.setSize(new Dimension(550, 400));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.add(Box.createRigidArea(new Dimension(400, 400)));
+        setSize(400, 400);
+        add(panel);
         setVisible(true);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == add_itens) {
-            String[] opcoes = { "Livro", "Audiobook", "Utensilio" };
-            int opcaoSelecionada = JOptionPane.showOptionDialog(null, "Selecione o tipo de item a adicionar:",
-                    "Adicionar Itens", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, opcoes,
-                    opcoes[0]);
+        if (e.getSource() == mostrar) {
+            frameMostrar.setSize(400, 400);
+            frameMostrar.add(panel3);
+            panel3.add(books);
+            panel3.add(Box.createRigidArea(new Dimension(0, 50)));
+            panel3.add(audios);
 
-            if (opcaoSelecionada == 0) { // Clicou em "Livro"
-                JTextField tituloAdd = new JTextField();
-                JTextField autorAdd = new JTextField();
-                JTextField isbnAdd = new JTextField();
-                JTextField generoAdd = new JTextField();
-                JTextField quantidadeAdd = new JTextField();
-                JPanel panelItens = new JPanel(new GridLayout(0, 1));
-                setLocationRelativeTo(null);
+            books.setAlignmentX(Component.CENTER_ALIGNMENT);
+            audios.setAlignmentX(Component.CENTER_ALIGNMENT);
+            frameMostrar.setVisible(true);
+            frameMostrar.setLocationRelativeTo(null);
 
-                panelItens.add(new JLabel("Titulo:"));
-                panelItens.add(tituloAdd);
-                panelItens.add(new JLabel("Autor:"));
-                panelItens.add(autorAdd);
-                panelItens.add(new JLabel("ISBN:"));
-                panelItens.add(isbnAdd);
-                panelItens.add(new JLabel("Gênero:"));
-                panelItens.add(generoAdd);
-                panelItens.add(new JLabel("Quantidade:"));
-                panelItens.add(quantidadeAdd);
-                int result = JOptionPane.showConfirmDialog(null, panelItens, "Adicionar Livro",
-                        JOptionPane.OK_CANCEL_OPTION);
-                try {
-                    int isbnAddItem = Integer.parseInt(isbnAdd.getText());
-                    int quantidadeAddItem = Integer.parseInt(quantidadeAdd.getText());
-                    for (int i = 0; i < LoginRegister.livros.size(); i++) {
-                        if (LoginRegister.livros.get(i).getIsbn() == isbnAddItem) {
-                            JOptionPane.showMessageDialog(null, "ISBN já cadastrado!");
-                            return;
+            books.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    JPanel panel4 = new JPanel(new GridLayout(0, 3));
+                    JFrame frameLocar2 = new JFrame();
+                    frameLocar2.setSize(400, 400);
+                    frameLocar2.add(panel4);
+                    frameLocar2.setVisible(true);
+                    frameLocar2.setLocationRelativeTo(null);
+                    panel4.removeAll(); // remove todos os componentes do painel
+
+                    for (Livro livro : LoginRegister.livros) {
+                        if (livro instanceof Livro) {
+                            JLabel tituloLabel2 = new JLabel("Título: " + livro.getTitulo());
+                            JLabel isbnLabel = new JLabel("ISBN: " + livro.getIsbn());
+                            JLabel qntdLabel = new JLabel("Quantidade: " + livro.getQnt_disp());
+                            panel4.add(tituloLabel2);
+                            panel4.add(isbnLabel);
+                            panel4.add(qntdLabel);
                         }
                     }
 
-                    if (!autorAdd.getText().matches("[a-zA-Z]+") || !generoAdd.getText().matches("[a-zA-Z]+")) {
-                        throw new IOException("O campo autor/gênero deve conter somente letras.");
-                    }
+                    panel4.revalidate();
+                    panel4.repaint();
+                    frameLocar2.revalidate();
+                    frameLocar2.addWindowListener(new WindowAdapter() {
+                        public void windowClosing(WindowEvent e) {
+                            frameLocar2.dispose(); // apaga a janela
+                        }
+                    });
+                }
+            });
 
-                    if (result == JOptionPane.OK_OPTION) {
-                        LoginRegister.livros.add(
-                                new Livro(tituloAdd.getText(), autorAdd.getText(), isbnAddItem, quantidadeAddItem,
-                                        generoAdd.getText()));
-                        JOptionPane.showMessageDialog(null, "Livro adicionado!");
+            audios.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    JPanel panel4 = new JPanel(new GridLayout(0, 3));
+                    JFrame frameLocar3 = new JFrame();
+                    frameLocar3.setSize(400, 400);
+                    frameLocar3.add(panel4);
+                    frameLocar3.setVisible(true);
+                    frameLocar3.setLocationRelativeTo(null);
+                    for (audiobook audio : LoginRegister.audiobook2) {
+                        if (audio instanceof audiobook) {
+                            JLabel tituloLabel3 = new JLabel("Título: " + audio.getTitulo());
+                            JLabel codigoLabel = new JLabel("Codigo do áudio: " + audio.getAudio());
+                            JLabel qntdLabel3 = new JLabel("Quantidade: " + audio.getQnt_disp());
+                            // adicionar componentes ao painel central
+                            panel4.add(tituloLabel3);
+                            panel4.add(codigoLabel);
+                            panel4.add(qntdLabel3);
+
+                            panel4.revalidate();
+                            panel4.repaint();
+                            frameLocar3.revalidate(); 
+                        }
                     }
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "ISBN e Quantidade devem ser números inteiros!");
-                } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(null, ex.getMessage());
+                    frameLocar3.addWindowListener(new WindowAdapter() {
+                        public void windowClosing(WindowEvent e) {
+                            frameLocar3.dispose();
+                        }
+                    });
+                }
+            });
+        } else if (e.getSource() == locar) {
+            JComboBox<String> itemField;
+            JTextField codigoField = new JTextField(20);
+            JPanel panelLocar = new JPanel();
+            setLocationRelativeTo(null);
+            panelLocar.setLayout(new GridLayout(3, 2));
+            panelLocar.add(new JLabel("Digite se quer um livro/audiobook:"));
+            DefaultComboBoxModel<String> planoModel = new DefaultComboBoxModel<>();
+            planoModel.addElement("livro");
+            planoModel.addElement("audiobook");
+            itemField = new JComboBox<>(planoModel);
+            panelLocar.add(itemField);
+            panelLocar.add(new JLabel("Digite o codigo do livro/audiobook:"));
+            panelLocar.add(codigoField);
+            int resultLocar = JOptionPane.showConfirmDialog(null, panelLocar, "Locar",
+            JOptionPane.OK_CANCEL_OPTION);
+            contalocados = 0;
+            if (resultLocar == JOptionPane.OK_OPTION) {
+                for (int k = 0; k < LoginRegister.id_user.size(); k++) {
+                    if (LoginRegister.id_user.get(k) == index_user) {
+                        contalocados += 1;
+                    }
                 }
 
-            } else if (opcaoSelecionada == 1) { // Clicou em "Audiobook"
-                JTextField tituloAdd = new JTextField();
-                JTextField autorAdd = new JTextField();
-                JTextField duracaoAdd = new JTextField();
-                JTextField generoAdd = new JTextField();
-                JTextField quantidadeAdd = new JTextField();
-                JTextField idAudioAdd = new JTextField();
+                if (LoginRegister.contas.get(index_user).getPlano().equalsIgnoreCase("comum")) {
+                    if (contalocados < 1) {
+                        String itemType = itemField.getSelectedItem().toString();
+                        int codiguin = Integer.parseInt(codigoField.getText());
+                        if (itemType.equalsIgnoreCase("livro") || itemType.equalsIgnoreCase("audiobook")) {
+                            locarItem(itemType, codiguin);
+                        }
+                        contalocados += 1;
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Você não pode locar mais de um item pois a sua conta é comum");
+                    }
+                }
 
-                JPanel panelItens = new JPanel(new GridLayout(0, 1));
-                int duracaoAddItem = 0;
-                int quantidadeAddItem = 0;
-                int idAudioAddItem = 0;
-                setLocationRelativeTo(null);
+                if (LoginRegister.contas.get(index_user).getPlano().equalsIgnoreCase("premium")) {
+                    if (contalocados < 15) {
+                        String itemType = itemField.getSelectedItem().toString();
+                        int codiguin = Integer.parseInt(codigoField.getText());
+                        if (itemType.equalsIgnoreCase("livro") || itemType.equalsIgnoreCase("audiobook")) {
+                            locarItem(itemType, codiguin);
+                        }
+                        contalocados += 1;
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Você só pode locar até no máximo 15 itens");
+                    }
+                }
+            }
+        } else if (e.getSource() == verificar) {
+            auxteste3 = 0;
+            auxteste = 0;
+            frameVerificar.setSize(400, 400);
+            frameVerificar.add(panel5);
 
-                panelItens.add(new JLabel("Titulo:"));
-                panelItens.add(tituloAdd);
-                panelItens.add(new JLabel("Autor:"));
-                panelItens.add(autorAdd);
-                panelItens.add(new JLabel("Duração:"));
-                panelItens.add(duracaoAdd);
-                panelItens.add(new JLabel("Gênero:"));
-                panelItens.add(generoAdd);
-                panelItens.add(new JLabel("Quantidade:"));
-                panelItens.add(quantidadeAdd);
-                panelItens.add(new JLabel("ID do Áudio:"));
-                panelItens.add(idAudioAdd);
+            panel5.add(mostrarTudo);
+            panel5.add(Box.createRigidArea(new Dimension(0, 50)));
 
-                int result = JOptionPane.showConfirmDialog(null, panelItens, "Adicionar Audiobook",
-                        JOptionPane.OK_CANCEL_OPTION);
+            mostrarTudo.setAlignmentX(Component.CENTER_ALIGNMENT);
+            frameVerificar.setVisible(true);
+            frameVerificar.setLocationRelativeTo(null);
 
+            mostrarTudo.addActionListener(new ActionListener() {
+                boolean janelaAberta = false;
+                public void actionPerformed(ActionEvent e){
+                    if (!janelaAberta) {
+                        janelaAberta = true;
+                        JPanel panelLocados = new JPanel();
+                        setLocationRelativeTo(null);
+                        frameLocarA.setSize(400, 400);
+                        frameLocarA.add(panelLocados);
+                        frameLocarA.setVisible(true);
+                        frameLocarA.setLocationRelativeTo(null);
+
+                        if (LoginRegister.id_userAudio.size() == 0 && auxteste3 == 0) {
+                            JOptionPane.showMessageDialog(null, "NAO HÁ AUDIOS LOCADOS");
+                            auxteste3 = 1;
+                        } else {
+                            for (int k = 0; k < LoginRegister.id_userAudio.size(); k++) {
+                                if (LoginRegister.id_userAudio.get(k) == index_user) {
+                                    JLabel tituloLabel6 = new JLabel("Audios: " + LoginRegister.audio_locado.get(k));
+                                    panelLocados.add(tituloLabel6);
+                                    panelLocados.revalidate();
+                                }
+                            }
+                        }
+                        if (LoginRegister.id_user.size() == 0 && auxteste == 0) {
+                            JOptionPane.showMessageDialog(null, "NAO HÁ LIVROS LOCADOS");
+                            auxteste = 1;
+                        } else {
+                            for (int k = 0; k < LoginRegister.id_user.size(); k++) {
+                                if (LoginRegister.id_user.get(k) == index_user) {
+                                    JLabel tituloLabel2 = new JLabel("Livros: " + LoginRegister.isbn_locado.get(k));
+                                    panelLocados.add(tituloLabel2);
+                                    panelLocados.revalidate();
+                                }
+                            }
+                        }
+
+                        frameLocarA.addWindowListener(new WindowAdapter() {
+                            public void windowClosing(WindowEvent e) {
+                                janelaAberta = false;
+                                frameLocarA.remove(panelLocados);
+                                frameLocarA.dispose();
+                                janelaAberta = false; // reinicializa a variável
+                            }
+                        });
+                    }
+                }
+            });
+        } else if (e.getSource() == devolver) {
+            // Cria caixas de texto para nome, email e bio
+            JTextField codigoField2 = new JTextField();
+
+            // Cria um painel para as caixas de texto
+            JPanel panelDevolver = new JPanel();
+            panelDevolver.setLayout(new GridLayout(3, 2)); // GridLayout com 3 linhas e 2 colunas
+            panelDevolver.add(new JLabel("Digite o codigo do livro:"));
+            panelDevolver.add(codigoField2);
+
+            // Exibe um JOptionPane com as caixas de texto e espera o usuário clicar em OK
+            int resultDevolver = JOptionPane.showConfirmDialog(null, panelDevolver, "Devolver",
+                    JOptionPane.OK_CANCEL_OPTION);
+            if (resultDevolver == JOptionPane.OK_OPTION) {
                 try {
-                    duracaoAddItem = Integer.parseInt(duracaoAdd.getText());
-                    quantidadeAddItem = Integer.parseInt(quantidadeAdd.getText());
-                    idAudioAddItem = Integer.parseInt(idAudioAdd.getText());
+                    isbn = Integer.parseInt(codigoField2.getText());
+                    System.out.println(LoginRegister.id_user.size());
+                    for (int j = 0; j < LoginRegister.id_user.size(); j++) {
+                        if (LoginRegister.id_user.get(j) == index_user) {
+                            if (isbn == LoginRegister.isbn_locado.get(j)) {
+                                LoginRegister.id_devolvido.add(j, index_user);
+                                LoginRegister.isbn_devolvido.add(j, isbn);
+                                LoginRegister.id_user.remove(j);
+                                LoginRegister.isbn_locado.remove(j);
+                                JOptionPane.showMessageDialog(null, "Livro " + isbn + " devolvido!");
+                                for (int k = 0; k < LoginRegister.livros.size(); k++) {
+                                    if (isbn == LoginRegister.livros.get(k).getIsbn()) {
+                                        LoginRegister.livros.get(k).returnbook();
+                                        break;
+                                    }
+                                }
+                            } else
+                                JOptionPane.showMessageDialog(null, "Código ISBN não encontrado");
+                        }
+                        else if (j == LoginRegister.id_user.size() - 1) {
+                            JOptionPane.showMessageDialog(null, "Este livro não foi locado por você");
+                        }
+                    }
+                    if (LoginRegister.id_user.size() == 0) {
+                        JOptionPane.showMessageDialog(null, "Não há livros locados");
+                    }
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "ISBN, Quantidade e Duração devem ser números inteiros!");
+                    JOptionPane.showMessageDialog(null, "Digite um ISBN válido no campo de código");
                     return;
                 }
 
-                if (result == JOptionPane.OK_OPTION) {
-                    for (int i = 0; i < LoginRegister.audiobook2.size(); i++) {
-                        if (LoginRegister.audiobook2.get(i).getAudio() == idAudioAddItem) {
-                            JOptionPane.showMessageDialog(null, "ID do áudio já cadastrado!");
-                            return;
-                        }
-                    }
-                    LoginRegister.audiobook2.add(new audiobook(tituloAdd.getText(), autorAdd.getText(), duracaoAddItem,
-                            quantidadeAddItem,
-                            generoAdd.getText(), idAudioAddItem));
-                    JOptionPane.showMessageDialog(null, "Audio adicionado!");
+            }
+        } else if (e.getSource() == editar) {
+            // Cria caixas de texto para nome, email e bio
+            JTextField nomeField = new JTextField(LoginRegister.contas.get(index_user).getNome());
+            JTextField emailField = new JTextField(LoginRegister.contas.get(index_user).getEmail());
+            JTextField bioField = new JTextField(20);
+            JLabel bioMsg = new JLabel("BIO - Comum = 50 caracteres; Premium = 200 caracteres");
+
+            // Cria um painel para as caixas de texto
+            panelEditar.setLayout(new GridLayout(4, 2)); // GridLayout com 3 linhas e 2 colunas
+            panelEditar.add(new JLabel("Nome:"));
+            panelEditar.add(nomeField);
+            panelEditar.add(new JLabel("E-mail:"));
+            panelEditar.add(emailField);
+            panelEditar.add(new JLabel("Bio:"));
+            panelEditar.add(bioField);
+            panelEditar.add(bioMsg);
+
+            // Exibe um JOptionPane com as caixas de texto e espera o usuário clicar em OK
+            int result = JOptionPane.showConfirmDialog(null, panelEditar, "Editar perfil",
+                    JOptionPane.OK_CANCEL_OPTION);
+            if (result == JOptionPane.OK_OPTION) {
+                // Obtém o texto digitado nas caixas de texto
+                String nome = nomeField.getText();
+                String email = emailField.getText();
+                String bio = bioField.getText();
+
+                if (nome.length() < 5) {
+                    JOptionPane.showMessageDialog(null,
+                            "O usuário precisa ter um username maior que 5 caracteres!");
                 }
-            } else if (opcaoSelecionada == 2) { // Clicou em "Utensilio"
-                String[] options = { "Postit", "Marca texto", "Apoio de livros" };
-                int utensilioOption = JOptionPane.showOptionDialog(null, "Escolha o utensílio a adicionar:",
-                        "Adicionar Utensílio", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options,
-                        options[0]);
 
-                if (utensilioOption == 0) { // Adicionar Postit
-                    JTextField corField = new JTextField();
-                    JTextField marcaField = new JTextField();
-                    JTextField quantidadeField = new JTextField();
-                    JPanel panelP = new JPanel(new GridLayout(0, 1));
-                    try {
-                        panelP.add(new JLabel("Cor:"));
-                        panelP.add(corField);
-                        panelP.add(new JLabel("Marca:"));
-                        panelP.add(marcaField);
-                        panelP.add(new JLabel("Quantidade:"));
-                        panelP.add(quantidadeField);
-                        int result = JOptionPane.showConfirmDialog(null, panelP, "Adicionar Postit",
-                                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+                else if ((checkEmail(email) != null || isEmailValid(email) == false)
+                        && !email.equalsIgnoreCase(LoginRegister.contas.get(index_user).getEmail())) {
+                    JOptionPane.showMessageDialog(null,
+                            "E-mail inválido ou já cadastrado!");
+                } else if (LoginRegister.contas.get(index_user).getPlano().equalsIgnoreCase("comum")) {
 
-                        if (!corField.getText().matches("[a-zA-Z]+")) {
-                            throw new IOException("O campo cor deve conter somente letras.");
-                        }
-
-                        if (result == JOptionPane.OK_OPTION) {
-                            // Adicionar postit ao inventário com os dados preenchidos
-                            String corP = corField.getText();
-                            String marcaP = marcaField.getText();
-                            int quantidadeP = Integer.parseInt(quantidadeField.getText());
-                            LoginRegister.utensilios.add(new postit(marcaP, corP, quantidadeP));
-                            JOptionPane.showMessageDialog(null, "Postit adicionado!");
-                        }
-
-                    } catch (NumberFormatException ex) {
-                        JOptionPane.showMessageDialog(null, "Quantidade deve ser um número inteiro!");
-                        return;
-                    } catch (IOException ex) {
-                        JOptionPane.showMessageDialog(null, ex.getMessage());
+                    if (bio.length() > 50) {
+                        JOptionPane.showMessageDialog(null, "Você excedeu o número de caracteres");
+                    } else if (bio == "00") {
+                    } else {
+                        LoginRegister.contas.get(index_user).defBios(bio);
                     }
+                    LoginRegister.contas.set(index_user, new comum(email, LoginRegister.contas.get(index_user).getSenha(), nome, index_user)); // antes
+                                                                                                                   // era
+                                                                                                                   // id
+                                                                                                                   LoginRegister.contas.get(index_user).defPlano("comum");
+                    JOptionPane.showMessageDialog(null, "Nome e email alterados com sucesso!");
+                }
 
-                } else if (utensilioOption == 1) { // Adicionar Marca Texto
-                    JTextField marcaField = new JTextField();
-                    JTextField corField = new JTextField();
-                    JTextField brilhoField = new JTextField();
-                    JTextField quantidadeField = new JTextField();
-                    JPanel panelM = new JPanel(new GridLayout(0, 1));
-                    try {
+                else if (LoginRegister.contas.get(index_user).getPlano().equalsIgnoreCase("premium")) {
 
-                        panelM.add(new JLabel("Marca:"));
-                        panelM.add(marcaField);
-                        panelM.add(new JLabel("Cor:"));
-                        panelM.add(corField);
-                        panelM.add(new JLabel("Brilho:"));
-                        panelM.add(brilhoField);
-                        panelM.add(new JLabel("Quantidade:"));
-                        panelM.add(quantidadeField);
-                        int result = JOptionPane.showConfirmDialog(null, panelM, "Adicionar Marca Texto",
-                                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-
-                        if (!corField.getText().matches("[a-zA-Z]+")
-                                || !brilhoField.getText().matches("[a-zA-Z]+")) {
-                            throw new IOException("O campo cor/brilho deve conter somente letras.");
-                        }
-
-                        if (result == JOptionPane.OK_OPTION) {
-                            // Adicionar marca texto ao inventário com os dados preenchidos
-                            String marcaM = marcaField.getText();
-                            String corM = corField.getText();
-                            String brilhoM = brilhoField.getText();
-                            int quantidadeM = Integer.parseInt(quantidadeField.getText());
-                            LoginRegister.utensilios.add(new marca_texto(marcaM, corM, brilhoM, quantidadeM));
-                            JOptionPane.showMessageDialog(null, "Marca texto adicionado!");
-                        }
-                    } catch (NumberFormatException ex) {
-                        JOptionPane.showMessageDialog(null, "Quantidade deve ser um número inteiro!");
-                        return;
-                    } catch (IOException ex) {
-                        JOptionPane.showMessageDialog(null, ex.getMessage());
+                    if (bio.length() > 200) {
+                        JOptionPane.showMessageDialog(null, "Você excedeu o número de caracteres");
+                    } else if (bio == "00") {
+                    } else {
+                        LoginRegister.contas.get(index_user).defBios(bio);
                     }
+                    String SenhaString = LoginRegister.contas.get(index_user).getSenha();
 
-                } else if (utensilioOption == 2) { // Adicionar Apoio de Livros
-                    JTextField marcaField = new JTextField();
-                    JTextField slotsField = new JTextField();
-                    JTextField quantidadeField = new JTextField();
-                    JPanel panel = new JPanel(new GridLayout(0, 1));
-                    try {
-
-                        panel.add(new JLabel("Marca:"));
-                        panel.add(marcaField);
-                        panel.add(new JLabel("Slots:"));
-                        panel.add(slotsField);
-                        panel.add(new JLabel("Quantidade:"));
-                        panel.add(quantidadeField);
-                        int result = JOptionPane.showConfirmDialog(null, panel, "Adicionar Apoio de Livros",
-                                JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-
-                        if (result == JOptionPane.OK_OPTION) {
-                            // Adicionar apoio de livros ao inventário com os dados preenchidos
-                            String marcaA = marcaField.getText();
-                            int slotsA = Integer.parseInt(slotsField.getText());
-                            int quantidadeA = Integer.parseInt(quantidadeField.getText());
-                            LoginRegister.utensilios.add(new apoio_livros(marcaA, slotsA, quantidadeA));
-                            JOptionPane.showMessageDialog(null, "Apoio para Livros adicionado!");
-                        }
-                    } catch (NumberFormatException ex) {
-                        JOptionPane.showMessageDialog(null, "Slots e Quantidade devem ser números inteiros!");
-                        return;
-                    }
+                    LoginRegister.contas.set(index_user, new premium(email, SenhaString, nome, LoginRegister.index_user)); // antes
+                                   LoginRegister.contas.get(index_user).defPlano("premium");
+                    JOptionPane.showMessageDialog(null, "Nome e email alterados com sucesso!");
                 }
             }
-        } else if (e.getSource() == cadastros) {
+        } else if (e.getSource() == verutensilios) {
+            auxteste3 = 0;
             auxteste2 = 0;
+            auxteste = 0;
+            frameUtensilio.setSize(400, 400);
+            frameUtensilio.add(panel6);
+            panel6.add(marca_textobutton);
 
-            if (auxteste2 == 0) {
-                auxteste2 = 1;
-                JPanel panelCadastros = new JPanel(new GridLayout(0, 4));
-                JFrame frameCadastros = new JFrame();
-                frameCadastros.setSize(400, 400);
-                frameCadastros.add(panelCadastros);
-                frameCadastros.setVisible(true);
-                frameCadastros.setLocationRelativeTo(null);
-                panelCadastros.removeAll(); // remove todos os componentes do painel
+            marca_textobutton.setAlignmentX(Component.CENTER_ALIGNMENT);
+            frameUtensilio.setVisible(true);
+            frameUtensilio.setLocationRelativeTo(null);
 
-                for (conta user : LoginRegister.contas) {
-                    JLabel NomeLabel = new JLabel("Nome: " + user.getNome());
-                    JLabel EmailLabel = new JLabel("Email: " + user.getEmail());
-                    JLabel planoLabel = new JLabel("Plano: \n" + user.getPlano());
-                    panelCadastros.add(NomeLabel);
-                    panelCadastros.add(EmailLabel);
-                    panelCadastros.add(planoLabel);
-                    panelCadastros.add(Box.createRigidArea(new Dimension(0, 10)));
-                }
+            marca_textobutton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    if (auxteste == 0) {
+                        auxteste = 1;
+                        JPanel panelUten = new JPanel(new GridLayout(0, 1));
+                        JFrame frameUten = new JFrame();
+                        frameUten.setSize(400, 400);
+                        frameUten.add(panelUten);
+                        frameUten.setVisible(true);
+                        panelUten.removeAll(); // remove todos os componentes do painel
 
-                panelCadastros.revalidate();
-                panelCadastros.repaint();
-                frameCadastros.revalidate(); // Atualiza o layout da janela
+                        for (utensilios utensi : LoginRegister.utensilios) {
+                            JLabel corlabel = new JLabel("" + utensi.getInformacao());
+                            // adicionar componentes ao painel central
+                            panelUten.add(corlabel);
+                        }
 
-                // adiciona o WindowListener para a janela
-                frameCadastros.addWindowListener(new WindowAdapter() {
-                    public void windowClosing(WindowEvent e) {
-                        frameCadastros.dispose(); // apaga a janela
+                        panelUten.revalidate();
+                        panelUten.repaint();
+                        frameUten.revalidate(); // Atualiza o layout da janela
+
+                        // adiciona o WindowListener para a janela
+                        frameUten.addWindowListener(new WindowAdapter() {
+                            public void windowClosing(WindowEvent e) {
+                                frameUten.dispose(); // apaga a janela
+                            }
+                        });
                     }
-                });
-            }
-        } else if (e.getSource() == buttonconfirmar) {
-            auxteste2 = 0;
-            if (auxteste2 == 0) {
-                JPanel panelCP = new JPanel(new GridLayout(0, 1));
-                JFrame frameCP = new JFrame();
-                frameCP.setSize(400, 400);
-                frameCP.add(panelCP);
-                frameCP.setLocationRelativeTo(null);
-                panelCP.removeAll();
-                buttonCP.setSize(10, 10);
+                    auxteste3 = 0;
+                    auxteste2 = 0;
+                    auxteste = 0;
+                }
+            });
+
+        } else if (e.getSource() == vermultas) {
+            auxteste3 = 0;
+            if (auxteste3 == 0) {
+                auxteste3 = 1;
+                JPanel panelMP = new JPanel();
+                JFrame frameMP = new JFrame();
+                frameMP.setSize(400, 400);
+                frameMP.setLocationRelativeTo(null);
+                frameMP.add(panelMP);
+                panelMP.removeAll();
                 multaalarme = 0; // redefine a variável multaalarme para 0
 
-                for (int j = 0; j < LoginRegister.id_multapaga.size(); j++) {
-                    multaalarme = 1;
-                    JLabel multalabel = new JLabel("O Usuario: " + LoginRegister.id_multapaga.get(j) + " pagou uma multa");
-                    panelCP.add(multalabel);
+                for (int j = 0; j < LoginRegister.id_multapendente.size(); j++) {
+                    if (LoginRegister.id_multapendente.get(j) == index_user) {
+                        multaalarme = 1;
+                        JLabel multalabel = new JLabel("Você possui uma multa não paga");
+                        panelMP.add(multalabel);
+                    }
                 }
                 if (multaalarme == 0) {
-                    JOptionPane.showMessageDialog(null, "Não há multas para serem pagas");
+                    JOptionPane.showMessageDialog(null, "você não possui multas pendentes");
                 }
-                panelCP.repaint();
-                frameCP.revalidate();
-                frameCP.addWindowListener(new WindowAdapter() {
-                    public void windowClosing(WindowEvent e) {
-                        frameCP.dispose();
-                    }
-                });
-                if (LoginRegister.id_multapaga.size() != 0) {
-                    panelCP.add(buttonCP);
-                } else {
-                    JLabel multalabel2 = new JLabel("Não há multas a serem confirmadas");
-                    panelCP.add(multalabel2);
-                }
-                buttonCP.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        for (int j = 0; j < LoginRegister.id_multapaga.size(); j++) {
-                            LoginRegister.id_multapaga.remove(j);
-                            JOptionPane.showMessageDialog(null, "voce confirmou o pagamento de uma das multas");
-                        }
-                        frameCP.dispose();
-                    }
-                });
-                frameCP.setVisible(true);
+                panelMP.repaint();
+                frameMP.revalidate();
 
+                frameMP.addWindowListener(new WindowAdapter() {
+                    public void windowClosing(WindowEvent e) {
+                        frameMP.dispose();
+                    }
+                });
+
+                frameMP.setVisible(true);
             } else {
                 frameMultaPendente.setSize(400, 400);
                 frameMultaPendente.add(panel6);
                 frameMultaPendente.setVisible(true);
             }
-        } else if (e.getSource() == remover_itens) {
-            JComboBox<String> itemFieldR = new JComboBox<>(new String[] { "Livro", "Audiobook" });
-            JTextField codigoFieldR = new JTextField();
+        } else if (e.getSource() == pagarmultas) {
+            testemultas = 0;
+            auxteste3 = 0;
+            if (auxteste3 == 0) {
+                auxteste3 = 1;
+                JPanel panelMP = new JPanel(new GridLayout(0, 1));
+                JFrame frameMP = new JFrame();
+                frameMP.setSize(400, 400);
+                frameMP.setLocationRelativeTo(null);
+                frameMP.add(panelMP);
+                panelMP.removeAll();
+                buttonPGM.setSize(10, 10);
+                multaalarme = 0; // redefine a variável multaalarme para 0
 
-            JPanel panelRemover = new JPanel();
-            setLocationRelativeTo(null);
-            panelRemover.setLayout(new GridLayout(3, 2)); // GridLayout com 3 linhas e 2 colunas
-            panelRemover.add(new JLabel("Selecione o item para remover:"));
-            panelRemover.add(itemFieldR);
-            panelRemover.add(new JLabel("Digite o código do item:"));
-            panelRemover.add(codigoFieldR);
-
-            int resultRemover = JOptionPane.showConfirmDialog(null, panelRemover, "Remover",
-                    JOptionPane.OK_CANCEL_OPTION);
-
-            if (resultRemover == JOptionPane.OK_OPTION) {
-                try {
-                    if (itemFieldR.getSelectedItem().equals("Livro")) {
-                        isbn = Integer.parseInt(codigoFieldR.getText());
-
-                        for (int k = 0; k < LoginRegister.livros.size(); k++) {
-                            if (isbn == LoginRegister.livros.get(k).getIsbn()) {
-                                LoginRegister.livros.remove(k);
-                                JOptionPane.showMessageDialog(null, "Livro " + isbn + " removido!");
-                            } else if (k == LoginRegister.livros.size() - 1) {
-                                JOptionPane.showMessageDialog(null, "Livro não encontrado!");
-                            }
-                        }
-
-                    } else if (itemFieldR.getSelectedItem().equals("Audiobook")) {
-                        codigoR = Integer.parseInt(codigoFieldR.getText());
-
-                        for (int k = 0; k < LoginRegister.audiobook2.size(); k++) {
-                            if (codigoR == LoginRegister.audiobook2.get(k).getAudio()) {
-                                LoginRegister.audiobook2.remove(k);
-                                JOptionPane.showMessageDialog(null, "Audiobook " + codigoR + " removido!");
-                            } else if (k == LoginRegister.audiobook2.size() - 1) {
-                                JOptionPane.showMessageDialog(null, "Audiobook não encontrado!");
-                            }
-                        }
+                for (int j = 0; j < LoginRegister.id_multapendente.size(); j++) {
+                    if (LoginRegister.id_multapendente.get(j) == index_user) {
+                        multaalarme = 1;
+                        JLabel multalabel = new JLabel("Você possui uma multa não paga");
+                        panelMP.add(multalabel);
                     }
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Código inválido. Digite um número válido.");
                 }
+                if (multaalarme == 0) {
+                    JOptionPane.showMessageDialog(null, "você não possui multas pendentes");
+                }
+                panelMP.repaint();
+                frameMP.revalidate();
+                frameMP.addWindowListener(new WindowAdapter() {
+                    public void windowClosing(WindowEvent e) {
+                        frameMP.dispose();
+                    }
+                });
+                for (int j = 0; j < LoginRegister.id_multapendente.size(); j++) {
+                    if (LoginRegister.id_multapendente.get(j) == index_user) {
+                        testemultas += 1;
+                    }
+                }
+                if (testemultas != 0) {
+                    panelMP.add(buttonPGM);
+                } else {
+                    JLabel multalabel2 = new JLabel("Você pagou todas suas multas ou não possui multas");
+                    panelMP.add(multalabel2);
+                }
+                buttonPGM.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        for (int j = 0; j < LoginRegister.id_multapendente.size(); j++) {
+                            if (LoginRegister.id_multapendente.get(j) == index_user) {
+                                LoginRegister.id_multapaga.add(index_user);
+                                LoginRegister.id_multapendente.remove(j);
+                                JOptionPane.showMessageDialog(null, "você pagou uma de suas multas");
+                            }
+                        }
+                        frameMP.dispose();
+                    }
+                });
+                frameMP.setVisible(true);
+
+            } else {
+                frameMultaPendente.setSize(400, 400);
+                frameMultaPendente.add(panel6);
+                frameMultaPendente.setVisible(true);
+                frameMultaPendente.setLocationRelativeTo(null);
             }
 
-        } else if (e.getSource() == livros_devolvidos) {
-            List<Integer> ids_a_remover = new ArrayList<Integer>();
-            for (int j = 0; j < LoginRegister.id_devolvido.size(); j++) {
-                String mensagem = "O usuário de id " + LoginRegister.id_devolvido.get(j) + " devolveu o livro "
-                        + LoginRegister.isbn_devolvido.get(j)
-                        + ".\nSe este livro foi devolvido, clique em OK.\nCaso contrário, clique em CANCELAR.";
-                int resultado = JOptionPane.showConfirmDialog(null, mensagem, "Livro devolvido",
-                        JOptionPane.OK_CANCEL_OPTION);
-                if (resultado == JOptionPane.OK_OPTION) {
-                    LoginRegister.id_devolvido.remove(j);
-                    LoginRegister.isbn_devolvido.remove(j);
-                    JOptionPane.showMessageDialog(null, "Confirmado que o livro foi devolvido!");
-                } else if (resultado == JOptionPane.CANCEL_OPTION) {
-                    if (!LoginRegister.id_multa.contains(LoginRegister.id_devolvido.get(j))) {
-                        String mensagemMulta = "Aplicar multa? Digite S para aplicar multa caso tenha passado o prazo, ou N caso contrário.";
-                        String resposta = JOptionPane.showInputDialog(null, mensagemMulta, "Multa",
-                                JOptionPane.QUESTION_MESSAGE);
-                        boolean multado = false;
-                        if (resposta != null && resposta.equalsIgnoreCase("S")) {
-                            JOptionPane.showMessageDialog(null, "Multa aplicada!");
-                            LoginRegister.id_multa.add(LoginRegister.id_devolvido.get(j));
-                            multado = true;
-                        } else if (resposta != null && resposta.equalsIgnoreCase("N")) {
-                            JOptionPane.showMessageDialog(null, "Multa não aplicada!");
-                            multado = true;
+        } 
+        
+    }
+    
+    public void locarItem(String item, int codigo) {
+        try {
+            if (item.equalsIgnoreCase("livro")) {
+                for (int k = 0; k < LoginRegister.livros.size(); k++) {
+                    if (codigo == LoginRegister.livros.get(k).getIsbn()) {
+                        if (LoginRegister.livros.get(k).isAvailable() == false) {
+                            JOptionPane.showMessageDialog(null,
+                                    "Livro indisponível, tente novamente em outro momento.");
+                            break;
+                        } else if (LoginRegister.livros.get(k).isAvailable()) {
+                            LoginRegister.livros.get(k).rent();
+                            JOptionPane.showMessageDialog(null, "Parabéns, você conseguiu locar um livro!");
+                            LoginRegister.id_user.add(index_user);
+                            LoginRegister.isbn_locado.add(codigo);
+                            break;
                         }
-                        if (multado) {
-                            for (int k = 0; k < ids_a_remover.size(); k++) {
-                                int id = ids_a_remover.get(k);
-                                if (id == LoginRegister.id_devolvido.get(j)) {
-                                    ids_a_remover.remove(k);
-                                    break;
-                                }
-                            }
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Usuário já foi multado!");
+                    } else if (k == LoginRegister.livros.size() - 1) {
+                        JOptionPane.showMessageDialog(null, "Código ISBN não encontrado.");
+                        break;
                     }
                 }
+            } else {
+                for (int k = 0; k < LoginRegister.audiobook2.size(); k++) {
+                    if (codigo == LoginRegister.audiobook2.get(k).getAudio()) {
+                        if (LoginRegister.audiobook2.get(k).isAvailable() == false) {
+                            JOptionPane.showMessageDialog(null,
+                                    "Audiobook indisponível, tente novamente em outro momento.");
+                            break;
+                        } else if (LoginRegister.audiobook2.get(k).isAvailable()) {
+                            LoginRegister.audiobook2.get(k).rent();
+                            JOptionPane.showMessageDialog(null, "Parabéns, você conseguiu locar um audiobook!");
+                            LoginRegister.id_userAudio.add(index_user);
+                            LoginRegister.audio_locado.add(codigo);
+                            break;
+                        }
+                    } else if (k == LoginRegister.audiobook2.size() - 1) {
+                        JOptionPane.showMessageDialog(null, "Código do audiobook não encontrado.");
+                        break;
+                    }
+                }
+            }
+        } catch (NumberFormatException ex) {
+            if (item.equalsIgnoreCase("livro")) {
+                JOptionPane.showMessageDialog(null, "Código ISBN inválido.");
+            } else {
+                JOptionPane.showMessageDialog(null, "Código do audiobook inválido.");
             }
         }
     }
 
-    
+    private conta checkEmail(String usuario) {
+        for (conta contas : LoginRegister.contas) {
+            if (contas.getEmail().equals(usuario)) {
+                return contas;
+            }
+        }
+        return null;
+    }
+
+    public static boolean isEmailValid(String email) {
+        String regex = "^[A-Za-z0-9+_.-]+@gmail+.com+$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(email);
+        String outlook = "^[A-Za-z0-9+_.-]+@outlook+.com+$";
+        Pattern patternoutlook = Pattern.compile(outlook);
+        Matcher matcheroutlook = patternoutlook.matcher(email);
+        String hotmail = "^[A-Za-z0-9+_.-]+@hotmail+.com+$";
+        Pattern patternhotmail = Pattern.compile(hotmail);
+        Matcher matcherhotmail = patternhotmail.matcher(email);
+        String ic = "^[A-Za-z0-9+_.-]+@ic.ufal.br+$";
+        Pattern patternic = Pattern.compile(ic);
+        Matcher matcheric = patternic.matcher(email);
+
+        return matcher.matches() || matcheroutlook.matches() || matcherhotmail.matches() || matcheric.matches();
+    }
 }
