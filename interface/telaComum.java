@@ -1,40 +1,18 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.regex.*;
 
-public class telaComum extends JFrame implements ActionListener { //fix
-    private JButton audios, books, locar, editar, mostrar, devolver, verificar, pagarmultas, vermultas,
-            verutensilios, mostrarTudo, buttonPGM, marca_textobutton;
-    public int auxteste = 0;
-    public int id = 0;
-    public int index_user = LoginRegister.index_user;
-    public int auxteste3 = 0;
-    public int auxteste2 = 0;
-    public int multaalarme = 0;
-    public int testemultas = 0;
-    public int isbn;
-    public int codigoR;
-    public int codigoAudio;
+public class telaComum extends JFrame implements ActionListener { // fix
+    private JButton locar, editar, mostrar, devolver, verificar, pagarmultas, vermultas,
+            verutensilios, mostrarTudo, marca_textobutton, audios, books;
     Invoker invoker = new Invoker();
-    Dimension botaoDimensao = new Dimension(250, 30);
-    JFrame frameLocar2 = new JFrame();
-    JFrame frameLocarA = new JFrame();
-    JFrame frameLocar3 = new JFrame();
-    JFrame frameEditar = new JFrame();
-
-    JPanel panel3 = new JPanel();
-    JPanel panelEditar = new JPanel();
-    JPanel panel6 = new JPanel();
-    JPanel panelUtensilios = new JPanel();
-    JPanel panel5 = new JPanel();
-    JPanel panelLocadosA = new JPanel();
-
-    JFrame frameVerificar = new JFrame();
-    JFrame frameLocar = new JFrame();
-    JFrame frameDevolver = new JFrame();
-    JFrame frameUtensilio = new JFrame();
+    int auxteste3 = 0;
+    int index_user = LoginRegister.index_user;
     JFrame frameMultaPendente = new JFrame();
+    JPanel panel6 = new JPanel();
+    JButton buttonPGM = new JButton("Pagar Multa");
+    Dimension botaoDimensao = new Dimension(250, 30);
+    int multaalarme = 0;
 
     public class IOException extends RuntimeException {
         public IOException(String message) {
@@ -172,351 +150,31 @@ public class telaComum extends JFrame implements ActionListener { //fix
             invoker.setCommand(LocarCommand);
             invoker.executeCommand();
         } else if (e.getSource() == verificar) {
-            auxteste3 = 0;
-            auxteste = 0;
-            frameVerificar.setSize(400, 400);
-            frameVerificar.add(panel5);
-
-            panel5.add(mostrarTudo);
-            panel5.add(Box.createRigidArea(new Dimension(0, 50)));
-
-            mostrarTudo.setAlignmentX(Component.CENTER_ALIGNMENT);
-            frameVerificar.setVisible(true);
-            frameVerificar.setLocationRelativeTo(null);
-
-            mostrarTudo.addActionListener(new ActionListener() {
-                boolean janelaAberta = false;
-                public void actionPerformed(ActionEvent e){
-                    if (!janelaAberta) {
-                        janelaAberta = true;
-                        JPanel panelLocados = new JPanel();
-                        setLocationRelativeTo(null);
-                        frameLocarA.setSize(400, 400);
-                        frameLocarA.add(panelLocados);
-                        frameLocarA.setVisible(true);
-                        frameLocarA.setLocationRelativeTo(null);
-
-                        if (LoginRegister.id_userAudio.size() == 0 && auxteste3 == 0) {
-                            JOptionPane.showMessageDialog(null, "NAO HÁ AUDIOS LOCADOS");
-                            auxteste3 = 1;
-                        } else {
-                            for (int k = 0; k < LoginRegister.id_userAudio.size(); k++) {
-                                if (LoginRegister.id_userAudio.get(k) == index_user) {
-                                    JLabel tituloLabel6 = new JLabel("Audios: " + LoginRegister.audio_locado.get(k));
-                                    panelLocados.add(tituloLabel6);
-                                    panelLocados.revalidate();
-                                }
-                            }
-                        }
-                        if (LoginRegister.id_user.size() == 0 && auxteste == 0) {
-                            JOptionPane.showMessageDialog(null, "NAO HÁ LIVROS LOCADOS");
-                            auxteste = 1;
-                        } else {
-                            for (int k = 0; k < LoginRegister.id_user.size(); k++) {
-                                if (LoginRegister.id_user.get(k) == index_user) {
-                                    JLabel tituloLabel2 = new JLabel("Livros: " + LoginRegister.isbn_locado.get(k));
-                                    panelLocados.add(tituloLabel2);
-                                    panelLocados.revalidate();
-                                }
-                            }
-                        }
-
-                        frameLocarA.addWindowListener(new WindowAdapter() {
-                            public void windowClosing(WindowEvent e) {
-                                janelaAberta = false;
-                                frameLocarA.remove(panelLocados);
-                                frameLocarA.dispose();
-                                janelaAberta = false; // reinicializa a variável
-                            }
-                        });
-                    }
-                }
-            });
+            Command VerificarCommand = new VerificarCommand();
+            invoker.setCommand(VerificarCommand);
+            invoker.executeCommand();
         } else if (e.getSource() == devolver) {
-            // Cria caixas de texto para nome, email e bio
-            JTextField codigoField2 = new JTextField();
-
-            // Cria um painel para as caixas de texto
-            JPanel panelDevolver = new JPanel();
-            panelDevolver.setLayout(new GridLayout(3, 2)); // GridLayout com 3 linhas e 2 colunas
-            panelDevolver.add(new JLabel("Digite o codigo do livro:"));
-            panelDevolver.add(codigoField2);
-
-            // Exibe um JOptionPane com as caixas de texto e espera o usuário clicar em OK
-            int resultDevolver = JOptionPane.showConfirmDialog(null, panelDevolver, "Devolver",
-                    JOptionPane.OK_CANCEL_OPTION);
-            if (resultDevolver == JOptionPane.OK_OPTION) {
-                try {
-                    isbn = Integer.parseInt(codigoField2.getText());
-                    System.out.println(LoginRegister.id_user.size());
-                    for (int j = 0; j < LoginRegister.id_user.size(); j++) {
-                        if (LoginRegister.id_user.get(j) == index_user) {
-                            if (isbn == LoginRegister.isbn_locado.get(j)) {
-                                LoginRegister.id_devolvido.add(j, index_user);
-                                LoginRegister.isbn_devolvido.add(j, isbn);
-                                LoginRegister.id_user.remove(j);
-                                LoginRegister.isbn_locado.remove(j);
-                                JOptionPane.showMessageDialog(null, "Livro " + isbn + " devolvido!");
-                                for (int k = 0; k < LoginRegister.livros.size(); k++) {
-                                    if (isbn == LoginRegister.livros.get(k).getIsbn()) {
-                                        LoginRegister.livros.get(k).returnbook();
-                                        break;
-                                    }
-                                }
-                            } else
-                                JOptionPane.showMessageDialog(null, "Código ISBN não encontrado");
-                        }
-                        else if (j == LoginRegister.id_user.size() - 1) {
-                            JOptionPane.showMessageDialog(null, "Este livro não foi locado por você");
-                        }
-                    }
-                    if (LoginRegister.id_user.size() == 0) {
-                        JOptionPane.showMessageDialog(null, "Não há livros locados");
-                    }
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Digite um ISBN válido no campo de código");
-                    return;
-                }
-
-            }
+            Command Devolver = new DevolverCommand();
+            invoker.setCommand(Devolver);
+            invoker.executeCommand();
         } else if (e.getSource() == editar) {
-            // Cria caixas de texto para nome, email e bio
-            JTextField nomeField = new JTextField(LoginRegister.contas.get(index_user).getNome());
-            JTextField emailField = new JTextField(LoginRegister.contas.get(index_user).getEmail());
-            JTextField bioField = new JTextField(20);
-            JLabel bioMsg = new JLabel("BIO - Comum = 50 caracteres; Premium = 200 caracteres");
-
-            // Cria um painel para as caixas de texto
-            panelEditar.setLayout(new GridLayout(4, 2)); // GridLayout com 3 linhas e 2 colunas
-            panelEditar.add(new JLabel("Nome:"));
-            panelEditar.add(nomeField);
-            panelEditar.add(new JLabel("E-mail:"));
-            panelEditar.add(emailField);
-            panelEditar.add(new JLabel("Bio:"));
-            panelEditar.add(bioField);
-            panelEditar.add(bioMsg);
-
-            // Exibe um JOptionPane com as caixas de texto e espera o usuário clicar em OK
-            int result = JOptionPane.showConfirmDialog(null, panelEditar, "Editar perfil",
-                    JOptionPane.OK_CANCEL_OPTION);
-            if (result == JOptionPane.OK_OPTION) {
-                // Obtém o texto digitado nas caixas de texto
-                String nome = nomeField.getText();
-                String email = emailField.getText();
-                String bio = bioField.getText();
-
-                if (nome.length() < 5) {
-                    JOptionPane.showMessageDialog(null,
-                            "O usuário precisa ter um username maior que 5 caracteres!");
-                }
-
-                else if ((checkEmail(email) != null || isEmailValid(email) == false)
-                        && !email.equalsIgnoreCase(LoginRegister.contas.get(index_user).getEmail())) {
-                    JOptionPane.showMessageDialog(null,
-                            "E-mail inválido ou já cadastrado!");
-                } else if (LoginRegister.contas.get(index_user).getPlano().equalsIgnoreCase("comum")) {
-
-                    if (bio.length() > 50) {
-                        JOptionPane.showMessageDialog(null, "Você excedeu o número de caracteres");
-                    } else if (bio == "00") {
-                    } else {
-                        LoginRegister.contas.get(index_user).defBios(bio);
-                    }
-                    LoginRegister.contas.set(index_user, new comum(email, LoginRegister.contas.get(index_user).getSenha(), nome, index_user)); // antes
-                                                                                                                   // era
-                                                                                                                   // id
-                                                                                                                   LoginRegister.contas.get(index_user).defPlano("comum");
-                    JOptionPane.showMessageDialog(null, "Nome e email alterados com sucesso!");
-                }
-
-                else if (LoginRegister.contas.get(index_user).getPlano().equalsIgnoreCase("premium")) {
-
-                    if (bio.length() > 200) {
-                        JOptionPane.showMessageDialog(null, "Você excedeu o número de caracteres");
-                    } else if (bio == "00") {
-                    } else {
-                        LoginRegister.contas.get(index_user).defBios(bio);
-                    }
-                    String SenhaString = LoginRegister.contas.get(index_user).getSenha();
-
-                    LoginRegister.contas.set(index_user, new premium(email, SenhaString, nome, LoginRegister.index_user)); // antes
-                                   LoginRegister.contas.get(index_user).defPlano("premium");
-                    JOptionPane.showMessageDialog(null, "Nome e email alterados com sucesso!");
-                }
-            }
+            Command Editar = new EditarCommand();
+            invoker.setCommand(Editar);
+            invoker.executeCommand();
         } else if (e.getSource() == verutensilios) {
-            auxteste3 = 0;
-            auxteste2 = 0;
-            auxteste = 0;
-            frameUtensilio.setSize(400, 400);
-            frameUtensilio.add(panel6);
-            panel6.add(marca_textobutton);
-
-            marca_textobutton.setAlignmentX(Component.CENTER_ALIGNMENT);
-            frameUtensilio.setVisible(true);
-            frameUtensilio.setLocationRelativeTo(null);
-
-            marca_textobutton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    if (auxteste == 0) {
-                        auxteste = 1;
-                        JPanel panelUten = new JPanel(new GridLayout(0, 1));
-                        JFrame frameUten = new JFrame();
-                        frameUten.setSize(400, 400);
-                        frameUten.add(panelUten);
-                        frameUten.setVisible(true);
-                        panelUten.removeAll(); // remove todos os componentes do painel
-
-                        for (utensilios utensi : LoginRegister.utensilios) {
-                            JLabel corlabel = new JLabel("" + utensi.getInformacao());
-                            // adicionar componentes ao painel central
-                            panelUten.add(corlabel);
-                        }
-
-                        panelUten.revalidate();
-                        panelUten.repaint();
-                        frameUten.revalidate(); // Atualiza o layout da janela
-
-                        // adiciona o WindowListener para a janela
-                        frameUten.addWindowListener(new WindowAdapter() {
-                            public void windowClosing(WindowEvent e) {
-                                frameUten.dispose(); // apaga a janela
-                            }
-                        });
-                    }
-                    auxteste3 = 0;
-                    auxteste2 = 0;
-                    auxteste = 0;
-                }
-            });
-
+            Command VerUtensilios = new VerUtensiliosCommand();
+            invoker.setCommand(VerUtensilios);
+            invoker.executeCommand();
         } else if (e.getSource() == vermultas) {
-            auxteste3 = 0;
-            if (auxteste3 == 0) {
-                auxteste3 = 1;
-                JPanel panelMP = new JPanel();
-                JFrame frameMP = new JFrame();
-                frameMP.setSize(400, 400);
-                frameMP.setLocationRelativeTo(null);
-                frameMP.add(panelMP);
-                panelMP.removeAll();
-                multaalarme = 0; // redefine a variável multaalarme para 0
-
-                for (int j = 0; j < LoginRegister.id_multapendente.size(); j++) {
-                    if (LoginRegister.id_multapendente.get(j) == index_user) {
-                        multaalarme = 1;
-                        JLabel multalabel = new JLabel("Você possui uma multa não paga");
-                        panelMP.add(multalabel);
-                    }
-                }
-                if (multaalarme == 0) {
-                    JOptionPane.showMessageDialog(null, "você não possui multas pendentes");
-                }
-                panelMP.repaint();
-                frameMP.revalidate();
-
-                frameMP.addWindowListener(new WindowAdapter() {
-                    public void windowClosing(WindowEvent e) {
-                        frameMP.dispose();
-                    }
-                });
-
-                frameMP.setVisible(true);
-            } else {
-                frameMultaPendente.setSize(400, 400);
-                frameMultaPendente.add(panel6);
-                frameMultaPendente.setVisible(true);
-            }
+            Command VerMultas = new VerMultasCommand();
+            invoker.setCommand(VerMultas);
+            invoker.executeCommand();
         } else if (e.getSource() == pagarmultas) {
-            testemultas = 0;
-            auxteste3 = 0;
-            if (auxteste3 == 0) {
-                auxteste3 = 1;
-                JPanel panelMP = new JPanel(new GridLayout(0, 1));
-                JFrame frameMP = new JFrame();
-                frameMP.setSize(400, 400);
-                frameMP.setLocationRelativeTo(null);
-                frameMP.add(panelMP);
-                panelMP.removeAll();
-                buttonPGM.setSize(10, 10);
-                multaalarme = 0; // redefine a variável multaalarme para 0
-
-                for (int j = 0; j < LoginRegister.id_multapendente.size(); j++) {
-                    if (LoginRegister.id_multapendente.get(j) == index_user) {
-                        multaalarme = 1;
-                        JLabel multalabel = new JLabel("Você possui uma multa não paga");
-                        panelMP.add(multalabel);
-                    }
-                }
-                if (multaalarme == 0) {
-                    JOptionPane.showMessageDialog(null, "você não possui multas pendentes");
-                }
-                panelMP.repaint();
-                frameMP.revalidate();
-                frameMP.addWindowListener(new WindowAdapter() {
-                    public void windowClosing(WindowEvent e) {
-                        frameMP.dispose();
-                    }
-                });
-                for (int j = 0; j < LoginRegister.id_multapendente.size(); j++) {
-                    if (LoginRegister.id_multapendente.get(j) == index_user) {
-                        testemultas += 1;
-                    }
-                }
-                if (testemultas != 0) {
-                    panelMP.add(buttonPGM);
-                } else {
-                    JLabel multalabel2 = new JLabel("Você pagou todas suas multas ou não possui multas");
-                    panelMP.add(multalabel2);
-                }
-                buttonPGM.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        for (int j = 0; j < LoginRegister.id_multapendente.size(); j++) {
-                            if (LoginRegister.id_multapendente.get(j) == index_user) {
-                                LoginRegister.id_multapaga.add(index_user);
-                                LoginRegister.id_multapendente.remove(j);
-                                JOptionPane.showMessageDialog(null, "você pagou uma de suas multas");
-                            }
-                        }
-                        frameMP.dispose();
-                    }
-                });
-                frameMP.setVisible(true);
-
-            } else {
-                frameMultaPendente.setSize(400, 400);
-                frameMultaPendente.add(panel6);
-                frameMultaPendente.setVisible(true);
-                frameMultaPendente.setLocationRelativeTo(null);
-            }
-
-        } 
-        
-    }
-
-    private conta checkEmail(String usuario) {
-        for (conta contas : LoginRegister.contas) {
-            if (contas.getEmail().equals(usuario)) {
-                return contas;
-            }
+            Command PagarMultas = new PagarMultasCommand();
+            invoker.setCommand(PagarMultas);
+            invoker.executeCommand();
         }
-        return null;
+
     }
 
-    public static boolean isEmailValid(String email) {
-        String regex = "^[A-Za-z0-9+_.-]+@gmail+.com+$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(email);
-        String outlook = "^[A-Za-z0-9+_.-]+@outlook+.com+$";
-        Pattern patternoutlook = Pattern.compile(outlook);
-        Matcher matcheroutlook = patternoutlook.matcher(email);
-        String hotmail = "^[A-Za-z0-9+_.-]+@hotmail+.com+$";
-        Pattern patternhotmail = Pattern.compile(hotmail);
-        Matcher matcherhotmail = patternhotmail.matcher(email);
-        String ic = "^[A-Za-z0-9+_.-]+@ic.ufal.br+$";
-        Pattern patternic = Pattern.compile(ic);
-        Matcher matcheric = patternic.matcher(email);
-
-        return matcher.matches() || matcheroutlook.matches() || matcherhotmail.matches() || matcheric.matches();
-    }
 }
