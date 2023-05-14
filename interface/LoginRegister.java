@@ -253,7 +253,7 @@ public class LoginRegister extends JFrame implements ActionListener {
     public static boolean isEmailValid(String email) {
         String regex = "^[A-Za-z0-9+_.-]+@(gmail|outlook|hotmail|ic\\.ufal\\.br)+\\.com$";
         Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(email);
+        java.util.regex.Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
 
