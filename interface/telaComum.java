@@ -9,7 +9,6 @@ public class telaComum extends JFrame implements ActionListener { //fix
     public int auxteste = 0;
     public int id = 0;
     public int index_user = LoginRegister.index_user;
-    public int contalocados = 0;
     public int auxteste3 = 0;
     public int auxteste2 = 0;
     public int multaalarme = 0;
@@ -17,6 +16,7 @@ public class telaComum extends JFrame implements ActionListener { //fix
     public int isbn;
     public int codigoR;
     public int codigoAudio;
+    Invoker invoker = new Invoker();
     Dimension botaoDimensao = new Dimension(250, 30);
     JFrame frameLocar2 = new JFrame();
     JFrame frameLocarA = new JFrame();
@@ -30,7 +30,6 @@ public class telaComum extends JFrame implements ActionListener { //fix
     JPanel panel5 = new JPanel();
     JPanel panelLocadosA = new JPanel();
 
-    JFrame frameMostrar = new JFrame();
     JFrame frameVerificar = new JFrame();
     JFrame frameLocar = new JFrame();
     JFrame frameDevolver = new JFrame();
@@ -165,129 +164,13 @@ public class telaComum extends JFrame implements ActionListener { //fix
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == mostrar) {
-            frameMostrar.setSize(400, 400);
-            frameMostrar.add(panel3);
-            panel3.add(books);
-            panel3.add(Box.createRigidArea(new Dimension(0, 50)));
-            panel3.add(audios);
-
-            books.setAlignmentX(Component.CENTER_ALIGNMENT);
-            audios.setAlignmentX(Component.CENTER_ALIGNMENT);
-            frameMostrar.setVisible(true);
-            frameMostrar.setLocationRelativeTo(null);
-
-            books.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    JPanel panel4 = new JPanel(new GridLayout(0, 3));
-                    JFrame frameLocar2 = new JFrame();
-                    frameLocar2.setSize(400, 400);
-                    frameLocar2.add(panel4);
-                    frameLocar2.setVisible(true);
-                    frameLocar2.setLocationRelativeTo(null);
-                    panel4.removeAll(); // remove todos os componentes do painel
-
-                    for (Livro livro : LoginRegister.livros) {
-                        if (livro instanceof Livro) {
-                            JLabel tituloLabel2 = new JLabel("Título: " + livro.getTitulo());
-                            JLabel isbnLabel = new JLabel("ISBN: " + livro.getIsbn());
-                            JLabel qntdLabel = new JLabel("Quantidade: " + livro.getQnt_disp());
-                            panel4.add(tituloLabel2);
-                            panel4.add(isbnLabel);
-                            panel4.add(qntdLabel);
-                        }
-                    }
-
-                    panel4.revalidate();
-                    panel4.repaint();
-                    frameLocar2.revalidate();
-                    frameLocar2.addWindowListener(new WindowAdapter() {
-                        public void windowClosing(WindowEvent e) {
-                            frameLocar2.dispose(); // apaga a janela
-                        }
-                    });
-                }
-            });
-
-            audios.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    JPanel panel4 = new JPanel(new GridLayout(0, 3));
-                    JFrame frameLocar3 = new JFrame();
-                    frameLocar3.setSize(400, 400);
-                    frameLocar3.add(panel4);
-                    frameLocar3.setVisible(true);
-                    frameLocar3.setLocationRelativeTo(null);
-                    for (audiobook audio : LoginRegister.audiobook2) {
-                        if (audio instanceof audiobook) {
-                            JLabel tituloLabel3 = new JLabel("Título: " + audio.getTitulo());
-                            JLabel codigoLabel = new JLabel("Codigo do áudio: " + audio.getAudio());
-                            JLabel qntdLabel3 = new JLabel("Quantidade: " + audio.getQnt_disp());
-                            // adicionar componentes ao painel central
-                            panel4.add(tituloLabel3);
-                            panel4.add(codigoLabel);
-                            panel4.add(qntdLabel3);
-
-                            panel4.revalidate();
-                            panel4.repaint();
-                            frameLocar3.revalidate(); 
-                        }
-                    }
-                    frameLocar3.addWindowListener(new WindowAdapter() {
-                        public void windowClosing(WindowEvent e) {
-                            frameLocar3.dispose();
-                        }
-                    });
-                }
-            });
+            Command Mostrar = new Mostrar();
+            invoker.setCommand(Mostrar);
+            invoker.executeCommand();
         } else if (e.getSource() == locar) {
-            JComboBox<String> itemField;
-            JTextField codigoField = new JTextField(20);
-            JPanel panelLocar = new JPanel();
-            setLocationRelativeTo(null);
-            panelLocar.setLayout(new GridLayout(3, 2));
-            panelLocar.add(new JLabel("Digite se quer um livro/audiobook:"));
-            DefaultComboBoxModel<String> planoModel = new DefaultComboBoxModel<>();
-            planoModel.addElement("livro");
-            planoModel.addElement("audiobook");
-            itemField = new JComboBox<>(planoModel);
-            panelLocar.add(itemField);
-            panelLocar.add(new JLabel("Digite o codigo do livro/audiobook:"));
-            panelLocar.add(codigoField);
-            int resultLocar = JOptionPane.showConfirmDialog(null, panelLocar, "Locar",
-            JOptionPane.OK_CANCEL_OPTION);
-            contalocados = 0;
-            if (resultLocar == JOptionPane.OK_OPTION) {
-                for (int k = 0; k < LoginRegister.id_user.size(); k++) {
-                    if (LoginRegister.id_user.get(k) == index_user) {
-                        contalocados += 1;
-                    }
-                }
-
-                if (LoginRegister.contas.get(index_user).getPlano().equalsIgnoreCase("comum")) {
-                    if (contalocados < 1) {
-                        String itemType = itemField.getSelectedItem().toString();
-                        int codiguin = Integer.parseInt(codigoField.getText());
-                        if (itemType.equalsIgnoreCase("livro") || itemType.equalsIgnoreCase("audiobook")) {
-                            locarItem(itemType, codiguin);
-                        }
-                        contalocados += 1;
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Você não pode locar mais de um item pois a sua conta é comum");
-                    }
-                }
-
-                if (LoginRegister.contas.get(index_user).getPlano().equalsIgnoreCase("premium")) {
-                    if (contalocados < 15) {
-                        String itemType = itemField.getSelectedItem().toString();
-                        int codiguin = Integer.parseInt(codigoField.getText());
-                        if (itemType.equalsIgnoreCase("livro") || itemType.equalsIgnoreCase("audiobook")) {
-                            locarItem(itemType, codiguin);
-                        }
-                        contalocados += 1;
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Você só pode locar até no máximo 15 itens");
-                    }
-                }
-            }
+            Command LocarCommand = new LocarCommand();
+            invoker.setCommand(LocarCommand);
+            invoker.executeCommand();
         } else if (e.getSource() == verificar) {
             auxteste3 = 0;
             auxteste = 0;
@@ -609,56 +492,6 @@ public class telaComum extends JFrame implements ActionListener { //fix
 
         } 
         
-    }
-    
-    public void locarItem(String item, int codigo) {
-        try {
-            if (item.equalsIgnoreCase("livro")) {
-                for (int k = 0; k < LoginRegister.livros.size(); k++) {
-                    if (codigo == LoginRegister.livros.get(k).getIsbn()) {
-                        if (LoginRegister.livros.get(k).isAvailable() == false) {
-                            JOptionPane.showMessageDialog(null,
-                                    "Livro indisponível, tente novamente em outro momento.");
-                            break;
-                        } else if (LoginRegister.livros.get(k).isAvailable()) {
-                            LoginRegister.livros.get(k).rent();
-                            JOptionPane.showMessageDialog(null, "Parabéns, você conseguiu locar um livro!");
-                            LoginRegister.id_user.add(index_user);
-                            LoginRegister.isbn_locado.add(codigo);
-                            break;
-                        }
-                    } else if (k == LoginRegister.livros.size() - 1) {
-                        JOptionPane.showMessageDialog(null, "Código ISBN não encontrado.");
-                        break;
-                    }
-                }
-            } else {
-                for (int k = 0; k < LoginRegister.audiobook2.size(); k++) {
-                    if (codigo == LoginRegister.audiobook2.get(k).getAudio()) {
-                        if (LoginRegister.audiobook2.get(k).isAvailable() == false) {
-                            JOptionPane.showMessageDialog(null,
-                                    "Audiobook indisponível, tente novamente em outro momento.");
-                            break;
-                        } else if (LoginRegister.audiobook2.get(k).isAvailable()) {
-                            LoginRegister.audiobook2.get(k).rent();
-                            JOptionPane.showMessageDialog(null, "Parabéns, você conseguiu locar um audiobook!");
-                            LoginRegister.id_userAudio.add(index_user);
-                            LoginRegister.audio_locado.add(codigo);
-                            break;
-                        }
-                    } else if (k == LoginRegister.audiobook2.size() - 1) {
-                        JOptionPane.showMessageDialog(null, "Código do audiobook não encontrado.");
-                        break;
-                    }
-                }
-            }
-        } catch (NumberFormatException ex) {
-            if (item.equalsIgnoreCase("livro")) {
-                JOptionPane.showMessageDialog(null, "Código ISBN inválido.");
-            } else {
-                JOptionPane.showMessageDialog(null, "Código do audiobook inválido.");
-            }
-        }
     }
 
     private conta checkEmail(String usuario) {
