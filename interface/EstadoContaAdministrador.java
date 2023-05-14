@@ -8,6 +8,7 @@ public class EstadoContaAdministrador extends EstadoConta{
     public void mostrarTela() {
         telaAdmin novatela = new telaAdmin();
         novatela.setVisible(true);
+        novatela.setLocationRelativeTo(null);
     }
 
 }

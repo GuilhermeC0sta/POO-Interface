@@ -7,6 +7,7 @@ public class EstadoContaComum extends EstadoConta {
     public void mostrarTela() {
         telaComum novatela = new telaComum();
         novatela.setVisible(true);
+        novatela.setLocationRelativeTo(null);
     }
 }
 
