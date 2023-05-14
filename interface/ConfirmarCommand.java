@@ -4,7 +4,6 @@ import java.awt.event.*;
 
 class ConfirmarCommand extends JFrame implements Command, ActionListener {
 
-
     public void execute() {
 
         JButton buttonCP;
@@ -44,7 +43,7 @@ class ConfirmarCommand extends JFrame implements Command, ActionListener {
                 JLabel multalabel2 = new JLabel("Não há multas a serem confirmadas");
                 panelCP.add(multalabel2);
             }
-            buttonCP.addComponentListener((ComponentListener) new ActionListener() {
+            buttonCP.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     for (int j = 0; j < LoginRegister.id_multapaga.size(); j++) {
                         LoginRegister.id_multapaga.remove(j);
