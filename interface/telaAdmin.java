@@ -10,14 +10,8 @@ public class telaAdmin extends JFrame implements ActionListener {
     JFrame frameMultaPendente = new JFrame();
     Invoker invoker = new Invoker();
 
-    public int auxteste = 0;
     public int id = 0;
     public int index_user = LoginRegister.index_user;
-    public int contalocados = 0;
-    public int auxteste3 = 0;
-    public int auxteste2 = 0;
-    public int multaalarme = 0;
-    public int testemultas = 0;
     public int isbn;
     public int codigoR;
 
@@ -30,54 +24,44 @@ public class telaAdmin extends JFrame implements ActionListener {
     }
 
     public telaAdmin() {
+        DefinirBotao definirBotao = new DefinirBotao();
+
         panelAdmin.add(Box.createRigidArea(new Dimension(0, 10)));
         add_itens = new JButton("Adicionar livro/audiobook/utensilio");
-        add_itens.setPreferredSize(botaoDimensao);
-        add_itens.setMaximumSize(botaoDimensao);
-        add_itens.setMinimumSize(botaoDimensao);
+        definirBotao.definebutton(add_itens,botaoDimensao);
         add_itens.addActionListener(this);
         panelAdmin.add(add_itens);
         add_itens.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelAdmin.add(Box.createRigidArea(new Dimension(0, 10)));
 
         remover_itens = new JButton("Remover livro/audiobook");
-        remover_itens.setPreferredSize(botaoDimensao);
-        remover_itens.setMaximumSize(botaoDimensao);
-        remover_itens.setMinimumSize(botaoDimensao);
+        definirBotao.definebutton(remover_itens,botaoDimensao);
         remover_itens.addActionListener(this);
         panelAdmin.add(remover_itens);
         remover_itens.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelAdmin.add(Box.createRigidArea(new Dimension(0, 10)));
 
         livros_devolvidos = new JButton("Verificar livros devolvidos");
-        livros_devolvidos.setPreferredSize(botaoDimensao);
-        livros_devolvidos.setMaximumSize(botaoDimensao);
-        livros_devolvidos.setMinimumSize(botaoDimensao);
+        definirBotao.definebutton(livros_devolvidos,botaoDimensao);
         livros_devolvidos.addActionListener(this);
         panelAdmin.add(livros_devolvidos);
         livros_devolvidos.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelAdmin.add(Box.createRigidArea(new Dimension(0, 10)));
 
         buttonCP = new JButton("Pagar multa");
-        buttonCP.setPreferredSize(botaoDimensao);
-        buttonCP.setMaximumSize(botaoDimensao);
-        buttonCP.setMinimumSize(botaoDimensao);
+        definirBotao.definebutton(buttonCP,botaoDimensao);
         buttonCP.addActionListener(this);
         buttonCP.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         cadastros = new JButton("Verificar contas cadastradas");
-        cadastros.setPreferredSize(botaoDimensao);
-        cadastros.setMaximumSize(botaoDimensao);
-        cadastros.setMinimumSize(botaoDimensao);
+        definirBotao.definebutton(cadastros,botaoDimensao);
         cadastros.addActionListener(this);
         panelAdmin.add(cadastros);
         cadastros.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelAdmin.add(Box.createRigidArea(new Dimension(0, 10)));
 
         buttonconfirmar = new JButton("Confirmar pagamento de multas");
-        buttonconfirmar.setPreferredSize(botaoDimensao);
-        buttonconfirmar.setMaximumSize(botaoDimensao);
-        buttonconfirmar.setMinimumSize(botaoDimensao);
+        definirBotao.definebutton(buttonconfirmar,botaoDimensao);
         buttonconfirmar.addActionListener(this);
         panelAdmin.add(buttonconfirmar);
         buttonconfirmar.setAlignmentX(Component.CENTER_ALIGNMENT);

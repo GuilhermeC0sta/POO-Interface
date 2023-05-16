@@ -1,11 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.regex.*;
 import java.util.ArrayList;
 
 public class LoginRegister extends JFrame implements ActionListener {
-    //att
     public static ArrayList<conta> contas = new ArrayList<conta>();
     public static ArrayList<Livro> livros = new ArrayList<Livro>();
     public static ArrayList<audiobook> audiobook2 = new ArrayList<audiobook>();
@@ -19,18 +17,10 @@ public class LoginRegister extends JFrame implements ActionListener {
     public static ArrayList<Integer> id_multapendente = new ArrayList<>();
     public static ArrayList<Integer> id_multapaga = new ArrayList<>();
     public static ArrayList<Integer> id_multa = new ArrayList<>();
-    public static String ex_user;
+    ContasManager contasmanager = new ContasManager();
 
     public int sinal = 0;
-    public int id = 0;
-    public static int index_user;
-    public int contalocados = 0;
-    public int auxteste = 0;
-    public int auxteste3 = 0;
-    public int auxteste2 = 0;
-    public int multaalarme = 0;
-    public int testemultas = 0;
-
+    public static int id = 0, index_user;
     public JButton login, register;
     public JTextField usuario, senha;
 
@@ -39,7 +29,7 @@ public class LoginRegister extends JFrame implements ActionListener {
 
         JPanel panel = new JPanel(new GridLayout(4, 2));
         JPanel imagePanel = new JPanel();
-        JLabel imageLabel = new JLabel(new ImageIcon("lib2.jpg"));
+        JLabel imageLabel = new JLabel(new ImageIcon("C:/Users/Junior/Desktop/Libraric/POO-Interface/interface/lib2.jpg"));
         imageLabel.setPreferredSize(new Dimension(350, 250));
         imagePanel.add(imageLabel);
 
@@ -85,7 +75,7 @@ public class LoginRegister extends JFrame implements ActionListener {
 
         if (conta != null) {
             JOptionPane.showMessageDialog(null, "Logado com sucesso!");
-            index_user = getIndexConta(nomeUsuario, senha);
+            index_user = contasmanager.getIndexConta(nomeUsuario, senha);
             setExtendedState(JFrame.ICONIFIED);
             exibirTelaInicial(index_user);
         } else {
@@ -96,15 +86,6 @@ public class LoginRegister extends JFrame implements ActionListener {
     private void abrirCadastro() {
         Reg registro = new Reg();
         registro.setVisible(true);
-    }
-
-    private int getIndexConta(String nomeUsuario, String senha) {
-        for (int i = 0; i < contas.size(); i++) {
-            if (contas.get(i).getEmail().equals(nomeUsuario) && contas.get(i).getSenha().equals(senha)) {
-                return i;
-            }
-        }
-        return -1;
     }
 
     private void exibirTelaInicial(int indexConta) {
@@ -178,7 +159,7 @@ public class LoginRegister extends JFrame implements ActionListener {
                 String plano2 = plano.getSelectedItem().toString();
                 String senha2 = senha.getText();
 
-                if (!isEmailValid(email2)) {
+                if (!contasmanager.isEmailValid(email2)) {
                     showError("Esse email é inválido!");
                     return;
                 }
@@ -198,27 +179,9 @@ public class LoginRegister extends JFrame implements ActionListener {
                     return;
                 }
 
-                criarConta(usuario, email2, senha2, plano2);
+                contasmanager.criarConta(usuario, email2, senha2, plano2);
+                dispose();
             }
-        }
-
-        private void criarConta(String usuario, String email, String senha, String plano) {
-            switch (plano) {
-                case "premium":
-                    contas.add(new premium(email, senha, usuario, id));
-                    break;
-                case "comum":
-                    contas.add(new comum(email, senha, usuario, id));
-                    break;
-                case "administrador":
-                    contas.add(new admin(email, senha, usuario, id));
-                    break;
-            }
-
-            contas.get(id).defPlano(plano);
-            id += 1;
-            JOptionPane.showMessageDialog(null, "Conta " + plano + " registrada com sucesso!");
-            dispose();
         }
 
         private void showError(String message) {
@@ -248,13 +211,6 @@ public class LoginRegister extends JFrame implements ActionListener {
         public IOException(String message) {
             super(message);
         }
-    }
-
-    public static boolean isEmailValid(String email) {
-        String regex = "^[A-Za-z0-9+_.-]+@(gmail|outlook|hotmail|ic\\.ufal\\.br)+\\.com$";
-        Pattern pattern = Pattern.compile(regex);
-        java.util.regex.Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
     }
 
     public static void main(String[] args) {
